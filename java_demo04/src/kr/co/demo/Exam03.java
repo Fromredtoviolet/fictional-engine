@@ -13,7 +13,7 @@ public class Exam03 {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("정수값 입력: ");
+		System.out.println("정수값 2개를 입력해주세요.: ");
 		int a = sc.nextInt();
 		int b = sc.nextInt();
 		
