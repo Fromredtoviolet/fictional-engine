@@ -17,8 +17,13 @@ public class Exam03 {
 		int a = sc.nextInt();
 		int b = sc.nextInt();
 		
+		if(a != 0) {
+			if(b != 0) {System.out.println(a / b);
+			}
+			 else {System.out.println("0은 입력할 수 없습니다.");
+			}
+		}
 		
-
 	}
 
 }

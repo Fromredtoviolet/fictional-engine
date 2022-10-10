@@ -26,7 +26,7 @@ public class Exam04 {
 		if(bmi >= 25) {
 			System.out.println("비만입니다.");
 		} else {
-			System.out.println("프로그램을 종료합니다.");
+			System.out.println("비만이 아닙니다.");
 		}
 
 	}

@@ -24,7 +24,6 @@ public class Exam01 {
 			}
 		}
 		
-		System.out.println("프로그램이 종료됩니다.");
 	}
 
 }
