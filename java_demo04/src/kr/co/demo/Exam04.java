@@ -23,11 +23,25 @@ public class Exam04 {
 		
 		bmi = weight / (tall * tall);
 		
+		
 		if(bmi >= 25) {
 			System.out.println("비만입니다.");
 		} else {
 			System.out.println("비만이 아닙니다.");
 		}
+		
+		
+		// 강사님 코드 1
+//		String message = "비만입니다.";  
+		
+//		if(bmi < 25) {
+//			message = "비만이 아닙니다";
+//		}
+//		System.out.println(message);
+		
+		// 강사님 코드 2
+//		String message = bmi < 25 ? "비만이 아닙니다." : "비만입니다.";
+//		System.out.println(message);
 
 	}
 

@@ -17,6 +17,7 @@ public class Exam03 {
 		int a = sc.nextInt();
 		int b = sc.nextInt();
 		
+		// 내 코드
 		if(a != 0) {
 			if(b != 0) {System.out.println(a / b);
 			}
@@ -24,6 +25,14 @@ public class Exam03 {
 			}
 		}
 		
+		// 강사님이 짠 코드
+		if (a != 0) {
+			System.out.printf("나누기 계산 결과 -> %d 입니다.", a / b);
+		} else {
+			a = 1;
+			System.out.println("0으로 나누기 계산을 할 수 없습니다.");
+			System.out.printf("대신 1로 변경하여 계산합니다. -> %d\n", a / b);
+		}
 	}
 
 }

@@ -15,12 +15,23 @@ public class Exam01 {
 		System.out.print("정수값 입력: ");
 		int a = sc.nextInt();  
 		
-		
+		// 내 코드
 		if(a > 0) {
 			if(a < 46) {
 			System.out.println(a);
 			} else {
 				System.out.println("프로그램이 종료됩니다.");
+			}
+		}
+		
+		// 강사님이 짠 코드 1
+		if(a >=1 && a<= 45) {
+			System.out.printf("사용자가 입력한 값 -> %d", a);
+		}
+		// 강사님이 짠 코드 2
+		if(a >= 1) {
+			if(a <= 45) {
+				System.out.printf("사용자가 입력한 값 -> %d", a);
 			}
 		}
 		

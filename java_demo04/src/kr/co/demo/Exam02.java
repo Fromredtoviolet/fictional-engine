@@ -12,6 +12,7 @@ public class Exam02 {
 		
 		Scanner sc = new Scanner(System.in);
 		
+		// 내 코드
 		System.out.println("정수값 입력: ");
 		int a = sc.nextInt();
 		
@@ -19,6 +20,11 @@ public class Exam02 {
 			System.out.println(a);
 		}
 		System.out.println("프로그램이 종료됩니다.");
+		
+		// 강사님이 짠 코드
+		if(a % 5 == 0) {
+			System.out.printf("사용자가 입력한 값 %d 는 5의 배수가 맞습니다.", a);
+		}
 
 	}
 
