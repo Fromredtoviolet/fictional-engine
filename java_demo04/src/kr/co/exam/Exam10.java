@@ -46,13 +46,30 @@ public class Exam10 {
 		 * 11	12	13	14	15
 		 */
 		// 1열에는 1개, 2열에는 2개, 3열에는 3개...
-		/*
-		for(int i = 1;i <= 15;i++) {
-			for(int j = 1;j <= 5;j++) {
-				System.out.printf("%d\t", i);
-				System.out.println();
+		
+		int colCount = 1, rowCount = 1;
+		for(int i = 1; i <= 15; i++, colCount++) {
+			System.out.printf("%d\t", i);
+			if(colCount == rowCount) {
+				System.out.print("\n");
+				colCount = 0;
+				rowCount++;
 			}
-			*/
+		}
+		
+		// 또는
+		System.out.println("--------------");
+		int n = 0;
+		for(rowCount = 1; rowCount <= 5; rowCount++) {
+			for(colCount = 1; colCount <= rowCount; colCount++) {
+				System.out.printf("%d\t", ++n);
+										// 만약 n의 초기값이 1이라면 n++
+			}
+			System.out.print("\n");
+		}
+		
+		// rowCount는 줄 수, colCout는 열...?
+		
 		}
 
 	}
