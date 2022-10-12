@@ -1,7 +1,5 @@
 package kr.co.exam;
 
-import java.util.Scanner;
-
 public class Exam11 {
 
 	public static void main(String[] args) {
@@ -23,53 +21,10 @@ public class Exam11 {
 		 * 		30	31
 		 */
 		
-		Scanner sc = new Scanner(System.in);
 		
-		int month, day = 0, lastDay;
-		String startDate;
-		
-		System.out.print("월 : ");
-		month = sc.nextInt();   sc.nextLine();
-		
-		System.out.print("시작요일 : ");
-		startDate = sc.nextLine();
-		
-		System.out.print("마지막일자 : ");
-		lastDay = sc.nextInt();
-		
-		System.out.printf("%d 월\n", month);
-		System.out.println("일\t월\t화\t수\t목\t금\t토");
-		
-		int dateIndex = 0;
-		switch(startDate) {
-		case "일":
-			day = 7; dateIndex = 0; break;
-		case "월":
-			day = 6; dateIndex = 6; break;
-		case "화":
-			day = 5; dateIndex = 5; break;
-		case "수":
-			day = 4; dateIndex = 4; break;
-		case "목":
-			day = 3; dateIndex = 3; break;
-		case "금":
-			day = 2; dateIndex = 2; break;
-		case "토":
-			day = 1; dateIndex = 1; break;
 		}
-		
-		for(day = day - 7 + 1; day <= lastDay; day++) {
-			if(day >= 1) {
-				System.out.printf("%d\t", day);
-				if(day % 7 == dateIndex) {
-					System.out.print("\n");
-				}
-			} else {
-				System.out.print("\t");
-			}
-		}
-		}
-		}
+	
+	}
 		
 		
 	
