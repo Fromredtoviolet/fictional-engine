@@ -2,7 +2,7 @@ package kr.co.exam;
 
 import java.util.Scanner;
 
-public class Exam11_1 {
+public class Exam11_2 {
 
 	public static void main(String[] args) {
 		/*
@@ -25,7 +25,7 @@ public class Exam11_1 {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		int month, day = 0, lastDay;
+		int month = 0, lastDay;
 		String startDate;
 		
 		System.out.print("월 : ");
@@ -45,34 +45,35 @@ public class Exam11_1 {
 		int dateIndex = 0;
 		switch(startDate) {
 		case "일":
-			day = 7; dateIndex = 0; break;
+			dateIndex = 0; break;
 		case "월":
-			day = 6; dateIndex = 6; break;
+			dateIndex = 6; break;
 		case "화":
-			day = 5; dateIndex = 5; break;
+			dateIndex = 5; break;
 		case "수":
-			day = 4; dateIndex = 4; break;
+			dateIndex = 4; break;
 		case "목":
-			day = 3; dateIndex = 3; break;
+			dateIndex = 3; break;
 		case "금":
-			day = 2; dateIndex = 2; break;
+			dateIndex = 2; break;
 		case "토":
-			day = 1; dateIndex = 1; break;
+			dateIndex = 1; break;
 		}
 		
-		for(day = day - 7 + 1; day <= lastDay; day++) {
-			if(day >= 1) {
-				System.out.printf("%d\t", day);
-				if(day % 7 == dateIndex) {
+		for(int day = dateIndex == 0 ? 0 : dateIndex - 7; day < 0; day++) {
+			System.out.print("\t");
+		}
+			
+		for(int day = 0; day < lastDay; day++) {
+			System.out.printf("%d\t", day + 1);
+			if((day + 1) % 7 == dateIndex) {
 					System.out.print("\n");
 				}
-			} else {
-				System.out.print("\t");
-			}
+			} 
 		}
+		}
+		
+		
+		
 	
-		}
-		
-		
-	}
 
