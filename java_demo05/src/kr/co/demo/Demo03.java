@@ -31,7 +31,6 @@ public class Demo03 {
 			
 			arr1 = tmp;					// 얕은 복사
 			
-			
 			System.out.println("%d 값을 배열 arr1 에 추가하였습니다.");
 		}
 		
@@ -40,7 +39,6 @@ public class Demo03 {
 		for(int i = 0; i < arr1.length; i++) {
 			System.out.printf("%d\t", arr1[i]);
 		}
-		
 		
 	}
 
