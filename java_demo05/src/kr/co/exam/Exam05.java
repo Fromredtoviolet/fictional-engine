@@ -1,5 +1,6 @@
 package kr.co.exam;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Exam05 {
@@ -15,24 +16,28 @@ public class Exam05 {
 		 */
 		int arr1[] = new int[0];
 		
-		for(int i = 0; i < 6; i++) {
+		// for 구문 안에 변수 i가 있지 않아도 된다...고 함?
+		for(int i = 0; i < 6; i++) { 	 
 			int num = rand.nextInt(101); // for 구문 밖으로 빠지면 같은 값만 나옴.
 			
-			int size = arr1.length + 1;
-			int tmp[] = new int[size];
+//			Arrays.copyOf 사용하면 배열 생성 필요 없음
+//			int size = arr1.length + 1;
+//			int tmp[] = new int[size];
 			
-			for(int j = 0; j < arr1.length; j++) {
-				tmp[j] = arr1[j];
-			}
+//			for(int j = 0; j < arr1.length; j++) {
+//			tmp[j] = arr1[j];
+//			}
+	
+//			System.arraycopy(arr1, 0, tmp, 0, arr1.length);
 			
-			arr1 = tmp;
+//			Arrays.copyOf 사용하면 얕은 복사 작업 필요 없음
+//			arr1 = tmp;
 			
+			arr1 = Arrays.copyOf(arr1,  arr1.length + 1);
 			arr1[arr1.length - 1] = num;
 		}
 		
-		for(int i = 0; i < arr1.length; i++) {
-			System.out.printf("%d\t", arr1[i]);
-		}
+		System.out.println(Arrays.toString(arr1));
 		System.out.println();
 			
 					
@@ -54,7 +59,7 @@ public class Exam05 {
 			
 			int size = arr2.length + 1;
 			int tmp[] = new int[size];
-			
+		
 			for(int j = 0; j < arr2.length; j++) {
 				tmp[j] = arr2[j];
 			}

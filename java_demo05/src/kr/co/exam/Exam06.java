@@ -51,6 +51,7 @@ public class Exam06 {
 			sum += num;  	// 누적합
 		}
 		
+		
 		avg = (double)sum / arr1.length;
 		System.out.printf("총 합 : %d\n", sum);
 		System.out.printf("평 균 : %.2f\n", avg);
@@ -65,3 +66,5 @@ public class Exam06 {
 	}
 
 }
+	
+
