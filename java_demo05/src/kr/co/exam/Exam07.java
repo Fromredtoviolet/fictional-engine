@@ -27,7 +27,6 @@ public class Exam07 {
 			}
 		}
 
-		
 		int arr[][] = new int[3][];
 		
 		
