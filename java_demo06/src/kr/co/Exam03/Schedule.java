@@ -5,7 +5,7 @@ public class Schedule {
 	private int month;
 	private int day;
 	private boolean allDay;
-	private Clock startTime;
+	private Clock startTime; // 자료형 대신 Clock클래스 끌고 오기
 	private Clock endTime;
 	private boolean leaf; // 윤년
 	private int lastDayForMonth[] = {
