@@ -29,8 +29,8 @@ public class Exam08 {
 		 */
 		Random rand = new Random(); 
 		
-		int rowSize = rand.nextInt(8) + 3;
-		int colSize = rand.nextInt(6) + 5;
+		int rowSize = rand.nextInt(8) + 3; // 0 ~ 7 범위에 3씩 더해져서 3 ~ 10이 되는 식.
+		int colSize = rand.nextInt(6) + 5; // 0 ~ 5 에 5씩 더해져서 5 ~ 10
 		
 		int arr[][] = new int[rowSize][colSize];
 		
