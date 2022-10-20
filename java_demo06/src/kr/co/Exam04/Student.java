@@ -1,26 +1,29 @@
 package kr.co.Exam04;
 
+import java.util.Arrays;
+
 public class Student {
-	private Subject subject[];	// 과목클래스 배열
-	private String stuName;		// 학생이름
-	private String stuGrade;	// 학년
+	private Subject subjects[];	// 과목클래스 배열
+	private String name;		// 학생이름
+	private int year;			// 학년
 	
-	public Student() {
-		this.subject = new Subject[0];
-		this.stuName = stuName;
-		this.stuGrade = stuGrade;
-		
+	public Student(String name) {
+		this.subjects = new Subject[0];
+		this.name = name;
 	}
 	
-	public void addSub(String subName) {
-		
+	
+	
+	public void addSubject(String subName, double score) {
+		this.subject = Arrays.copyOf(this.subject, this.subject.length + 1);
+		this.subject[this.subject.length - 1] = new Subject(subName);
 	}
 	
 	public void updateScore() {
 		
 	}
 	
-	public void deleteSub() {
+	public void deleteSubject() {
 		
 	}
 	
@@ -31,5 +34,18 @@ public class Student {
 		}
 		return str;
 	}
+
+	
+	public Subject getSubject(String subject.name) {
+		Subject result = null;
+		int idx = this.findIndex()
+				
+		if(idx >= 0) {
+			result = this.subjects[idx]
+		}
+		return result;
+		
+	}
+	
 
 }

@@ -1,51 +1,55 @@
 package kr.co.Exam04;
 
 public class Subject {
-	private String subName; // 과목명
-	private int score;		// 점수
-	private char subGrade;	// 과목등급
+	private String name; // 과목명
+	private double score;		// 점수
+	private char grade;	// 과목등급
 	
-	public Subject(String subName) {
-		this.subName = subName;
+	public Subject(String name) {
+		this.name = name;
+		this.grade = 'F';
 	}
-
-
-	public void setScore(int score) {
-		if(0 <= score && score <= 100) {
-			this.score = score;
-		} else {
-			this.score = 0;
-		}
-		this.setSubGrade();
-	}
-	
-	public void setSubGrade() {
-		switch(this.score / 10) {
-		case 10:
-		case 9:
-			this.subGrade = 'A';
-			break;
-		case 8:
-			this.subGrade = 'B';
-			break;
-		case 7:
-			this.subGrade = 'C';
-			break;
-		case 6:
-			this.subGrade = 'D';
-			break;
-		default:
-			this.subGrade = 'F';
-		}
+	// ↑ 메서드 오버로딩 ↓
+	public Subject(String name, double score) {
+		this.name = name;
+		this.score = score;
+		this.setGrade();
 	}
 	
 	public String getName() {
-		return this.subName;
+		return this.name;
 	}
-	public int getScore() {
+
+	public void setScore(double score) {
+		this.score = score;
+		this.setGrade();
+	}
+	
+	public double getScore() {
 		return this.score;
 	}
+	
+	public void setGrade() {
+		switch((int)this.score / 10) {
+		case 10:
+		case 9:
+			this.grade = 'A';
+			break;
+		case 8:
+			this.grade = 'B';
+			break;
+		case 7:
+			this.grade = 'C';
+			break;
+		case 6:
+			this.grade = 'D';
+			break;
+		default:
+			this.grade = 'F';
+		}
+	}
+	
 	public char getGrade() {
-		return this.subGrade;
+		return this.grade;
 	}
 }
