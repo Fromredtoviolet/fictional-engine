@@ -7,7 +7,29 @@ public class Student {
 	
 	public Student() {
 		this.subject = new Subject[0];
+		this.stuName = stuName;
+		this.stuGrade = stuGrade;
 		
+	}
+	
+	public void addSub(String subName) {
+		
+	}
+	
+	public void updateScore() {
+		
+	}
+	
+	public void deleteSub() {
+		
+	}
+	
+	public String getAll() {
+		String str = "";
+		for(int i = 0; i < this.subject.length; i++) {
+			Subject s = this.subject[i];
+		}
+		return str;
 	}
 
 }
