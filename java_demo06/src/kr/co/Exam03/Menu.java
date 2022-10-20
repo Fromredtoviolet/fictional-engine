@@ -54,7 +54,20 @@ public class Menu {
 //		this.price[this.price.length - 1] = price;
 		}
 	}
+	public void add(Food[] food) {
+		for(int i = 0; i < food.length; i++) {
+			this.add(food[i].name, food[i].price);
+		}
+	}
+					// 가변길이매개변수
+	public void add(String ... menuName) {
+		for(int i = 0; i < menuName.length; i++) {
+			this.add(menuName[i], 0);
+		}
+	}
+	
 	public void add(Food food) {
+		this.add(food.name, food.price);
 		// 메서드 오버로딩(OverLoadding)
 		// 동일한 이름의 메서드를 여러개 작성하는 것.
 		// 동일한 이름의 메서드는 만들 수 있다. (위의 add와 여기 이 add는 메서드 이름이 같다)
