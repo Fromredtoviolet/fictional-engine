@@ -16,10 +16,6 @@ public class Exam {
 		 * 학생 성적을 관리하기 위해서 추가적으로 필요한 멤버변수/멤버메서드가 있으면
 		 * 더 작성하세요.
 		 */
-		Student s = new Student("서예인");
-		
-		
-		
 		Run r =  new Run();
 		r.start();
 		

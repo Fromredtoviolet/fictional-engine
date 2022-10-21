@@ -29,7 +29,7 @@ public class Run {
 			this.printAll();
 			break;
 		case 2:
-			// 과목 성적 출력을 수행하는 메서드 호출
+			this.printSubject();
 			break;
 		case 3:
 			// 과목 성적 추가 기능을 수행하는 메서드 호출
