@@ -77,11 +77,20 @@ public class Run {
 		while(true) {
 			this.printMenu();
 			System.out.print("메뉴 번호 입력 : ");
-			int number = sc.nextInt(); sc.nextLine(); 
-			this.select(number);		// ↑이건 그냥 개행 소진용
+			
+			int number = -1;
+			if(sc.hasNextInt()) {		// ↓이건 그냥 개행 소진용
+				number = sc.nextInt(); sc.nextLine(); 
+				this.select(number); // ctrl키 누르고 메서드명 누르면 자동으로 이동	
+			} else {
+				sc.nextLine();
+				continue;
+			}
+				
 			
 			System.out.println("초기 메뉴로 돌아가려면 Enter 입력!");
 			sc.nextLine();
+			
 		}
 	}
 
