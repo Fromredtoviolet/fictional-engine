@@ -10,36 +10,10 @@ public class Figure {
 		this.width = width;
 		this.vertical = vertical;
 	}
-	
-	public double getWidth() {
-		return width;
-	}
-
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
-	public double getVertical() {
-		return vertical;
-	}
-
-	public void setVertical(double vertical) {
-		this.vertical = vertical;
-	}
 
 	public double getArea() {
-		this.whatArea();
+		this.area = (this.width * this.vertical);
 		return this.area;
 	}
-	
-	public void setArea(double area) {
-		this.area = area;
-	}
-	
-	public void whatArea() {
-		this.area = (this.width * this.vertical);
-		this.setArea(area);
-	}
-	
 	
 }

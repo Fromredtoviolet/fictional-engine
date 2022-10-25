@@ -11,12 +11,8 @@ public class Triangle extends Figure {
 	}
 
 	@Override
-	public void whatArea() {
-		this.area = this.width * this.vertical / 2;
-	}
-	
 	public double getArea() {
-		this.whatArea();
+		this.area = 0.5 * (this.width * this.vertical);
 		return this.area;
 	}
 

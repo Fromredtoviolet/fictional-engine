@@ -20,13 +20,9 @@ public class Exam {
 		Triangle t = new Triangle(3, 3);
 		Rectangle r = new Rectangle(3, 3);
 		
-		t.whatArea();
-		r.whatArea();
 		System.out.println(t.getArea());
 		System.out.println(r.getArea());
 		
-		
-
 	}
 
 }
