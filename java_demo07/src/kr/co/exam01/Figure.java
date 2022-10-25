@@ -5,8 +5,10 @@ public class Figure {
 	private double vertical;
 	private double area;
 	
-	public Figure() {
-		
+
+	public Figure(double width, double vertical) {
+		this.width = width;
+		this.vertical = vertical;
 	}
 	
 	public double getWidth() {
@@ -25,8 +27,19 @@ public class Figure {
 		this.vertical = vertical;
 	}
 
+	public double getArea() {
+		this.whatArea();
+		return this.area;
+	}
+	
+	public void setArea(double area) {
+		this.area = area;
+	}
+	
 	public void whatArea() {
 		this.area = (this.width * this.vertical);
+		this.setArea(area);
 	}
+	
 	
 }

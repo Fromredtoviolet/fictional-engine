@@ -1,5 +1,7 @@
 package kr.co.exam01;
 
+import java.awt.image.AbstractMultiResolutionImage;
+
 public class Exam {
 
 	public static void main(String[] args) {
@@ -15,8 +17,14 @@ public class Exam {
 		 * 			멤버 메서드 : 넓이 구하기
 		 */
 		
-		Triangle t = new Triangle();
-		Rectangle r = new Rectangle();
+		Triangle t = new Triangle(3, 3);
+		Rectangle r = new Rectangle(3, 3);
+		
+		t.whatArea();
+		r.whatArea();
+		System.out.println(t.getArea());
+		System.out.println(r.getArea());
+		
 		
 
 	}
