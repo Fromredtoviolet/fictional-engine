@@ -1,7 +1,5 @@
 package kr.co.exam01;
 
-import java.awt.image.AbstractMultiResolutionImage;
-
 public class Exam {
 
 	public static void main(String[] args) {
