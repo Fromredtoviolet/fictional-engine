@@ -30,7 +30,7 @@ public class Demo04 {
 		 * 반복문 안에 continue를 사용하면 반복문의 처음으로(증감식)으로 이동한다.
 		 */
 		
-		/*
+		
 		int x1;
 		
 		for(x1 = 1; x1 <= 3; x1++) {
@@ -39,12 +39,12 @@ public class Demo04 {
 		// 최종적으로 저장된 변수 값은 4이다.
 		System.out.println("x1 변수에 저장된 값 -> " + x1);
 		
-		
-		for(int x2 = 1; x2 <= 3; x2++) {
+		int x2;
+		for(x2 = 1; x2 <= 3; x2++) {
 			System.out.printf("%d 번째 반복\n", x2);
 		}
-		//System.out.println("x2 변수에 저장된 값 -> " + x2);
-		 */
+		System.out.println("x2 변수에 저장된 값 -> " + x2);
+		 
 		
 		/*
 		 * 초기식 생략
