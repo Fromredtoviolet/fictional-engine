@@ -12,7 +12,7 @@ public class Triangle extends Figure {
 		return super.getArea() / 2;
 	}
 
-//	내가 써서 오류난 코드...^^
+//	내가 써서 오류난 코드...
 //	public double getArea() {
 //		this.area = (this.width * this.vertical) / 2;
 //		return this.area;
