@@ -17,8 +17,6 @@ public class Exam {
 		 * 
 		 * 2022년 10월 중 주말에 해당하는 날짜만 Date 배열에 담아 출력하세요.
 		 * 
-		 * 자신의 생년월일을 입력하면 현재로부터 몇 일 남았는지 알려주는 D-DAY
-		 * 정보를 출력하세요.
 		 */
 		
 		Date date = new Date();
@@ -40,7 +38,7 @@ public class Exam {
 		
 		GregorianCalendar gc = new GregorianCalendar(2022, 9, 1);
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd EEEE"); // EEEE는 X요일 형식
-		int lastDate = gc.getMaximum(Calendar.DAY_OF_MONTH); 
+		int lastDate = gc.getActualMaximum(Calendar.DAY_OF_MONTH); 
 		// 최대치를 구하는 메서드에 한 달의 일자를 매개변수로 썼으니 이는 즉 그 달의 말일을 구하는 것.
 		
 		Date[] dateArr = new Date[0];
@@ -57,8 +55,7 @@ public class Exam {
 			}
 			gc.add(Calendar.DATE, 1); // 캘린더 데이트에 1일을 더해라. 빼고싶으면 -1.
 		}
-		System.out.println("-----------------------");
-
+		
 	}
 }
 
