@@ -4,7 +4,7 @@ public class Triangle extends Figure {
 	// 삼각형의 넓이 = 0.5 * 밑변 * 높이
 	private double width;
 	private double vertical;
-	private double area;
+	public double area;
 	
 	public Triangle(double width, double vertical) {
 		super(width, vertical);
@@ -12,7 +12,7 @@ public class Triangle extends Figure {
 
 	@Override
 	public double getArea() {
-		this.area = 0.5 * (this.width * this.vertical);
+		this.area = (this.width * this.vertical) / 2;
 		return this.area;
 	}
 

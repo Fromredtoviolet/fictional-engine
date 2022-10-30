@@ -3,7 +3,7 @@ package kr.co.exam01;
 public class Figure {
 	private double width;
 	private double vertical;
-	private double area;
+	public double area;
 	
 
 	public Figure(double width, double vertical) {
@@ -12,7 +12,7 @@ public class Figure {
 	}
 
 	public double getArea() {
-		this.area = (this.width * this.vertical);
+		this.area = this.width * this.vertical;
 		return this.area;
 	}
 	
