@@ -20,6 +20,16 @@ public class Demo {
 		 * 
 		 * 멤버 메서드
 		 * 		public, protected, (default), private
+		 * 
+		 * 접근제한자 아이콘!
+		 * 		퍼블릭: 초록색 동그라미
+		 * 		프로텍티드 : 노란 마름모
+		 * 		디폴트 : 파란 세모
+		 * 		프라이빗 : 빨간 네모
+		 * 		파이널 : F 붙음
+		 * 		스태틱 : S 붙음
+		 * 		파이널 스태틱 : SF 붙음
+		 * 		앱스트랙트 : A 붙음
 		 */
 		
 		Customer1 cs1 = new Customer1(); // 같은 패키지이므로 가능
