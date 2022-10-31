@@ -1,5 +1,6 @@
 package kr.co.exam01;
 
+import kr.co.exam01.school.Evaluation;
 import kr.co.exam01.school.Subject;
 
 public class Exam {
@@ -25,6 +26,12 @@ public class Exam {
 		 * 
 		 * 		- 두 개의 과목 객체가 제공될 때 점수가 가장 높은 과목 객체를 반환하는 메서드인
 		 * 		  greatThen() 메서드를 추가하세요.
+		 * 
+		 * 		- 학교에서 수행평가용으로 Subject 클래스와 비슷한 객체를 만들어 달라는 요청이 있다고
+		 *        가정한다. 이 때 수행평가는 1 ~ 10 사이의 점수로만 평가 점수를 매기며 6점 이상을
+		 *        받아야 Pass 등급을 받을 수 있다. 5점 이하 부터는 Fail 등급이 된다.
+		 *        (수행평가용 클래스를 생성할 때 기존의 Subject 클래스를 상속하여 만들어 보도록 한다.
+		 *        클래스명은 Evaluation 으로 한다.)
 		 */
 		
 		Subject a = new Subject();
@@ -35,6 +42,10 @@ public class Exam {
 		
 		Subject grate = a.grateThen(b);
 		System.out.println(grate);
+		
+		Evaluation ev1 = new Evaluation();
+		ev1.setScore(5);
+		System.out.println(ev1);
 
 	}
 

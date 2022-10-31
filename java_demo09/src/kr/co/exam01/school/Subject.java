@@ -1,14 +1,16 @@
 package kr.co.exam01.school;
 
+import kr.co.exam01.school.exception.NegativeNumberException;
 import kr.co.exam01.school.exception.NumberRangeOverException;
 
 public class Subject {
 	
 	private static final int SCORE_MAX = 100;
 	private static final int SCORE_MIN = 0;
-	private String name;
-	private double score;
-	private char grade;
+	
+	protected String name;
+	protected double score;
+	protected String grade;
 	
 	public String getName() {
 		return name;
@@ -28,29 +30,19 @@ public class Subject {
 			this.setGrade();
 			return;
 		} else if(score < SCORE_MIN) {
-			throw new NumberRangeOverException();
+			throw new NegativeNumberException();
 		}
 		throw new NumberRangeOverException(SCORE_MIN, SCORE_MAX);
 	}
 		
-	public char getGrade() {
+	public String getGrade() {
 		return grade;
 	}
 	
 	private void setGrade() {
-		switch((int)this.score / 10) {
-		case 10:
-		case 9:
-			this.grade = 'A'; break;
-		case 8:
-		case 7: 
-			this.grade = 'B'; break;
-		case 6:
-		case 5: 
-			this.grade = 'C'; break;
-		default:
-			this.grade = 'F'; 
-		}
+		int offset = (int)this.score / 10;
+		offset = offset >= 9 ? 9 : offset <= 4 ? 4 : offset;
+		this.grade = "" + (char)(74 - offset);
 	}
 	
 	public Subject grateThen(Subject subject) {
@@ -62,7 +54,7 @@ public class Subject {
 	
 	@Override
 	public String toString() {
-		return String.format("%s(%c: %.2f)", name, grade, score);
+		return String.format("%s(%s: %.2f)", name, grade, score);
 	}
 	
 }
