@@ -3,7 +3,6 @@ package kr.co.exam01;
 public class Figure {
 	private double width;
 	private double vertical;
-	
 
 	public Figure(double width, double vertical) {
 		this.width = width;
