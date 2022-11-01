@@ -12,11 +12,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Exam {
 	
-	public static HashSet<Integer> getLottoNumber() {
-		HashSet<Integer> lottoNumber = new HashSet<Integer>();
+	public static Set<Integer> getLottoNumber() {
+		Set<Integer> lottoNumber = new HashSet<Integer>();
 		Random rand = new Random();
 		
 		while(lottoNumber.size() < 6) {
@@ -55,10 +57,8 @@ public class Exam {
 		
 		try(BufferedWriter bw = new BufferedWriter(new FileWriter(f))) { // 버퍼 보조 스트림
 			for(int i = 0; i < count; i++) { // 10번까지 반복 수행
-				ArrayList<Integer> lots = new ArrayList<Integer>(getLottoNumber()); // 미리 만들어둔 로또넘버를 불러와서 lots에 저장
-				
-				Collections.sort(lots);
-				
+				TreeSet<Integer> lots = new TreeSet<Integer>(getLottoNumber()); // 미리 만들어둔 로또넘버를 불러와서 lots에 저장
+				// Set중에서도 TreeSet은 데이터를 가져올 때부터 정렬해준다. (그 대신 느리다는 단점이 있음)
 				String strLots = lots.toString(); // 이 로또넘버를 문자열로 만들고
 				
 				strLots = strLots.substring(1, strLots.length() - 1); // 마지막에 쉼표가 붙는걸 방지하기 위해 마지막 문자 잘라줌
