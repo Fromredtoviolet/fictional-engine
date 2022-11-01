@@ -15,20 +15,21 @@ import java.util.Random;
 
 public class Exam {
 	
-	public static ArrayList<Integer> getLottoNumber() {
-		Random rand = new Random();
+	public static HashSet<Integer> getLottoNumber() {
 		HashSet<Integer> lottoNumber = new HashSet<Integer>();
+		Random rand = new Random();
 		
 		while(lottoNumber.size() < 6) {
 			Integer num = Integer.valueOf(rand.nextInt(45) + 1); // 인티저 객체로 저장
-			if(!lottoNumber.contains(num)) {
-				lottoNumber.add(num);
+			lottoNumber.add(num); // set은 중복체크 필요없음
 			}
+		
+		return lottoNumber;
 		}
-		ArrayList<Integer> lottoList = new ArrayList<Integer>(lottoNumber); // set에서 list로.
-		Collections.sort(lottoList);
-		return lottoList;
-	}
+		
+		
+	
+
 
 	public static void main(String[] args) {
 		/*
@@ -54,10 +55,16 @@ public class Exam {
 		
 		try(BufferedWriter bw = new BufferedWriter(new FileWriter(f))) { // 버퍼 보조 스트림
 			for(int i = 0; i < count; i++) { // 10번까지 반복 수행
-				ArrayList<Integer> lots = getLottoNumber(); // 미리 만들어둔 로또넘버를 불러와서 lots에 저장
+				ArrayList<Integer> lots = new ArrayList<Integer>(getLottoNumber()); // 미리 만들어둔 로또넘버를 불러와서 lots에 저장
+				
+				Collections.sort(lots);
+				
 				String strLots = lots.toString(); // 이 로또넘버를 문자열로 만들고
+				
 				strLots = strLots.substring(1, strLots.length() - 1); // 마지막에 쉼표가 붙는걸 방지하기 위해 마지막 문자 잘라줌
+				
 				bw.write(strLots); // 이제 만들어둔 로또번호 문자열을 f 파일에 출력한다.
+				
 				bw.newLine(); // 개행
 			}
 		} catch (IOException e) {
