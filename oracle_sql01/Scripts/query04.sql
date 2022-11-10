@@ -46,6 +46,7 @@ SELECT EMAIL
  
 SELECT TRIM(EMAIL || '    ') AS 이메일1
 	 , TRIM('    ' || EMAIL) AS 이메일2
+	 , EMAIL || '@emp.co.kr' AS 원본이메일형식
 	 , RTRIM(EMAIL || '@emp.co.kr', '@emp.co.kr') AS 도메인제거
 	 , LTRIM(EMAIL || '@emp.co.kr', EMAIL) AS 계정명제거
   FROM EMPLOYEES;
@@ -53,3 +54,15 @@ SELECT TRIM(EMAIL || '    ') AS 이메일1
 SELECT PHONE_NUMBER
 	 , REPLACE(PHONE_NUMBER, '.', '-') AS 전화번호
   FROM EMPLOYEES;
+
+-- SUBSTR 함수와 그 외 추가 문자 함수 이용하여 계정, 도메인을 분리하시오.
+-- LTRIM, RTRIM을 사용하지 않는다.
+SELECT EMAIL || '@emp.co.kr' AS 원본이메일형식
+	 , SUBSTR(EMAIL || '@emp.co.kr', 1, (INSTR(EMAIL || '@emp.co.kr', '@')-1))  AS 계정만분리
+	 , SUBSTR(EMAIL || '@emp.co.kr', INSTR(EMAIL || '@emp.co.kr', '@')) AS 도메인만분리
+  FROM EMPLOYEES;
+
+/*
+ * 숫자 함수 (단일 함수)  
+ */
+ 
