@@ -66,7 +66,7 @@ GROUP BY FLOOR(EXTRACT(YEAR FROM HIRE_DATE) / 10) * 10;
  * 	 - WHERE 절에서 사용하는 조건은 GROUP BY로 묶이기 전의 조건으로 사용
  */
 -- 서술 순서는 SELECT->FROM->WHERE->GROUP BY->HAVING->ORDER BY
--- 처리 순서는 FROM->WHERE->GROUP BY->HAVING->SELECT->ORDER BY
+-- 실행 순서는 FROM->WHERE->GROUP BY->HAVING->SELECT->ORDER BY
 -- 이 차이로 인해 GROUP BY에 없는건 SELECT에 쓸 수 없다(그룹함수 제외). 
 -- SELECT는 result에 뭘 반환할지 선별하는 작업이므로, GROUP BY에 있는걸 SELECT에서 생략은 가능.
 SELECT DEPARTMENT_ID
@@ -108,8 +108,73 @@ HAVING COUNT(*) > 1
 -- 정렬할 때 컬럼의 순서로도 가능하다. 1은 부서ID, 2는 전화번호앞3자리, 3은 회선수
 
 
+/*
+ * ROLLUP 함수
+ * 	- GROUP BY 절에 사용하는 함수
+ * 	- 그룹으로 묶기 위한 조건이 1개 이상인 경우에 사용하며
+ * 	  그룹에 대한 소계, 총계를 추가로 생성한다.
+ *  - 함수에 작성한 컬럼 순서대로 1개 컬럼에 대한 집계,
+ * 	  2개 컬럼에 대한 집계를 생성한다.
+ */
+SELECT DEPARTMENT_ID AS 부서ID
+	 , JOB_ID AS 직무ID
+	 , COUNT(*)
+  FROM EMPLOYEES
+ WHERE DEPARTMENT_ID IS NOT NULL
+ GROUP BY ROLLUP(DEPARTMENT_ID, JOB_ID)
+ ORDER BY 2 NULLS FIRST, 1 NULLS FIRST;
+-- 1개, 2개, 3개, 4개... 뱅글뱅글 롤업해서 말아간다고 연상하자
 
+/*
+ * CUBE 함수
+ * 	- GROUP BY 절에 사용하는 함수
+ *  - 그룹으로 묶기 위한 조건이 1개 이상인 경우에 사용하며
+ *    그룹에 대한 소계, 총계를 추가로 생성한다.
+ *  - 함수에 작성한 컬럼의 조합 가능한 모든 집계를 생성한다.
+ */
+SELECT DEPARTMENT_ID AS 부서ID
+	 , JOB_ID AS 직무ID
+	 , COUNT(*)
+  FROM EMPLOYEES
+ WHERE DEPARTMENT_ID IS NOT NULL
+ GROUP BY CUBE(DEPARTMENT_ID, JOB_ID);
 
+/*
+ * GROUPING 함수
+ *  - ROLLUP, CUBE 함수를 사용하여 나타낸 집계에 대해 어떤 컬럼을 기준으로
+ * 	  그룹화를 했는지 구분할 수 있도록 해주는 함수
+ *  - 함수 실행 결과 0이 나오면 해당 컬럼이 그룹화에 사용되었음을 나타낸다.
+ */
+SELECT DEPARTMENT_ID AS ID
+	 , JOB_ID AS ID
+	 , COUNT(*)
+	 , CASE WHEN GROUPING(DEPARTMENT_ID) = 0 AND GROUPING(JOB_ID) = 0 THEN '부서/직무그룹'
+	 		WHEN GROUPING(DEPARTMENT_ID) = 0 AND GROUPING(JOB_ID) = 1 THEN '부서그룹'
+	 		WHEN GROUPING(DEPARTMENT_ID) = 1 AND GROUPING(JOB_ID) = 0 THEN '직무그룹'
+	 		WHEN GROUPING(DEPARTMENT_ID) = 1 AND GROUPING(JOB_ID) = 1 THEN '총계'
+		END AS 그룹구분
+  FROM EMPLOYEES
+ WHERE DEPARTMENT_ID IS NOT NULL
+ GROUP BY CUBE(DEPARTMENT_ID, JOB_ID)
+ ORDER BY 1 NULLS FIRST;
+
+SELECT DEPARTMENT_ID AS ID
+	 , JOB_ID AS ID
+	 , COUNT(*)
+	 , CASE WHEN GROUPING(DEPARTMENT_ID) = 0 AND GROUPING(JOB_ID) = 0 THEN '부서/직무그룹'
+	 		WHEN GROUPING(DEPARTMENT_ID) = 0 AND GROUPING(JOB_ID) = 1 THEN '부서그룹'
+	 		WHEN GROUPING(DEPARTMENT_ID) = 1 AND GROUPING(JOB_ID) = 0 THEN '직무그룹'
+	 		WHEN GROUPING(DEPARTMENT_ID) = 1 AND GROUPING(JOB_ID) = 1 THEN '총계'
+		END AS 그룹구분
+	 , DECODE(GROUPING(DEPARTMENT_ID) * 10 + GROUPING(JOB_ID)
+	 , 0, '부서/직무'
+	 , 1, '부서'
+	 , 10, '직무'
+	 , 11, '총계') AS 디코드
+  FROM EMPLOYEES
+ WHERE DEPARTMENT_ID IS NOT NULL
+ GROUP BY CUBE(DEPARTMENT_ID, JOB_ID)
+ ORDER BY 1 NULLS FIRST;
 
 
 
