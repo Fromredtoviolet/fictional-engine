@@ -1,0 +1,56 @@
+/*
+ * SEQUENCE 객체
+ * 	- 번호 발생기 객체
+ * 	- 정수값을 순차적으로 생성하는 객체
+ *  - PRIMARY KEY로 사용하는 번호(ID) 등에 사용하여 정수값을 생성하기 위한 용도로 많이 사용 
+ */
+CREATE SEQUENCE 시퀸스명
+START WITH 10
+INCREMENT BY 10
+MAXVALUE 300
+MINVALUE -100
+CYCLE 
+NOCACHE;
+
+--START WITH 뺴고 모두 수정 가능 
+ALTER SEQUENCE 시퀸스명
+INCREMENT BY 5
+MAXVALUE 200
+MINVALUE 0;
+
+DROP SEQUENCE 시퀸스명;
+
+/*
+ * NEXTVAL, CURRVAL 을 사용할 수 있는 명령어
+ *  1. SELECT문 (서브쿼리 제외)
+ *  2. INSERT문의 VALUES절
+ *  3. INSERT문의 SELECT
+ *  4. UPDATE문의 SET절
+ * 
+ * NEXTVAL, CURRVAL 을 사용할 수 없는 명령어
+ *  1. VIEW의 SELECT문
+ *  2. DISTINCT 키워드가 있는 SELECT문
+ *  3. GROUP BY, HAVING, ORDER BY 절이 있는 SELECT
+ *  4. SELECT, DELETE, UPDATE의 서브쿼리
+ *  5. DEFAULT 값
+ */
+
+-- 1
+SELECT 시퀸스명.NEXTVAL FROM DUAL;
+SELECT 시퀸스명.CURRVAL FROM DUAL;
+
+CREATE TABLE TEMP(
+		ID NUMBER PRIMARY KEY
+);
+DROP TABLE TEMP;
+
+--2
+INSERT INTO TEMP VALUES(시퀸스명.NEXTVAL);
+
+--3
+UPDATE TEMP 
+SET ID = 시퀸스명.NEXTVAL
+WHERE ID = 130;
+
+
+SELECT * FROM TEMP;
