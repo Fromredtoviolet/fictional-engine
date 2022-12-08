@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        표 형태를 만들기 위해 사용하는 태그
+        tr은 row라고 생각하면 된다.
+        html에선 column을 cell이라고 부른다.
+        테두리는 border로 만들기
+     -->
+     <table border="1" style="border-collapse: collapse;">
+        <tr>
+            <td>1행 1열</td>
+            <td>1행 2열</td>
+            <td>1행 3열</td>
+        </tr>
+        <tr>
+            <td>2행 1열</td>
+            <td>2행 2열</td>
+            <td>2행 3열</td>
+        </tr>
+        <tr>
+            <td>3행 1열</td>
+            <td>3행 2열</td>
+            <td>3행 3열</td>
+        </tr>
+     </table>
+
+     <hr>
+
+     <table border="1" style="border-collapse: collapse;">
+        <tr>
+            <th>제목A</th>
+            <th>제목B</th>
+            <th>제목C</th>
+        </tr>
+        <tr>
+            <td>2행 1열</td>
+            <td>2행 2열</td>
+            <td>2행 3열</td>
+        </tr>
+        <tr>
+            <td>3행 1열</td>
+            <td>3행 2열</td>
+            <td>3행 3열</td>
+        </tr>
+     </table>
+
+     <hr>
+
+     <table border="1" style="border-collapse: collapse;">
+        <caption>테이블 제목</caption>
+        <tr>
+            <th>제목A</th>
+            <td>1행 2열</td>
+            <td>1행 3열</td>
+        </tr>
+        <tr>
+            <th>제목B</th>
+            <td>2행 2열</td>
+            <td>2행 3열</td>
+        </tr>
+        <tr>
+            <th>제목C</th>
+            <td>3행 2열</td>
+            <td>3행 3열</td>
+        </tr>
+     </table>
+
+     <hr>
+
+     <table border="1" style="border-collapse: collapse;">
+        <tr>
+            <th>제목A</th>
+            <th colspan="2">제목B</th>
+            <!--<th>제목C</th>-->
+        </tr>
+        <tr>
+            <td rowspan="2">2행 1열</td>
+            <td>2행 2열</td>
+            <td>2행 3열</td>
+        </tr>
+        <tr>
+            <!--<td>3행 1열</td>-->
+            <td>3행 2열</td>
+            <td>3행 3열</td>
+        </tr>
+     </table>
+
+     <hr>
+
+     <table border="1" style="border-collapse: collapse;">
+        <caption>계산서</caption>
+        <tfoot>
+            <tr>
+                <td>총계</td>
+                <td colspan="2">18,000</td>
+            </tr>
+        </tfoot>
+        <thead>
+            <tr>
+                <th>품명</th>
+                <th>수량</th>
+                <th>가격</th>
+            </tr>
+            </thead>
+        <tbody>
+            <tr>
+                <td>아메리카노</td>
+                <td>2</td>
+                <td>6,000</td>
+            </tr>
+            <tr>
+                <td>카페라떼</td>
+                <td>3</td>
+                <td>12,000</td>
+            </tr>
+        </tbody>    
+     </table>
+
+
+</body>
+</html>
