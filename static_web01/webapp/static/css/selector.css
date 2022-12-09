@@ -1,0 +1,126 @@
+/* 전체 선택자 */
+* {
+    color: blue;
+}
+
+/* 태그 선택자 */
+h1 {
+    background-color: antiquewhite;
+    color: red;
+}
+h2,h3,h4 {
+    background-color: aquamarine;
+    color: white;
+}
+
+/* 아이디 선택자 */
+#title1 {
+    border-style: solid;
+    border-width: 5px;
+}
+
+/* 클래스 선택자 */
+.bg-gray {
+    background-color: gray;
+    color: white;
+}
+
+.fg-black {
+    color: black;
+}
+
+/* 속성 선택자 */
+input[type] {
+    background-color: white;
+}
+input[type=text] {
+    color: darkred;
+}
+input[type=password] {
+    color: lightcoral;
+}
+input[type=number] {
+    color: orange;
+}
+
+/* 자손, 후손 선택자 */
+table  tr {
+    background-color: lightgoldenrodyellow;
+}
+thead > tr {
+    background-color: lavender;
+}
+
+/* 형제 선택자 */
+.s-child + td {
+    color: black;
+    font-weight: bold;
+}
+.s-child ~ td {
+    color: red;
+}
+
+/* 의사클래스 선택자 */
+table td:hover {
+    background-color: black;
+    color: white;
+}
+
+.t1 td:active {
+    color: red;
+}
+
+.t1 ::selection {
+    background-color: aliceblue;
+}
+
+a:link {
+    color: tomato;
+}
+a:visited {
+    color:blueviolet;
+}
+
+ol > li:first-child {
+    color: darkcyan;
+    font-weight: bold;
+}
+
+ol > li:last-child {
+    color: darkorange;
+    font-weight: bold;
+}
+
+ol > li:nth-child(2) {
+    background-color: lavender;
+}
+/* 참고로 (2n)으로 표기하면 짝수를 뜻함 */
+
+
+.parent1 > :first-child {
+    background-color: white;
+    color: black;
+}
+.parent1 > :last-child {
+    background-color: white;
+    color: black;
+}
+.parent1 > :nth-child(2n) {
+    background-color: white;
+    text-decoration: underline;
+    color: black;
+}
+
+/* 타입별로 첫번째가 해당함 */
+.parent2 > :first-of-type {
+    background-color: white;
+    color: blue;
+}
+/* 타입별로 마지막이 해당함 */
+.parent2 > :last-of-type {
+    background-color: blanchedalmond;
+}
+
+.parent2 > :nth-of-type(2n) {
+    text-decoration: underline;
+}

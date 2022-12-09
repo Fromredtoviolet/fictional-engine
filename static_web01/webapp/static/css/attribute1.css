@@ -1,0 +1,42 @@
+.fs1 {
+    font-size: 24pt; /* 브라우저에 설정된 기본 크기 : 12pt, 16px */
+}
+
+.fs1 {
+    font-size: 2em; /* 상대크기. 기본 크기에 n배하는 것 */
+}
+
+.fw1 {
+    font-weight: bolder;
+}
+
+.fs2 {
+    font-style: italic;
+}
+
+.ff1 {
+    font-family: '궁서체';
+}
+
+.c1 {
+    color: #FF0000;
+}
+.c1 {
+    color: rgb(255, 0, 0);
+}
+
+.td1 {
+    text-decoration: none;
+}
+
+.ts1 {
+    /*           가로 세로 번짐 색상 */
+    text-shadow: 10px 10px 2px gray;
+}
+
+.ta1-left { text-align: left; }
+.ta1-right { text-align: right; }
+.ta1-center { text-align: center; }
+.ta1-justify { text-align: justify; }
+
+.lh1 { line-height: 50px; font-size: 30px; }
