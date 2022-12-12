@@ -1,0 +1,53 @@
+.position {
+    position: relative;
+}
+.position .relative-move {
+    position: relative;
+    left: 20px; top: 10px; /* 왼쪽을 기준으로 20, 위를 기준으로 10 픽셀 떨어짐*/
+}
+
+.position .absolute-move {
+    position: absolute;
+    left: 40px; top: 40px;
+}
+
+.position .fixed-move {
+    position: fixed;
+    left: 20px; bottom: 120px;
+}
+
+.z-index {
+    position: relative;
+    height: 180px;
+}
+.z-index .index1 {
+    width: 80px; height: 80px;
+    position: absolute;
+    left: 0px; top: 0px;
+    background-color: deepskyblue;
+    z-index: 1;
+}
+.z-index .index2 {
+    width: 80px; height: 80px;
+    position: absolute;
+    left: 40px; top: 40px;
+    background-color: skyblue;
+    z-index: 2;
+}
+.z-index .index3 {
+    width: 80px; height: 80px;
+    position: absolute;
+    left: 80px; top: 80px;
+    background-color: lightblue;
+    z-index: 3;
+}
+
+.float .left {
+    float: left;
+}
+.float .right {
+    float: right;
+}
+.float .clear {
+    clear: both;
+}

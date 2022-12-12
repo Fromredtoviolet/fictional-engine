@@ -1,0 +1,46 @@
+.background-color {
+    height: 120px;
+    background-color: lightgoldenrodyellow;
+}
+.background-clip > .border-box {
+    background-clip: border-box;
+    padding: 20px;
+    border-style: solid;
+    border-width: 20px;
+    border-color: rgba(255, 192, 192, 0.5);
+}
+.background-clip > .padding-box {
+    background-clip: padding-box;
+    padding: 20px;
+    border-style: solid;
+    border-width: 20px;
+    border-color: rgba(255, 192, 192, 0.5);
+}
+.background-clip > .content-box {
+    background-clip: content-box;
+    padding: 20px;
+    border-style: solid;
+    border-width: 20px;
+    border-color: rgba(255, 192, 192, 0.5);
+}
+.background-image {
+    height: 160px;
+    background-image: url('https://google.com/favicon.ico');
+    background-repeat: no-repeat; /* repeat-x; 라고 하면 이미지를 x축만 반복 */
+    background-size: auto 200px; /* 높이 200을 기준으로 너비는 자동 맞춤 */
+    /* 백그라운드사이즈를 contain으로 지정하면 화면 안에 이미지가 다 들어가게 조정됨(여백 생길수있음) 
+       cover는 그냥 이미지가 배경에 깔리게 해줌(크면 잘림) */
+}
+
+.background-position {
+    height: 320px;
+    background-image: url('https://google.com/favicon.ico');
+    background-repeat: no-repeat;
+    background-position: bottom left; /* 100px 50px; 처럼 직접 지정해줄수도 있음 */
+}
+
+.background-attachment {
+    background-image: url('https://google.com/favicon.ico');
+    background-attachment: fixed; /* scroll이 기본 */
+    background-repeat: repeat-x;
+}
