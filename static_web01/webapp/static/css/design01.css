@@ -16,3 +16,99 @@
     background-color: rgb(78, 78, 179);
     color: white;
 }
+
+.side-menu .menu {
+    list-style-type: none;
+    padding-inline-start: 0px;
+    background-color: rgb(36, 36, 36);
+    width: 200px;
+}
+.side-menu .menu-link {
+    text-decoration: none;
+    padding: 0.5em 1em 0.5em 1em;
+    display: inline-block;
+    color: white;
+    width: 100%; /* 메뉴링크는 메뉴를 따라가기때문에 상대 크기로 해두면 변경할때 편리함 */
+    box-sizing: border-box;
+}
+
+.side-menu .menu-link:hover {
+    background-color: rgb(96, 96, 96);
+}
+.side-menu .action { /* action은 내가 클릭하여 머물고 있는 위치를 표시할 때 사용 */
+    background-color: rgb(128, 128, 128);
+}
+
+.dropdown-nav .dropdown-menu {
+    list-style-type: none;
+    padding-inline-start: 0px;
+    background-color: rgb(36, 36, 36);
+}
+.dropdown-nav .dropdown-menu .menu-item,
+.dropdown-nav .dropdown-menu .menu-link {
+    display: inline-block;
+}
+.dropdown-nav .dropdown-menu .menu-link {
+    text-decoration: none;
+    padding: 0.5em 1em 0.5em 1em;
+    color: white;
+}
+.dropdown-nav .dropdown-menu .menu-link:hover {
+    background-color: rgb(96, 96, 96);
+}
+.dropdown-nav .sub-menu {
+    display: none; /* 여기서 서브메뉴가 숨겨졌다가 */
+    position: absolute;
+    list-style-type: none;
+    padding-inline-start: 0px;
+}
+.dropdown-nav .menu-item:hover .sub-menu {
+    display: block; /* 그 후 여기서 호버를 쓰고 서브메뉴를 블럭으로 다시 나타내기 */
+    background-color: white;
+    box-shadow: 3px 3px 6px 0px gray;
+}
+.dropdown-nav .sub-menu .sub-link {
+    display: inline-block;
+    text-decoration: none;
+    padding: .5em 1em .5em 1em;
+    color: black;
+}
+.dropdown-nav .sub-menu .sub-link:hover {
+    background-color: rgb(224, 224, 224);
+}
+
+.side-dropdown-nav .side-dropdown-menu {
+    list-style-type: none;
+    padding-inline-start: 0px;
+    width: 200px;
+    background-color: rgb(36, 36, 36);
+}
+.side-dropdown-nav .side-dropdown-menu .menu-link {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: .5em 1em .5em 1em;
+    text-decoration: none;
+    color: white;
+    width: 100%;
+}
+.side-dropdown-nav .side-dropdown-menu .menu-link:hover {
+    background-color: rgb(128, 128, 128);
+}
+.side-dropdown-nav .sub-menu {
+    display: none;
+    list-style-type: none;
+}
+.side-dropdown-nav .menu-item:hover .sub-menu {
+    display: block;
+}
+.side-dropdown-nav .sub-menu .sub-link {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: .5em 1em .5em 1em;
+    text-decoration: none;
+    color: white;
+    width: 100%;
+}
+.side-dropdown-nav .sub-menu .sub-link:hover {
+    color: rgb(192, 192, 192);
+}
