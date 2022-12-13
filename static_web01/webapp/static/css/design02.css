@@ -1,0 +1,88 @@
+button {
+    box-sizing: border-box;
+    border-style: none;
+    padding: .5em 1em .5em 1em;
+}
+button:hover {
+    cursor: pointer;
+}
+.btn-ok {
+    background-color: rgb(37, 124, 212);
+    color: white;
+}
+.btn-ok:hover {
+    background-color: rgb(14, 105, 196);
+}
+.btn-cancel {
+    background-color: rgb(194, 22, 22);
+    color: white;
+}
+.btn-cancel:hover {
+    background-color: rgb(169, 3, 3);
+}
+.block {
+    display: block;
+    width: 100%;
+}
+.round { /* 버튼 뿐만 아니라 round 클래스에 모두 적용 */
+    border-radius: 15px;
+}
+
+.txt-input {
+    box-sizing: border-box;
+    border-style: none;
+    background-color: azure;
+    padding: .5em;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: azure;
+    border-width: 2px;
+}
+.txt-input:hover {
+    border-style: solid;
+    border-color: black;
+}
+.txt-input:focus {
+    outline-style: none;
+    background-color: lightcyan;
+}
+textarea {
+    resize: none;
+    border-width: 2px;
+    height: 5em;
+}
+.chk-input, .rdo-input {
+    display: inline-block;
+    margin: 0px; padding: 0px;
+    width: 24px; height: 24px;
+    vertical-align: middle;
+}
+.chk-input + label, rdo-input + label {
+    display: inline-block;
+    margin: 0px; padding: 0px;
+    line-height: 24px;
+    vertical-align: middle;
+}
+
+.chk-color-ok[type=checkbox], .chk-color-ok[type=radio] {
+    accent-color: rgb(37, 124, 212); /* 체크하는 부분의 색깔을 바꿈 */ 
+}
+.chk-color-cancel[type=checkbox], .chk-color-cancel[type=radio] {
+    accent-color: rgb(194, 22, 22);
+}
+
+.opt-main {
+    border-style: solid;
+    border-color: antiquewhite;
+    border-width: 2px;
+    background-color: antiquewhite;
+    box-sizing: border-box;
+    padding: .5em;
+    padding-right: 1.5em;
+}
+.opt-main:focus {
+    outline-style: none;
+}
+.opt-main:hover {
+    background-color: beige;
+}
