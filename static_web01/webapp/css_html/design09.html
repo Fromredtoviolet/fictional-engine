@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>산타이즈커밍</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/design09.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container-md">
+        <header>
+            <nav class="navbar navbar-expand-md bg-light">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">🎅MERRY X-MAS🎄</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="topNav">
+                        <ul class="navbar-nav ms-auto"> <!--ms는 마진과 스타트(레프트)-->
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">메리</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">크리스마스</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    앤
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="#">산타클로스 방</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">루돌프 방</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">해피뉴이어</a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                    <button class="btn btn-sm btn-outline-danger">선물 받기</button>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <span class="icon align-middle">apps</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="mt-3">
+                <div id="sliderImg" class="carousel slider" data-bs-ride="false">
+                    <div class="carousel-indicators">
+                        <button class="active" type="button" data-bs-target="#sliderImg" data-bs-slide-to="0"></button>
+                        <button type="button" data-bs-target="#sliderImg" data-bs-slide-to="1"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img class="w-100" src="https://img.freepik.com/premium-photo/christmas-border-branches-of-a-christmas-tree-with-red-decorations-isolated-on-a-white-horizontal-banner_149088-1261.jpg" alt="">
+                            <div class="carousel-caption text-dark">
+                                <h5>☆썰매 안전운전 캠페인☆</h5>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img class="w-100" src="https://mblogthumb-phinf.pstatic.net/MjAxOTEyMDVfMjcy/MDAxNTc1NTI1MjIxMzI4.BR1Npz5oarjcubL1HK2dwIrQ-5YPwxRcfDA_-jTZgXEg.oISmPZR4zNJz2MP_QwwXAzBmf3iI7Tu6wGVydmjveqMg.JPEG.lkjkwk/%ED%81%AC%EB%A6%AC%EC%8A%A4%EB%A7%88%EC%8A%A4%EC%9D%B4%EB%AF%B8%EC%A7%80_20.jpg?type=w800" alt="">
+                            <div class="carousel-caption">
+                                <h5>★루돌프에게 휴식시간은 선택이 아닌 필수★</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#sliderImg" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#sliderImg" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                      </button>                    
+                </div>
+            </div>
+            <div class="mt-3">
+                <div class="row">
+                    <div class="col-auto ms-auto">
+                        <div class="input-group">
+                            <input class="form-control" type="text">
+                            <button class="btn btn-success">트리 밑</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="mt-3"> <!--왼쪽메뉴 크기 3-->
+            <div class="row">
+                <div class="col-3">
+                    <nav class="list-group list-group-flush border-bottom border-top border-2 border-danger">
+                        <a class="list-group-item list-group-item-action" href="#">
+                            산타 공지사항
+                            <span class="badge bg-danger rounded-pill">N</span>
+                        </a>
+                        <a class="list-group-item list-group-item-action" href="#">아시아 산타</a>
+                        <a class="list-group-item list-group-item-action" href="#">유럽 산타</a>
+                        <a class="list-group-item list-group-item-action" href="#">아메리카 산타</a>
+                        <a class="list-group-item list-group-item-action" href="#">아프리카 산타</a>
+                    </nav>
+                    <nav class="list-group list-group-flush border-bottom border-2 border-danger">
+                        <a class="list-group-item list-group-item-action" href="#">
+                            선물 배송지
+                            <span class="badge bg-danger rounded-pill">N</span>
+                        </a>
+                        <a class="list-group-item list-group-item-action" href="#">위시리스트</a>
+                        <a class="list-group-item list-group-item-action" href="#">순록 네트워크</a>
+                    </nav>
+                </div>
+                <div class="col-9"> <!-- 본문내용 크기 9-->
+                    <div class="row align-items-center border-bottom border-2 border-danger g-1 mb-3 pb-2">
+                        <div class="col-auto">
+                            <span class="fs-4 fw-bold text-danger">세계 최대 산타클로스 커뮤니티</span>
+                        </div>
+                        <div class="col-auto ms-auto">
+                            <a class="text-decoration-none text-secondary" href="#"><small>파헤쳐보기 &gt;</small></a>
+                        </div>
+                    </div>
+                    <section class="row row-cols-5 g-1">
+                        <div class="col">
+                            <div class="card">
+                                <img src="https://www.ilovepc.co.kr/news/photo/202111/41638_96870_1717.jpg" alt="">
+                                <div class="card-body">
+                                    <p class="card-text">2022년도 울지 않은 사람 목록입니다.</p>
+                                    <p class="card-text">작성자 <br> 산타</p>
+                                    <p class="card-text text-muted">작성일 22.12.24</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <img src="https://www.ilovepc.co.kr/news/photo/202111/41638_96870_1717.jpg" alt="">
+                                <div class="card-body">
+                                    <p class="card-text">2022년도 자원봉사 순록입니다.</p>
+                                    <p class="card-text">작성자 <br> 루돌프</p>
+                                    <p class="card-text text-muted">작성일 22.12.23</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <img src="https://www.ilovepc.co.kr/news/photo/202111/41638_96870_1717.jpg" alt="">
+                                <div class="card-body">
+                                    <p class="card-text">공지사항/ 매드 포 갈릭 회식 안내사항</p>
+                                    <p class="card-text text-truncate">작성자 <br> 산타권익위원회</p>
+                                    <p class="card-text text-muted">작성일 22.12.23</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <img src="https://www.ilovepc.co.kr/news/photo/202111/41638_96870_1717.jpg" alt="">
+                                <div class="card-body">
+                                    <p class="card-text">필독읽어줘요 불량산타를고발합니다</p>
+                                    <p class="card-text">작성자 <br> 투쟁하는순록들</p>
+                                    <p class="card-text text-muted">작성일 22.12.23</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <img src="https://www.ilovepc.co.kr/news/photo/202111/41638_96870_1717.jpg" alt="">
+                                <div class="card-body">
+                                    <p class="card-text">건의사항/ 어른들도 선물 주면 잘 받습니다.</p>
+                                    <p class="card-text">작성자 <br> 서예인</p>
+                                    <p class="card-text text-muted">작성일 22.12.19</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <div class="row align-items-center border-bottom border-2 border-danger g-1 mb-3 pb-2">
+                                <div class="col-auto">
+                                    <span class="fs-4 fw-bold text-danger">반려순록자랑</span>
+                                </div>
+                                <div class="col-auto ms-auto">
+                                    <a class="text-decoration-none text-secondary" href="#"><small>빤히쳐다보기 &gt;</small></a>
+                                </div>
+                            </div>
+                            <div class="row g-1">
+                                <div class="col mb-3 border-bottom border-1 border-secondary">
+                                    <div class="card border border-0">
+                                        <div class="row mb-3 g-0 align-items-center">
+                                            <div class="col-8">
+                                                <div class="card-body">
+                                                    <p class="card-text fw-bold text-truncate">우리 집 순순이 보세요</p>
+                                                    <p class="card-text text-truncate">아주 똘똘하고 영리한 녀석이라죠~</p>
+                                                    <p class="card-text">
+                                                        작성자 순_순
+                                                        <br>
+                                                        <span class="text-muted">작성일 22.12.05</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <img class="img-fluid" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20191127_186%2F157479083795881OYe_JPEG%2F12143006979403368_337909206.jpg&type=ff332_332" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col mb-3 border-bottom border-1 border-secondary">
+                                    <div class="card border border-0">
+                                        <div class="row mb-3 g-0 align-items-center">
+                                            <div class="col-8">
+                                                <div class="card-body">
+                                                    <p class="card-text fw-bold text-truncate">강아지를 사랑합니다</p>
+                                                    <p class="card-text text-truncate">코코는 최고강쥐니까 사랑할수밖에.</p>
+                                                    <p class="card-text">
+                                                        작성자 옝니
+                                                        <br>
+                                                        <span class="text-muted">작성일 22.12.01</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <img class="img-fluid" src="https://search.pstatic.net/common?type=f&size=258x260&quality=95&direct=true&src=http%3A%2F%2Fshop1.phinf.naver.net%2F20201227_111%2F1609039507860UXbsX_JPEG%2F45175103293970017_-488820238.jpeg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
+                        </div>
+                        <div class="col-6">
+                            <div class="row align-items-center border-bottom border-2 border-danger g-1 mb-3 pb-2">
+                                <div class="col-auto">
+                                    <span class="fs-4 fw-bold text-danger">한파대비요령</span>
+                                </div>
+                                <div class="col-auto ms-auto">
+                                    <a class="text-decoration-none text-secondary" href="#"><small>바라만보기 &gt;</small></a>
+                                </div>
+                            </div>
+                            <div class="row g-1">
+                                <div class="col mb-3 border-bottom border-1 border-secondary">
+                                    <div class="card border border-0">
+                                        <div class="row mb-3 g-0 align-items-center">
+                                            <div class="col-8">
+                                                <div class="card-body">
+                                                    <p class="card-text fw-bold text-truncate">핫팩 핫딜 9900원</p>
+                                                    <p class="card-text text-truncate">무조건 1박스 쟁이세요</p>
+                                                    <p class="card-text">
+                                                        작성자 가성비
+                                                        <br>
+                                                        <span class="text-muted">작성일 22.12.03</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <img class="img-fluid" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20221113_11%2F16683155105009yqBP_JPEG%2F1530584351248685_2017841101.jpeg&type=a340" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col mb-3 border-bottom border-1 border-secondary">
+                                    <div class="card border border-0">
+                                        <div class="row mb-3 g-0 align-items-center">
+                                            <div class="col-8">
+                                                <div class="card-body">
+                                                    <p class="card-text fw-bold text-truncate">아직도 롱패딩 없는 산타가 있나요</p>
+                                                    <p class="card-text text-truncate">이젠 산타도 매운김밥산타가 대세인데요</p>
+                                                    <p class="card-text">
+                                                        작성자 김밥
+                                                        <br>
+                                                        <span class="text-muted">작성일 22.12.19</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <img class="img-fluid" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20220817_28%2F1660703055565CnDBh_JPEG%2F46423_mainiamge3.jpg&type=a340" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer>
+            <div class="row my-4 pt-4 border-top border-2 border-dark">
+                <div class="col-auto">
+                    회사명 | <a class="text-decoration-none text-secondary" href="#">사이트 주소</a>
+                </div>
+                <div class="col-auto ms-auto">
+                    회사로고
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
