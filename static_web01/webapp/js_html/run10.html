@@ -20,15 +20,15 @@
         <tbody>
             <tr>
                 <td>1</td>
-                <td class="title">제목입니다.</td>
-                <td>testar</td>
+                <td class="title">제목 입니다.</td>
+                <td>tester</td>
                 <td>2022-12-28</td>
                 <td class="until">1</td>
             </tr>
             <tr>
                 <td>2</td>
-                <td>테스트중입니다.</td>
-                <td>moondae</td>
+                <td>테스트 중 입니다.</td>
+                <td>admin</td>
                 <td>2022-12-28</td>
                 <td>2</td>
             </tr>
@@ -41,16 +41,28 @@
     <form>
         <div>
             <input type="text" name="url" placeholder="URL 주소 입력">
-            <input type="text" namr="name" placeholder="이름 입력">
-            <!--<button type="button" onclick="addBookmark(this.form);">저장</button>-->
+            <input type="text" name="name" placeholder="이름 입력">
+            <!--button type="button" onclick="addBookmark(this.form);">저장</button-->
             <button type="button">저장</button>
         </div>
     </form>
     <ul class="bookmark-list">
-        <li><a href="https://naver.com">네이버</a> <span>▲</span> | <span>▼</span></li>
-        <li><a href="https://google.com">구글</a> <span>▲</span> | <span>▼</span></li>
-        <li><a href="https://daum.net">다음</a> <span>▲</span> | <span>▼</span></li>
-        <li><a href="https://nate.com">네이트</a> <span>▲</span> | <span>▼</span></li>
+        <li>
+            <a href="https://naver.com">네이버</a>
+            <span class="item-up">△</span> | <span class="item-down">▽</span>
+        </li>
+        <li>
+            <a href="https://google.com">구글</a>
+            <span class="item-up">△</span> | <span class="item-down">▽</span>
+        </li>
+        <li>
+            <a href="https://daum.net">다음</a>
+            <span class="item-up">△</span> | <span class="item-down">▽</span>
+        </li>
+        <li>
+            <a href="https://nate.com">네이트</a>
+            <span class="item-up">△</span> | <span class="item-down">▽</span>
+        </li>
     </ul>
 </body>
 </html>
