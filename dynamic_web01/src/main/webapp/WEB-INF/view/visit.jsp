@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.List, model.dto.VisitDTO" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,10 +11,12 @@
 </head>
 <body>
 	<div>
-		<a href="./">메인으로</a>
+		<c:url var="mainUrl" value="/" />
+		<a href="${mainUrl }">메인으로</a>
 	</div>
 	<h2>방명록</h2>
-	<form action="./visit" method="post">
+	<c:url var="visitUrl" value="/visit" />
+	<form action="${visitUrl }" method="post">
 		<div>
 			<input type="text" name="nickname">
 		</div>
@@ -24,16 +28,20 @@
 		</div>
 	</form>
 	<ul>
-		<% for(VisitDTO d: (List<VisitDTO>)request.getAttribute("data")) { %>
+		<c:forEach var="d" items="${requestScope.data }">
+			<c:url var="visitUpdateUrl" value="/visit/update">
+				<c:param name="id" value="${d.id }" />
+			</c:url>
+			<c:set var="formId" value="deleteForm${d.id }" />
 			<li>
-			<%=d.getNickname() %> | <%=d.getContext() %>
-			<button type="button" onclick="location.href='./visit/update?id=<%=d.getId() %>'">수정</button>
-			<button type="submit" form="deleteForm<%=d.getId() %>">삭제</button>
-				<form id="deleteForm<%=d.getId() %>" action="./visit/delete" method="post">
-					<input type="hidden" name="id" value="<%=d.getId() %>">
+				${d.nickname } | ${d.context }
+				<button type="button" onclick="location.href='${visitUpdateUrl }'">수정</button>
+				<button type="submit" form="${formId }">삭제</button>
+				<form id="${formId }" action="${visitUrl }/delete" method="post">
+					<input type="hidden" name="id" value="${d.id}">
 				</form>
 			</li>
-		<% } %>
+		</c:forEach>
 	</ul>
 </body>
 </html>

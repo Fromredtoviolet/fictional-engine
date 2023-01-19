@@ -12,8 +12,8 @@ public class BookmarkDAO {
 	
 	private SqlSession session = OracleConnection.getSqlSession();
 
-	public List<BookmarkDTO> selectAll() {
-		List<BookmarkDTO> data = session.selectList("bookmarkMapper.selectAll");
+	public List<BookmarkDTO> selectAll(BookmarkDTO dto) {
+		List<BookmarkDTO> data = session.selectList("bookmarkMapper.selectAll", dto);
 		return data;
 	}
 	

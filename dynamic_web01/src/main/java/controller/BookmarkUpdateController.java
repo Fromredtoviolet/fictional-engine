@@ -7,7 +7,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.dto.BookmarkDTO;
+import model.dto.UserDTO;
 import model.service.BookmarkService;
 
 @WebServlet("/bookmark/update")
@@ -15,16 +17,34 @@ public class BookmarkUpdateController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		
+		if(!(boolean) session.getAttribute("login")) {
+			resp.sendRedirect(req.getContextPath() + "/login");
+			return;
+		}
+		
+		UserDTO userData = (UserDTO)session.getAttribute("user");
+		
 		String id = req.getParameter("id");
+		String url = req.getParameter("url");
+		String name = req.getParameter("name");
 		
 		BookmarkDTO dto = new BookmarkDTO();
 		dto.setId(Integer.parseInt(id));
+		dto.setUserId(userData.getUserId());
+		dto.setUrl(url);
+		dto.setName(name);
 		
 		BookmarkService service = new BookmarkService();
 		BookmarkDTO data = service.getId(dto);
 		
-		req.setAttribute("data", data);
-		req.getRequestDispatcher("/WEB-INF/view/bookmarkupdate.jsp").forward(req, resp);
+		if(data == null) {
+			resp.sendRedirect(req.getContextPath() + "/error");
+		} else {
+			req.setAttribute("data", data);
+			req.getRequestDispatcher("/WEB-INF/view/bookmarkupdate.jsp").forward(req, resp);
+		}
 	}
 	
 	@Override

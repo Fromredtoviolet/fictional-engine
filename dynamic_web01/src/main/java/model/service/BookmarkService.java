@@ -9,9 +9,9 @@ import model.dto.VisitDTO;
 
 public class BookmarkService {
 
-	public List<BookmarkDTO> getAll() {
+	public List<BookmarkDTO> getAll(BookmarkDTO dto) {
 		BookmarkDAO dao = new BookmarkDAO();
-		List<BookmarkDTO> data = dao.selectAll();
+		List<BookmarkDTO> data = dao.selectAll(dto);
 		dao.close();
 		return data;
 	}

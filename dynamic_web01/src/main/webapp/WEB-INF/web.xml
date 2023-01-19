@@ -29,6 +29,46 @@
   	<url-pattern>/bookmark</url-pattern>
   </servlet-mapping> -->
   
+  <servlet>
+  	<servlet-name>joinController</servlet-name>
+  	<servlet-class>controller.JoinController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>joinController</servlet-name>
+  	<url-pattern>/join</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>loginController</servlet-name>
+  	<servlet-class>controller.LoginController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>loginController</servlet-name>
+  	<url-pattern>/login</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>logoutController</servlet-name>
+  	<servlet-class>controller.LogoutController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>logoutController</servlet-name>
+  	<url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>myinfoController</servlet-name>
+  	<servlet-class>controller.MyinfoController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>myinfoController</servlet-name>
+  	<url-pattern>/myinfo</url-pattern>
+  </servlet-mapping>
+  
+  <listener>
+  	<listener-class>listener.MyServletContextListener</listener-class>
+  </listener>
+  
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.jsp</welcome-file>
