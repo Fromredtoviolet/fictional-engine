@@ -1,10 +1,12 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,14 +27,62 @@ public class VisitController extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println(req.getServletContext().getAttribute("hello"));
-		VisitService service = new VisitService();
-		List<VisitDTO> data = service.getAll();
+		String p = req.getParameter("p"); // jsp 파일에서 p라는 파라미터값 요청해와서 저장
 		
-		req.setAttribute("data", "Hello");
+		if(p == null) {
+			p = "1";
+		} else {
+			if(p.isEmpty()) {
+				p = "1";
+			}
+		}
+		
+		Cookie cookie = null;
+		Cookie[] cookies = req.getCookies();
+		for(Cookie c: cookies) {
+			if(c.getName().equals("cnt")) {
+				cookie = c;
+			}
+		}
+		
+		int cnt = 10;
+		if(cookie != null) {
+			if(req.getParameter("c") != null) {
+				if(!req.getParameter("c").isEmpty()) {
+					cnt = Integer.parseInt(req.getParameter("c"));
+					cookie = new Cookie("cnt", String.valueOf(cnt));
+					cookie.setMaxAge(60 * 60 * 24 * 5);
+					resp.addCookie(cookie);
+				}
+			} else {
+				cnt = Integer.parseInt(cookie.getValue());
+			}
+		} else {
+			if(req.getParameter("c") != null) {
+				if(!req.getParameter("c").isEmpty()) {
+					cnt = Integer.parseInt(req.getParameter("c"));
+					cookie = new Cookie("cnt", String.valueOf(cnt));
+					cookie.setMaxAge(60 * 60 * 24 * 5);
+					resp.addCookie(cookie);
+				}
+			}
+			cookie = new Cookie("cnt", String.valueOf(cnt));
+		}
+
+		VisitService service = new VisitService();
+		List<VisitDTO> data = service.getPage(Integer.parseInt(p), cnt);
+		int totalRow = service.totalRow();
+		int lastPageNumber = (totalRow / cnt) + (totalRow % cnt == 0 ? 0 : 1);
+		List<Integer> pageList = new ArrayList<Integer>();
+		for(int i = 1; i <= lastPageNumber; i++) {
+			pageList.add(i);
+		}
+		
 		req.setAttribute("data", data);
+		req.setAttribute("lastPageNumber", (totalRow /10) + (totalRow % 10 == 0 ? 0 : 1));
+		req.setAttribute("pageList", pageList);
+		req.setAttribute("cnt", cnt);
 		req.getRequestDispatcher("/WEB-INF/view/visit.jsp").forward(req, resp);
-		req.removeAttribute("data");
 	}
 	
 	/**

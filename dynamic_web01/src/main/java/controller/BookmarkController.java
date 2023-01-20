@@ -24,11 +24,6 @@ public class BookmarkController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		
-		if(!(boolean)session.getAttribute("login")) {
-			resp.sendRedirect(req.getContextPath() + "/login");
-			return;
-		}
-		
 		UserDTO userData = (UserDTO)session.getAttribute("user");
 		
 		BookmarkService service = new BookmarkService();
@@ -45,11 +40,6 @@ public class BookmarkController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
-		
-		if(session.getAttribute("login") == null) {
-			resp.sendRedirect(req.getContextPath() + "/login");
-			return;
-		}
 		
 		UserDTO userData = (UserDTO)session.getAttribute("user");
 		

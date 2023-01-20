@@ -14,23 +14,12 @@ public class MyinfoController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		
-		if(session.getAttribute("login") == null) { // 로그인 안했으면 메인으로
-			resp.sendRedirect(req.getContextPath());
-			return;
-		}
 		req.getRequestDispatcher("/WEB-INF/view/myinfo.jsp").forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
-		
-		if(session.getAttribute("login") == null) { 
-			resp.sendRedirect(req.getContextPath());
-			return;
-		}
 		
 		UserDTO userData = (UserDTO)session.getAttribute("user");
 		

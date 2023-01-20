@@ -40,11 +40,5 @@ public class UserDTO implements HttpSessionBindingListener {
 		session.setAttribute("login", true);
 	}
 	
-	@Override
-	public void valueUnbound(HttpSessionBindingEvent event) {
-		HttpSessionBindingListener.super.valueUnbound(event);
-		HttpSession session = event.getSession();
-		session.setAttribute("login", false);
-	}
 	
 }
