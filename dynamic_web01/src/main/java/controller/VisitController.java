@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.dto.VisitDTO;
 import model.service.VisitService;
+import paging.Paging;
 
 /**
  * 방명록을 작성할 수 있는 기능을 제공하기 위한 Servlet
@@ -66,22 +67,12 @@ public class VisitController extends HttpServlet {
 					resp.addCookie(cookie);
 				}
 			}
-			cookie = new Cookie("cnt", String.valueOf(cnt));
 		}
 
 		VisitService service = new VisitService();
-		List<VisitDTO> data = service.getPage(Integer.parseInt(p), cnt);
-		int totalRow = service.totalRow();
-		int lastPageNumber = (totalRow / cnt) + (totalRow % cnt == 0 ? 0 : 1);
-		List<Integer> pageList = new ArrayList<Integer>();
-		for(int i = 1; i <= lastPageNumber; i++) {
-			pageList.add(i);
-		}
-		
-		req.setAttribute("data", data);
-		req.setAttribute("lastPageNumber", (totalRow /10) + (totalRow % 10 == 0 ? 0 : 1));
-		req.setAttribute("pageList", pageList);
-		req.setAttribute("cnt", cnt);
+		Paging data = service.getPage(Integer.parseInt(p), cnt);
+									// (페이지 번호, 한 페이지의 목록 수)
+		req.setAttribute("paging", data);
 		req.getRequestDispatcher("/WEB-INF/view/visit.jsp").forward(req, resp);
 	}
 	

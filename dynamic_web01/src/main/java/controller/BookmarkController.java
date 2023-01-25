@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import model.dto.UserDTO;
 import model.dto.VisitDTO;
 import model.service.BookmarkService;
 import model.service.VisitService;
+import paging.Paging;
 
 @WebServlet("/bookmark")
 public class BookmarkController extends HttpServlet {
@@ -22,6 +24,47 @@ public class BookmarkController extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String p = req.getParameter("p"); // jsp 파일에서 p라는 파라미터값 요청해와서 저장
+		
+		if(p == null) {
+			p = "1";
+		} else {
+			if(p.isEmpty()) {
+				p = "1";
+			}
+		}
+		
+		Cookie cookie = null;
+		Cookie[] cookies = req.getCookies();
+		for(Cookie c: cookies) {
+			if(c.getName().equals("cnt")) {
+				cookie = c;
+			}
+		}
+		
+		int cnt = 10;
+		if(cookie != null) {
+			if(req.getParameter("c") != null) {
+				if(!req.getParameter("c").isEmpty()) {
+					cnt = Integer.parseInt(req.getParameter("c"));
+					cookie = new Cookie("cnt", String.valueOf(cnt));
+					cookie.setMaxAge(60 * 60 * 24 * 5);
+					resp.addCookie(cookie);
+				}
+			} else {
+				cnt = Integer.parseInt(cookie.getValue());
+			}
+		} else {
+			if(req.getParameter("c") != null) {
+				if(!req.getParameter("c").isEmpty()) {
+					cnt = Integer.parseInt(req.getParameter("c"));
+					cookie = new Cookie("cnt", String.valueOf(cnt));
+					cookie.setMaxAge(60 * 60 * 24 * 5);
+					resp.addCookie(cookie);
+				}
+			}
+		}
+		
 		HttpSession session = req.getSession();
 		
 		UserDTO userData = (UserDTO)session.getAttribute("user");
@@ -30,9 +73,9 @@ public class BookmarkController extends HttpServlet {
 		BookmarkDTO dto = new BookmarkDTO();
 		dto.setUserId(userData.getUserId());
 		
-		List<BookmarkDTO> data = service.getAll(dto);
+		Paging data = service.getPage(dto, Integer.parseInt(p), cnt);
 		
-		req.setAttribute("data", data);
+		req.setAttribute("paging", data);
 		req.getRequestDispatcher("/WEB-INF/view/bookmark.jsp").forward(req, resp);
 	}
 	
