@@ -15,8 +15,9 @@
 <body>
 	<c:url var="mainUrl" value="/" />
 	<h1>Hello JSP/Servlet</h1>
-	<a href="${mainUrl }/visit">방명록</a>
-	<a href="${mainUrl }/bookmark">즐겨찾기 링크 모음</a>
+	<a href="${mainUrl }visit">방명록</a>
+	<a href="${mainUrl }bookmark">즐겨찾기 링크 모음</a>
+	<a href="${mainUrl }board">게시판</a>
 
 	<c:choose>
 		<c:when test="${sessionScope.login }">
