@@ -1,5 +1,7 @@
 package listener;
 
+import java.util.ArrayList;
+
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
@@ -13,6 +15,7 @@ public class MyHttpSessionListener implements HttpSessionListener{
 		HttpSessionListener.super.sessionCreated(se);
 		HttpSession session = se.getSession();
 		session.setAttribute("login", false);
+		session.setAttribute("boardViewHistory", new ArrayList<Integer>());
 	}
 	
 	@Override

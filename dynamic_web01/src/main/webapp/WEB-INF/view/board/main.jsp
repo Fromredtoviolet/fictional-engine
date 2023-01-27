@@ -26,6 +26,11 @@
 			</select>
 		</form>
 	</div>
+	<c:if test="${sessionScope.login }">
+		<div>
+			<button class="btn btn-primary" onclick="location.href='${boardUrl }/add'">글작성</button>
+		</div>
+	</c:if>
 	<div>
 		<table>
 			<thead>
