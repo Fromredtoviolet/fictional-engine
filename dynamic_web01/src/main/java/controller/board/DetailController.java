@@ -35,7 +35,13 @@ public class DetailController extends HttpServlet {
 		}
 		BoardDTO data = service.getData(dto);
 
-		req.setAttribute("data", data);
-		req.getRequestDispatcher("/WEB-INF/view/board/detail.jsp").forward(req, resp);
+		if(data != null) {
+			req.setAttribute("data", data);
+			req.getRequestDispatcher("/WEB-INF/view/board/detail.jsp").forward(req, resp);
+		} else {
+			resp.sendRedirect(req.getContextPath() + "/error");
+		}
+		
 	}
+		
 }
