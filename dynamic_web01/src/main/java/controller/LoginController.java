@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.dto.Role;
 import model.dto.UserDTO;
 import model.service.UserService;
 
@@ -64,6 +65,8 @@ public class LoginController extends HttpServlet {
 		
 		if(userData != null) {
 			HttpSession session = req.getSession();
+			Role role = service.getRole(userData);
+			session.setAttribute("role", role);
 			session.setAttribute("user", userData); // 사용자정보를 세션에 저장
 			
 			if(remember != null) {

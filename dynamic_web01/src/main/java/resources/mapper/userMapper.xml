@@ -15,4 +15,7 @@
   	     , email = #{email}
   	 WHERE userId = #{userId}
   </update>
+  <select id="selectRole" parameterType="model.dto.UserDTO" resultType="model.dto.Role">
+  	  SELECT rtype AS type FROM ROLE_T WHERE userid = #{userId}
+  </select>
 </mapper>

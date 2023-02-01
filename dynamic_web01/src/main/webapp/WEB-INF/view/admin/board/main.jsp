@@ -33,28 +33,35 @@
 		</div>
 	</c:if>
 	<div>
-		<table>
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>작성일</th>
-					<th>조회수</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="data" items="${requestScope.paging.data }">
+		<form action="${boardUrl }/delete" method="post">
+			<button type="submit">삭제</button>
+			<table>
+				<thead>
 					<tr>
-						<td>${data.btype eq 'N' ? '공지' : data.id }</td>
-						<td><a href="${boardUrl }/detail?id=${data.id }">${data.title }</a></td>
-						<td>${data.writer }</td>
-						<td>${data.createDate }</td>
-						<td>${data.viewCnt }</td>
+						<th></th>
+						<th>번호</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일</th>
+						<th>조회수</th>
+						<th></th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<c:forEach var="data" items="${requestScope.paging.data }">
+						<tr>
+							<td><input type="checkbox" name="chk_id" value="${data.id }"></td>
+							<td>${data.btype eq 'N' ? '공지' : data.id }</td>
+							<td><a href="${boardUrl }/detail?id=${data.id }">${data.title }</a></td>
+							<td>${data.writer }</td>
+							<td>${data.createDate }</td>
+							<td>${data.viewCnt }</td>
+							<td><a href="${boardUrl }/delete?id=${data.id }">삭제</a></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</form>
 	</div>
 	<div>
 		<c:set var="pagingUrl" value="${boardUrl }" />

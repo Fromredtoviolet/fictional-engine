@@ -8,6 +8,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.dto.Role;
 import model.service.BoardService;
 import paging.Paging;
 
@@ -16,6 +18,7 @@ public class MainController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
 		String p = req.getParameter("p") == null ? "1" : req.getParameter("p");
 		p = p.isEmpty() ? "1" : p;
 		
@@ -48,6 +51,11 @@ public class MainController extends HttpServlet {
 		Paging data = service.getPage(pageNumber, pageLimit);
 		
 		req.setAttribute("paging", data);
-		req.getRequestDispatcher("/WEB-INF/view/board/main.jsp").forward(req, resp);
+		
+		if(((Role)session.getAttribute("role")).isAdmin()) {
+			req.getRequestDispatcher("/WEB-INF/view/admin/board/main.jsp").forward(req, resp);
+		} else {
+			req.getRequestDispatcher("/WEB-INF/view/board/main.jsp").forward(req, resp);
+		}
 	}
 }

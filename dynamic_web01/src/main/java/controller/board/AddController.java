@@ -31,6 +31,11 @@ public class AddController extends HttpServlet {
 		dto.setContext(context);
 		dto.setWriter(((UserDTO)session.getAttribute("user")).getUserId());
 		dto.setBtype("B");
+		if(req.getParameter("notice") != null) {
+			if(req.getParameter("notice").equals("yes")) {
+				dto.setBtype("N");
+			}
+		}
 		
 		BoardService service = new BoardService();
 		boolean result = service.add(dto);

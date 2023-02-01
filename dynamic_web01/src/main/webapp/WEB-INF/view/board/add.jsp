@@ -8,11 +8,12 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 추가 페이지</title>
-<c:url var="staticUrl" value="/static" />
-<link type="text/css" rel="stylesheet" href="${staticUrl }/bs5/css/bootstrap.min.css">
-<script type="text/javascript" src="${staticUrl }/bs5/js/bootstrap.bundle.min.js"></script>
+<%@ include file="/WEB-INF/view/module/bootstrap.jsp" %>
 </head>
 <body>
+	<div>
+		<%@ include file="/WEB-INF/view/module/topnav.jsp" %>
+	</div>
 	<div>
 		<h1>글 작성</h1>
 	</div>
@@ -27,6 +28,12 @@
 				<label>내용</label>
 				<textarea name="context"></textarea>
 			</div>
+			<c:if test="${sessionScope.role.type eq 'ADMIN' }">
+				<div>
+					<label>공지사항</label>
+					<input type="checkbox" name="notice" value="yes">
+				</div>
+			</c:if>
 			<div>
 				<button type="submit">저장</button>
 				<button type="button" onclick="history.back();">취소</button>

@@ -6,8 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>방명록 수정</title>
+<%@ include file="/WEB-INF/view/module/bootstrap.jsp" %>
 </head>
 <body>
+	<div>
+		<%@ include file="/WEB-INF/view/module/topnav.jsp" %>
+	</div>
 	<div>
 		<a href="../visit">돌아가기</a>
 	</div>

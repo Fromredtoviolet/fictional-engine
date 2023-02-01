@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
+import model.dto.Role;
 
 @WebListener
 public class MyHttpSessionListener implements HttpSessionListener{
@@ -15,6 +16,7 @@ public class MyHttpSessionListener implements HttpSessionListener{
 		HttpSessionListener.super.sessionCreated(se);
 		HttpSession session = se.getSession();
 		session.setAttribute("login", false);
+		session.setAttribute("role", new Role("GUEST"));
 		session.setAttribute("boardViewHistory", new ArrayList<Integer>());
 	}
 	
