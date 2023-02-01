@@ -78,10 +78,10 @@ public class BoardService {
 		return false;
 	}
 
-	public int delete(int[] arrId) {
+	public int delete(List<Integer> arrId) {
 		BoardDAO dao = new BoardDAO();
 		int count = dao.delete(arrId);
-		if(count <= arrId.length) {
+		if(count <= arrId.size()) {
 			dao.commit(); dao.close();
 			return count;
 		}
