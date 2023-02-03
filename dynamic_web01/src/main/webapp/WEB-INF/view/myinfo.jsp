@@ -11,11 +11,32 @@
 <%@ include file="/WEB-INF/view/module/bootstrap.jsp" %>
 </head>
 <body>
+	<script type="text/javascript">
+		function previewImage(element) {
+			console.log(element);
+			console.log(element.files);
+			console.log(URL.createObjectURL(element.files[0]));
+			
+			var preview = document.getElementById("preview");
+			preview.src = URL.createObjectURL(element.files[0]);
+		}
+	</script>
 	<div>
 		<%@ include file="/WEB-INF/view/module/topnav.jsp" %>
 	</div>
 	<h1>개인 정보 수정</h1>
-	<c:url var="myinfoUrl" value="/myinfo" />
+	<c:url var="myinfoUrl" value="/myinfo" />				<%-- ↓파일이 들어가면(업로드라거나) 꼭 써야함 --%>
+	<form action="${myinfoUrl }/uploadImage" method="post" enctype="multipart/form-data">
+		<div>
+			<c:url var="imgUrl" value="${sessionScope.user.pImg }" />
+			<img id="preview" src="${imgUrl }" alt="여기에 이미지가 표시됩니다." width="150px" height="150px">
+		</div>
+		<label>이미지 선택</label>
+		<input type="file" name="imageFile" onchange="previewImage(this);" accept="image/png, image/jpeg, image/gif" multiple>
+		<div>																	<%-- ↑사용자지정포맷 --%>		<%-- ↑파일 여러개 첨부 가능 --%>
+			<button type="submit">전송</button>
+		</div>
+	</form>
 	<form action="${myinfoUrl }" method="post">
 		<div>
 			<label>아이디</label>
@@ -26,7 +47,7 @@
 			<input type="password" name="password">
 		</div>
 		<div>
-			<label>변경할 패스워드</label>
+			<label>변경 할 패스워드</label>
 			<input type="password" name="changePass">
 		</div>
 		<div>
