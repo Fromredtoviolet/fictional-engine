@@ -15,6 +15,15 @@ import model.service.BoardService;
 @WebServlet("/board/recommend")
 public class RecommController extends HttpServlet {
 
+	/*
+	 * 게시글 추천/비추천
+  	 - 로그인을 한 사용자는 게시글에 추천/비추천을 할 수 있습니다. (추천/비추천을 위한 요청 주소 필요)
+  	 - 하나의 게시물에 추천을 한 경우 비추천을 할 수 없습니다. 반대의 경우도 동일합니다.
+  	 - 추천을 한 후에 동일한 게시물에 대해 다시 추천을 하였을 때 이전 추천이 취소가 되어야 합니다. 
+       반대의 경우도 동일합니다.
+  	 - 게시글 테이블에 추천/비추천 컬럼을 추가하여 기록할 수 있게 합니다.
+	 */
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
