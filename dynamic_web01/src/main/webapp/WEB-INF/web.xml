@@ -65,6 +65,35 @@
   	<url-pattern>/myinfo</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>imageUploadController</servlet-name>
+  	<servlet-class>controller.ImageUploadController</servlet-class>
+  	<multipart-config>
+  		<location>D:/imageTemp</location>
+  		<!-- <max-file-size>5242880</max-file-size> -->
+  		<!-- <max-request-size>5242880</max-request-size> -->
+  		<file-size-threshold>1024</file-size-threshold>
+  	</multipart-config>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>imageUploadController</servlet-name>
+  	<url-pattern>/myinfo/uploadImage</url-pattern>
+  </servlet-mapping>
+  
+  <context-param>
+  	<param-name>maxFileSize</param-name>
+  	<param-value>5242880</param-value>
+  			<!-- ↑숫자이지만 문자열 -->
+  </context-param>
+  <context-param>
+  	<param-name>permitFileType</param-name>
+  	<param-value>image</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>permitFileExt</param-name>
+  	<param-value>png,jpeg</param-value>
+  </context-param>
+  
   <filter>
   	<filter-name>loginCheckFilter</filter-name>
   	<filter-class>filter.LoginCheckFilter</filter-class>
@@ -77,6 +106,8 @@
   	<url-pattern>/board/add</url-pattern>
   	<url-pattern>/board/update</url-pattern>
   	<url-pattern>/board/delete</url-pattern>
+  	<url-pattern>/board/recommend</url-pattern>
+  	<url-pattern>/board/deprecate</url-pattern>
   </filter-mapping>
   
   <filter>
@@ -91,6 +122,21 @@
   <!-- <listener>
   	<listener-class>listener.MyServletContextListener</listener-class>
   </listener> -->
+  
+  <!-- <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/view/error/404.jsp</location>
+  </error-page> -->
+  
+  <!-- <error-page>
+    <error-code>500</error-code>
+    <location>/WEB-INF/view/error/500.jsp</location>
+  </error-page> -->
+  
+  <!-- <error-page>
+  	<exception-type>java.io.IOException</exception-type>
+    <location>/WEB-INF/view/error/IOException.jsp</location>
+  </error-page> -->
   
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

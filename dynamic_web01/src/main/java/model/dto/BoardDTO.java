@@ -12,7 +12,25 @@ public class BoardDTO {
 	private Date createDate;
 	private Date updateDate;
 	private int viewCnt;
+	private int recomCnt;
+	private int depreCnt;
 	
+	public int getRecomCnt() {
+		return recomCnt;
+	}
+
+	public void setRecomCnt(int recomCnt) {
+		this.recomCnt = recomCnt;
+	}
+
+	public int getDepreCnt() {
+		return depreCnt;
+	}
+
+	public void setDepreCnt(int depreCnt) {
+		this.depreCnt = depreCnt;
+	}
+
 	public int getId() {
 		return id;
 	}

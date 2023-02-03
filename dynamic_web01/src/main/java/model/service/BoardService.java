@@ -42,6 +42,50 @@ public class BoardService {
 		dao.rollback(); dao.close();
 		return false;
 	}
+	
+	public boolean incRecomCnt(BoardDTO dto) {
+		BoardDAO dao = new BoardDAO();
+		int count = dao.updateRecomCnt(dto);
+		if(count == 1) {
+			dao.commit(); dao.close();
+			return true;
+		}
+		dao.rollback(); dao.close();
+		return false;
+	}
+	
+	public boolean incDepreCnt(BoardDTO dto) {
+		BoardDAO dao = new BoardDAO();
+		int count = dao.updateDepreCnt(dto);
+		if(count == 1) {
+			dao.commit(); dao.close();
+			return true;
+		}
+		dao.rollback(); dao.close();
+		return false;
+	}
+	
+	public boolean decreRecomCnt(BoardDTO dto) {
+		BoardDAO dao = new BoardDAO();
+		int count = dao.updateDecreRecomCnt(dto);
+		if(count == 1) {
+			dao.commit(); dao.close();
+			return true;
+		}
+		dao.rollback(); dao.close();
+		return false;
+	}
+	
+	public boolean decreDepreCnt(BoardDTO dto) {
+		BoardDAO dao = new BoardDAO();
+		int count = dao.updateDecreDepreCnt(dto);
+		if(count == 1) {
+			dao.commit(); dao.close();
+			return true;
+		}
+		dao.rollback(); dao.close();
+		return false;
+	}
 
 	public boolean add(BoardDTO dto) {
 		BoardDAO dao = new BoardDAO();
@@ -88,5 +132,7 @@ public class BoardService {
 		dao.rollback(); dao.close();
 		return -1;
 	}
+
+	
 
 }

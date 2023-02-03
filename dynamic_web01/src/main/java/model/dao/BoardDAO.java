@@ -34,6 +34,26 @@ public class BoardDAO {
 		return count;
 	}
 	
+	public int updateRecomCnt(BoardDTO dto) {
+		int count = session.update("boardMapper.updateRecomCnt", dto);
+		return count;
+	}
+	
+	public int updateDepreCnt(BoardDTO dto) {
+		int count = session.update("boardMapper.updateDepreCnt", dto);
+		return count;
+	}
+	
+	public int updateDecreRecomCnt(BoardDTO dto) {
+		int count = session.update("boardMapper.updateDecreRecomCnt", dto);
+		return count;
+	}
+	
+	public int updateDecreDepreCnt(BoardDTO dto) {
+		int count = session.update("boardMapper.updateDecreDepreCnt", dto);
+		return count;
+	}
+	
 	public void commit() {
 		session.commit();
 	}
@@ -70,5 +90,7 @@ public class BoardDAO {
 		int count = session.delete("boardMapper.checkedDelete", arrId);
 		return count;
 	}
+
+	
 
 }
