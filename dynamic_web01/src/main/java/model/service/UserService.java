@@ -85,5 +85,12 @@ public class UserService {
 		return false;
 	}
 
+	public UserDTO getData(UserDTO dto) {
+		UserDAO dao = new UserDAO();
+		UserDTO data = dao.selectUser(dto);
+		dao.close();
+		return data;
+	}
+
 	
 }
