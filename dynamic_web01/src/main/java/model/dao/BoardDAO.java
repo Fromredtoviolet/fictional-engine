@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import database.connect.OracleConnection;
 import model.dto.BoardDTO;
+import model.dto.BoardImageDTO;
 
 public class BoardDAO {
 
@@ -88,6 +89,21 @@ public class BoardDAO {
 
 	public int delete(List<Integer> arrId) {
 		int count = session.delete("boardMapper.checkedDelete", arrId);
+		return count;
+	}
+
+	public int insertImage(BoardImageDTO dto) {
+		int count = session.insert("boardMapper.insertImage", dto);
+		return count;
+	}
+	
+	public List<BoardImageDTO> selectImages(BoardDTO dto) {
+		List<BoardImageDTO> data = session.selectList("boardMapper.selectImages", dto);
+		return data;
+	}
+
+	public int deleteImages(BoardDTO dto) {
+		int count = session.delete("boardMapper.deleteImages", dto);
 		return count;
 	}
 

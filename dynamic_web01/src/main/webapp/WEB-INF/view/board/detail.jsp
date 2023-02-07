@@ -30,10 +30,18 @@
 		<p>${requestScope.data.context }</p>
 	</div>
 	<div>
-		<button class="btn btn-primary" onclick="location.href='${boardUrl }/recommend?id=${requestScope.data.id }'">
-			추천 (${requestScope.data.recomCnt })</button>
-		<button class="btn btn-danger" onclick="location.href='${boardUrl }/deprecate?id=${requestScope.data.id }'">
-			비추천 (${requestScope.data.depreCnt })</button>
+		<ul>
+			<c:forEach var="image" items="${requestScope.images }" >
+				<c:url var="imagePath" value="${image.path }${image.uuid }" />
+				<li><a href="${imagePath }" download="${image.name }">${image.name }</a></li>
+			</c:forEach>
+		</ul>
+	</div>
+	<div>
+		<button type="button" class="btn btn-primary" onclick="location.href='${boardUrl }/recommend?id=${requestScope.data.id }'">
+			추천 ${requestScope.data.recomCnt }</button>
+		<button type="button" class="btn btn-danger" onclick="location.href='${boardUrl }/deprecate?id=${requestScope.data.id }'">
+			비추천 ${requestScope.data.depreCnt }</button>
 	</div>
 	<div>
 		<button onclick="location.href='${boardUrl }'">목록</button>
