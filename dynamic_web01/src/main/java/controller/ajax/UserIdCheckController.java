@@ -2,6 +2,10 @@ package controller.ajax;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,16 +28,21 @@ public class UserIdCheckController extends HttpServlet {
 		UserService service = new UserService();
 		UserDTO data = service.getData(dto);
 		
-		String json = "{";
+		JsonFactory jf = new JsonFactory();
+		StringWriter sw = new StringWriter();
+		JsonGenerator jg = jf.createGenerator(sw);
+		
+		jg.writeStartObject();
 		if(data == null) {
-			json += "\"msg\": \"OK\"";
-		} else {
-			json += "\"msg\": \"Fail\"";
+			jg.writeStringField("msg", "OK");
+		} else {				//키	//값
+			jg.writeStringField("msg", "Fail");
 		}
-		json += "}";
-
+		jg.writeEndObject();
+		jg.close();
+		
 		PrintWriter out = resp.getWriter();
-		out.println(json);
+		out.print(sw.toString());
 		out.flush(); // 버퍼에 남아있는 데이터도 다 전송해라
 	}
 }

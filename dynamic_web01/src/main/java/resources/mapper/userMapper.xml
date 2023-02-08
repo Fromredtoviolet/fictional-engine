@@ -4,7 +4,12 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="userMapper">
   <insert id="insert" parameterType="model.dto.UserDTO">
-  	INSERT INTO USER_T VALUES(#{userId}, #{password}, #{email}, DEFAULT)
+		INSERT ALL
+		  INTO USER_T(userId, password, email, pImg)
+		       VALUES(#{userId}, #{password}, #{email}, DEFAULT)
+		  INTO ROLE_T(id, userId, rtype)
+		       VALUES(ROLE_S.NEXTVAL, #{userId}, 'USER')
+		 SELECT * FROM DUAL
   </insert>
   <select id="selectUser" parameterType="model.dto.UserDTO" resultType="model.dto.UserDTO">
   	SELECT userId, password, email, pImg FROM USER_T WHERE userId = #{userId}

@@ -13,7 +13,7 @@ public class UserService {
 		
 		if(data == null) {
 			int count = dao.insert(dto);
-			if(count == 1) {
+			if(count == 2) {
 				dao.commit(); dao.close();
 				return 1;
 			}

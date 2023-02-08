@@ -9,8 +9,42 @@
 <meta charset="UTF-8">
 <title>게시글 상세 페이지</title>
 <%@ include file="/WEB-INF/view/module/bootstrap.jsp" %>
+<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
 </head>
 <body>
+	<c:url var="recommendUrl" value="/ajax/recommend" />
+	<script type="text/javascript">
+		function recommend(element, id, type) {
+			$.ajax({
+				type: "get",
+				url: "${recommendUrl }",
+				data: {
+					id: id,
+					type: type
+				},
+				dataType: "json",
+				success: function(data) {
+					if(data.redirect !== undefined) {
+						let message = "추천/비추천은 회원만 할 수 있습니다. 로그인 페이지로 이동합니까?";
+						if(confirm(message)) {
+							location.href = data.redirect;
+										<%-- ↑ 로그인필터의 리다이렉트를 말함 --%>
+						}
+					} else {
+						if(data.type === "success") {
+							if(type === "recom") {
+								element.innerText = "추천 " + data.count
+							} else if(type === "depre") {
+								element.innerText = "비추천 " + data.count
+							}
+						} else if(data.type === "error") {
+							console.log(msg);
+						}
+					}
+				}
+			});
+		}
+	</script>
 	<c:url var="boardUrl" value="/board" />
 	<div>
 		<%@ include file="/WEB-INF/view/module/topnav.jsp" %>
@@ -38,9 +72,9 @@
 		</ul>
 	</div>
 	<div>
-		<button type="button" class="btn btn-primary" onclick="location.href='${boardUrl }/recommend?id=${requestScope.data.id }'">
+		<button type="button" class="btn btn-primary" onclick="recommend(this, ${requestScope.data.id }, 'recom');">
 			추천 ${requestScope.data.recomCnt }</button>
-		<button type="button" class="btn btn-danger" onclick="location.href='${boardUrl }/deprecate?id=${requestScope.data.id }'">
+		<button type="button" class="btn btn-danger" onclick="recommend(this, ${requestScope.data.id }, 'depre');">
 			비추천 ${requestScope.data.depreCnt }</button>
 	</div>
 	<div>

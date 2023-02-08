@@ -108,6 +108,7 @@
   	<url-pattern>/board/delete</url-pattern>
   	<url-pattern>/board/recommend</url-pattern>
   	<url-pattern>/board/deprecate</url-pattern>
+  	<url-pattern>/ajax/recommend</url-pattern>
   </filter-mapping>
   
   <filter>

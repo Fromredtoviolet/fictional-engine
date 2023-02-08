@@ -23,7 +23,12 @@ public class LoginCheckFilter implements Filter {
 		if((boolean)session.getAttribute("login")) {
 			chain.doFilter(req, resp); // 로그인을 했으면 다음으로 넘어가라
 		} else {
-			response.sendRedirect(request.getContextPath() + "/login"); // 로그인 안했으면 로그인부터 하고와
+			if(request.getRequestURI().contains("ajax")) {
+				response.getWriter().print("{\"redirect\": \"" + request.getContextPath() + "/login\"}");
+				response.getWriter().flush();
+			} else {
+				response.sendRedirect(request.getContextPath() + "/login"); // 로그인 안했으면 로그인부터 하고와
+			}
 		}
 	}
 }
