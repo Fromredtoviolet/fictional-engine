@@ -55,6 +55,7 @@
 						el: document.querySelector("#editor"),
 						initialValue: data.context,
 						initialEditType: 'wysiwyg'
+						// 에디터 하단 탭을 마크다운이 아닌 위지윅스로 바꿔서 태그정보가 아닌 프리뷰 이미지가 보이게 한다.
 					});
 				}
 			});
