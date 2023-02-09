@@ -10,6 +10,8 @@
 <title>게시글 상세 페이지</title>
 <%@ include file="/WEB-INF/view/module/bootstrap.jsp" %>
 <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 </head>
 <body>
 	<c:url var="recommendUrl" value="/ajax/recommend" />
@@ -60,9 +62,7 @@
 		수정일: ${updateDate }<br>
 		조회수: ${requestScope.data.viewCnt }
 	</div>
-	<div>
-		<p>${requestScope.data.context }</p>
-	</div>
+	<div id="viewer"></div>
 	<div>
 		<ul>
 			<c:forEach var="image" items="${requestScope.images }" >
@@ -86,5 +86,28 @@
 			</c:if>
 		</c:if>
 	</div>
+	<script type="text/javascript">
+		var viewer;
+		window.onload = function() {
+			<c:url var="boardDetailUrl" value="/board/detail" />
+			$.ajax({
+				url: "${boardDetailUrl }",
+				data: {
+					id: ${requestScope.data.id }
+				},
+				type: "post",
+				dataType: "json",
+				success: function(data) {
+					viewer = new toastui.Editor.factory({
+						el: document.querySelector("#viewer"),
+						viewer: true, // 뷰어로 사용
+						initialValue: data.context // 초기값
+					});
+				}
+			});
+			// 위의 initialValue 의 값을 Ajax 를 사용하여 페이지가 로드 되었을 때 서버에 조회 요청을 하고
+			// 응답 데이터의 context 를 찾아서 초기값으로 설정되도록 변경해 보세요.
+		}
+	</script>
 </body>
 </html>

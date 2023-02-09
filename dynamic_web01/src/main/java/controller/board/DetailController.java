@@ -46,4 +46,19 @@ public class DetailController extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/error");
 		}
 	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		String id = req.getParameter("id");
+		
+		BoardDTO dto = new BoardDTO();
+		dto.setId(Integer.parseInt(id));
+		
+		BoardService service = new BoardService();
+		BoardDTO data = service.getData(dto);
+		
+		resp.getWriter().print("{\"context\": \"" + data.getContext().replace("\"", "'") + "\"}");
+		resp.getWriter().flush();					// 큰따옴표가 인식이 잘 안되니까 작은따옴표로 바꿔주기
+	}
 }

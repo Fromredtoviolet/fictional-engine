@@ -24,12 +24,12 @@ import model.dto.UserDTO;
 import model.service.BoardService;
 
 @WebServlet("/board/add")
-@MultipartConfig(
-		location = "D:/imageTemp",
-  		maxFileSize = 1024 * 1024 * 5,
-  		maxRequestSize = 1024 * 1024 * 5,
-  		fileSizeThreshold = 1024
-)
+//@MultipartConfig(
+//		location = "D:/imageTemp",
+//  		maxFileSize = 1024 * 1024 * 5,
+//  		maxRequestSize = 1024 * 1024 * 5,
+//  		fileSizeThreshold = 1024
+//)
 public class AddController extends HttpServlet {
 	
 	@Override
@@ -55,7 +55,7 @@ public class AddController extends HttpServlet {
 				dto.setBtype("N");
 			}
 		}
-		
+		/* 이미지 업로드 (토스트UI 없이) 관련 작업한 것
 		int maxFileSize = Integer.parseInt(sc.getInitParameter("maxFileSize"));
 		String permitFileType = sc.getInitParameter("permitFileType");
 		String[] permitFileExt = sc.getInitParameter("permitFileExt").split(",");
@@ -91,9 +91,9 @@ public class AddController extends HttpServlet {
 				}
 			}
 		}
-		
+		*/
 		BoardService service = new BoardService();
-		boolean result = service.add(dto, boardImageList);
+		boolean result = service.add(dto, null);
 		if(result) {
 			resp.sendRedirect(req.getContextPath() + "/board/detail?id=" + dto.getId());
 		} else {
