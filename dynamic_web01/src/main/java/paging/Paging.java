@@ -19,11 +19,11 @@ public class Paging {
 	}
 	
 
-	public Paging(Object data, int currentPageNumber, int lastPageNumber) {
+	private Paging(Object data, int currentPageNumber, int lastPageNumber) {
 		this.data = data;
 		this.lastPageNumber = lastPageNumber;
 		this.currentPageNumber = currentPageNumber;
-	}
+	} // 외부 공개 안할 생성자라 private
 	
 	public Paging(Object data, int currentPageNumber, int lastPageNumber, int pageLimit, int listLimit) {
 		this(data, currentPageNumber, lastPageNumber);
