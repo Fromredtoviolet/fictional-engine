@@ -12,6 +12,8 @@
 		                ORDER BY BTYPE DESC, ID DESC)
 		  )
 		 WHERE NUM BETWEEN #{start} AND #{end}
+		 <!-- 맵퍼에서 객체의 멤버변수/맵의 키를 사용하고 싶을 때 #{홀더} 사용 -->
+		 <!-- #{start}와 #{end}는 파라미터타입인 map의 key이다.(보드서비스 클래스 참조) -->
 	</select>
 	<select id="totalRowCount" resultType="int">
 		SELECT COUNT(*) FROM BOARD_T
