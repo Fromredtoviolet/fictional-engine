@@ -26,6 +26,12 @@
         </td>
       </tr>
       <tr>
+        <td>상품 사진</td>
+        <td>
+          <input type="image" cols="50" :value="product.files" readonly/>
+        </td>
+      </tr>
+      <tr>
         <td>본문</td>
         <td>
           <textarea cols="50" rows="20" :value="product.content" readonly/>
@@ -53,5 +59,5 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 </style>
