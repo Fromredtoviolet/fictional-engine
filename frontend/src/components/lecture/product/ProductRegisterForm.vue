@@ -22,6 +22,13 @@
             </td>
         </tr>
         <tr>
+            <td>상품 사진</td>
+            <td>
+                <input type="file" id="files" ref="files"
+                    multiple @change="handleFileUpload"/>
+            </td>
+        </tr>
+        <tr>
             <td>가격</td>
             <td>
                 <input type="number" v-model="price"/>
@@ -43,21 +50,43 @@ export default {
     name: "ProductRegisterForm",
     data () {
         return {
-            productName: '상품명을 입력하세요.',
-            writer: '누구세요?',
+            productName: '상품명',
+            writer: '작성자',
             content: '내용을 입력하세요.',
             price: 0,
+            files: '',
         }
     },
     methods: {
         onSubmit () {
+            let formData = new FormData()
+            // 사진
+            for (let idx = 0; idx < this.files.length; idx++) {
+                formData.append('imageFileList', this.files[idx])
+            }
             const { productName, writer, content, price } = this
-            this.$emit('submit', { productName, writer, content, price })
-        }
+            let productInfo = {
+                productName: productName,
+                writer: writer,
+                content: content,
+                price: price,
+            }
+            console.log('productInfo: ' + JSON.stringify(productInfo))
+            // 글자
+            formData.append(
+                "productInfo",
+                new Blob([JSON.stringify(productInfo)], { type: "application/json" })
+            )
+            console.log('formData: ' + JSON.stringify(formData))
+            this.$emit('submit', formData)
+        },
+        handleFileUpload () {
+            this.files = this.$refs.files.files
+        },
     }
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

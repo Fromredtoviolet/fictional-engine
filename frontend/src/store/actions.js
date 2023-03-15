@@ -9,7 +9,7 @@ import axios from 'axios'
 
 export default {
     requestCreateBoardToSpring ({ commit }, payload) {
-                            // commit 안 쓰면 { } 형태로 공객체를 전달한다.
+                                // commit 안 쓰면 { } 형태로 공객체를 전달한다.
         const { title, content, writer } = payload
         return axios.post('http://localhost:7777/board/register',
             { title, content, writer })
@@ -69,9 +69,9 @@ export default {
     },
     requestCreateProductToSpring ({}, payload) {
 
-        const { productName, content, writer, price } = payload
+        // const { productName, content, writer, price } = payload
         return axios.post('http://localhost:7777/product/register',
-            { productName, content, writer, price })
+            payload)
             .then(() => {
                 alert('상품 등록 성공!')
             })
