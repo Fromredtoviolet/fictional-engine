@@ -2,7 +2,7 @@
   <v-container>
     <div align="center">
       <h2>상품 상세 페이지</h2>
-      <product-read v-if="product" :product="product"/>
+      <product-read v-if="product" :product="product" :productImages="productImages"/>
       <p v-else>로딩중 .......... </p>
       <router-link :to="{ name: 'ProductModifyPage', params: { productId } }">
         게시물 수정
@@ -31,21 +31,23 @@ export default {
         }
     },
     computed: {
-        ...mapState(['product']) // 여기서의 board는 낱개
+        ...mapState(['product', 'productImages']) // 여기서의 board는 낱개
     },
     methods: {
         ...mapActions([
             'requestProductToSpring',
-            'requestDeleteProductToSpring'
+            'requestDeleteProductToSpring',
+            'requestProductImageToSpring',
         ]),
         async onDelete () {
             await this.requestDeleteProductToSpring(this.productId)
             await this.$router.push({ name: 'ProductListPage' })
         }
     },
-    created () { // 객체가 생성될때 요청?
+    async created () { // 객체가 생성될때 요청?
         console.log('productId: ' + this.productId)
-        this.requestProductToSpring(this.productId)
+        await this.requestProductToSpring(this.productId)
+        await this.requestProductImageToSpring(this.productId)
     }    
 
 }
