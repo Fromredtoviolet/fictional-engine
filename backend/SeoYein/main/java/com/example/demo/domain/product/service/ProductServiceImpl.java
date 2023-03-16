@@ -1,7 +1,6 @@
 package com.example.demo.domain.product.service;
 
-import com.example.demo.domain.product.controller.dto.ProductRequest;
-import com.example.demo.domain.product.controller.dto.RequestProductInfo;
+import com.example.demo.domain.product.controller.dto.*;
 import com.example.demo.domain.product.entity.ImageResource;
 import com.example.demo.domain.product.entity.Product;
 import com.example.demo.domain.product.repository.ImageResourceRepository;
@@ -11,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,6 +26,7 @@ public class ProductServiceImpl implements ProductService {
     final private ProductRepository productRepository;
     final private ImageResourceRepository imageResourceRepository;
 
+    @Transactional
     @Override
     public void register(List<MultipartFile> imageFileList, RequestProductInfo productRequest) {
         log.info("글자 출력: " + productRequest);
@@ -65,19 +66,31 @@ public class ProductServiceImpl implements ProductService {
         }
 
         productRepository.save(product);
-
+        /*
         for (ImageResource imageResource: imageResourceList) {
             imageResourceRepository.save(imageResource);
         }
+         */
+        imageResourceRepository.saveAll(imageResourceList);
     }
 
     @Override
-    public List<Product> list() {
-        return productRepository.findAll();
+    public List<ProductListResponse> list() {
+
+        List<Product> productList = productRepository.findAll();
+        List<ProductListResponse> productResponseList = new ArrayList<>();
+
+        for (Product product: productList) {
+            productResponseList.add(new ProductListResponse(
+                    product.getProductId(), product.getProductName(),
+                    product.getWriter(), product.getRegDate()
+            ));
+        }
+        return productResponseList;
     }
 
     @Override
-    public Product read(Long productId) {
+    public ProductReadResponse read(Long productId) {
         Optional<Product> maybeProduct = productRepository.findById(productId);
 
         if (maybeProduct.isEmpty()) {
@@ -85,7 +98,14 @@ public class ProductServiceImpl implements ProductService {
             return null;
         }
 
-        return maybeProduct.get();
+        Product product = maybeProduct.get();
+
+        ProductReadResponse productReadResponse = new ProductReadResponse(
+                product.getProductId(), product.getProductName(), product.getWriter(),
+                product.getContent(), product.getPrice(), product.getRegDate()
+        );
+
+        return productReadResponse;
     }
 
     @Override
@@ -110,5 +130,20 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
 
         return product;
+    }
+
+    @Override
+    public List<ImageResourceResponse> findProductImage(Long productId) {
+        List<ImageResource> imageResourceList = imageResourceRepository.findImagePathByProductId(productId);
+        List<ImageResourceResponse> imageResourceResponseList = new ArrayList<>();
+
+        for (ImageResource imageResource: imageResourceList) {
+            System.out.println("imageResource path: " + imageResource.getImageResourcePath());
+
+            imageResourceResponseList.add(new ImageResourceResponse(
+                    imageResource.getImageResourcePath()));
+        }
+
+        return imageResourceResponseList;
     }
 }
