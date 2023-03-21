@@ -1,18 +1,17 @@
 <template>
   <v-app>
-    <navigation-menu-page/>
-    <v-main>
+    <Header/> <!-- 건호씨가 만든 상단 내비 바 자리-->
+    <v-content> <!-- 바디 -->
       <router-view/>
-    </v-main>
+    </v-content>
     <Footer/>
   </v-app>
 </template>
 
 <script>
-
-import Footer from '@/views/lecture/layoutForm/Footer.vue';
-import NavigationMenuPage from '@/views/lecture/layoutForm/navigation/NavigationMenuPage.vue';
-//import NavigationView from '@/views/lecture/layoutForm/navigation/NavigationView.vue';
+// 헤더 자리는 내비 바 임포트해서 넣을 자리! 현재는 임의로 수업때 헤더 채워둠
+import Header from '@/views/layoutForm/Header.vue';
+import Footer from '@/views/layoutForm/Footer.vue';
 
 export default {
   name: 'App',
@@ -21,8 +20,8 @@ export default {
     //
   }),
   components: {
-    NavigationMenuPage,
+    Header,
     Footer
-  },
+  }
 };
 </script>

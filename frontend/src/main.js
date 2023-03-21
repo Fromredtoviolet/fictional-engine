@@ -3,13 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import GlobalComponent from "@/components/lecture/componentTest/GlobalComponent.vue"
+Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
-
-// global-component 커스텀 태그 등록
-Vue.component(GlobalComponent.name, GlobalComponent)
 
 new Vue({
   router,
