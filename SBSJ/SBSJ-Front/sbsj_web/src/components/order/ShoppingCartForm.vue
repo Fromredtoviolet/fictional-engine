@@ -221,7 +221,7 @@ export default {
         backHome () {
             this.$router.push({ name:'home' })
         },
-
+        /*
         productViewBtn(item){
             alert("상품 상세 페이지로 이동합니다.")
             this.$router.push({ name: 'ProductDetailPage', params: { productNo: item.product.productNo }})
@@ -290,7 +290,7 @@ export default {
                 this.$emit('deleteCartItem', this.selectCartItemNo)
             }
         },
-        /* 수정 필요!!!!!!!!
+
         async btnDirectPurchase(item, index){
             // 바로 구매 (낱개 구매)
             this.directTotalPrice = item.count * item.product.price
@@ -324,7 +324,7 @@ export default {
                 this.orderListCheck = false
             }
         },
-        */
+        
     },    
     
     beforeUpdate() {
@@ -333,6 +333,8 @@ export default {
         this.totalPrice = this.totalPrice + this.selectList[i].product.price * this.selectList[i].count
         }
     },
+    */
+}
 }
 </script>
 
