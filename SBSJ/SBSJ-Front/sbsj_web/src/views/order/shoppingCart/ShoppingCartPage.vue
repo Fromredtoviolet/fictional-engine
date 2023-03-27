@@ -12,9 +12,7 @@ export default {
     name: "ShoppingCartPage",
     components: { ShoppingCartForm },
     methods:{
-      ...mapActions([
-        'reqMyCartListFromSpring',
-      ]),
+      
     },
     mounted() {
       

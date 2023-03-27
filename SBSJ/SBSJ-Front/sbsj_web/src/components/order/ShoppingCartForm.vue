@@ -53,7 +53,6 @@
                                                 :value="item"
                                                 v-model="selectList"
                                                 :key="index"
-                                                
                                             />
                                             <!-- @change="selectItem(item.product.price, item.count)" --> 
                                         </div>
@@ -68,7 +67,7 @@
 
                                         <v-list-item-title>
                                             <div class="mt-5 text-h6">
-                                                10,000원 <!--{{  item.count * item.product.price | numberFormat }}-->
+                                                10,000원 <!--{{  getCurrencyFormat(item.count * item.product.price) }} 원 -->
                                             </div>
                                         </v-list-item-title>
 
@@ -82,14 +81,14 @@
                                             max-height="200"
                                             contain
                                         /> <!-- 현재는 테스트용 코드. 디비에 저장된 상품 썸네일 가져오는 방식으로 변경해야함 
-                                            :src="require(`@/assets/products/uploadImg/${item.product.productInfo.thumbnailFileName}`)" -->
+                                            :src="require(`@/assets/product/uploadImg/${item.product.productInfo.thumbnailFileName}`)" -->
                                     </v-list-item-avatar>
                                 </v-list-item>
 
                                 <v-card-actions>
                                     <div class="qtyBtn">
                                         <v-btn 
-                                            class="decBtn"
+                                            class="minusBtn"
                                             x-small
                                             elevation="0"
                                             color="white"
@@ -99,7 +98,7 @@
                                         </v-btn>
                                         수량<!--{{  item.count }}-->
                                         <v-btn
-                                            class="incBtn ms-1"
+                                            class="plusBtn ms-1"
                                             x-small
                                             elevation="0"
                                             color="white"
@@ -132,13 +131,13 @@
                                     <v-divider color="black"></v-divider>
                                     <div class="product-price">
                                         <span class="text--primary">상품 금액</span>
-                                        <p class="headline text--primary">
-                                            50,000원 <!-- {{ this.totalPrice | numberFormat }} 원 -->
+                                        <p class="text-h6 text--primary">
+                                            30,000원 <!-- {{ getCurrencyFormat(this.totalPrice) }} 원 -->
                                         </p>
                                     </div>
                                     <div class="delivery-fee">
                                         <span class="text--primary">배송비</span>
-                                        <p class="headline text--primary">
+                                        <p class="text-h6 text--primary">
                                             3,000원
                                             <!-- 5만원 이상 무료배송으로 가정
                                                  <p v-if="this.totalPrice > 49999">0 원</p>
@@ -149,9 +148,9 @@
                                     <div class="total-price">
                                         <span class="text--primary">총 결제 금액</span>
                                         <p class="display-1 text--primary">
-                                            50,000원
-                                            <!-- <p v-if="this.totalPrice > 49999">{{ this.totalPrice | numberFormat }} 원</p>
-                                                 <p v-else>{{ this.totalPrice + 3000 | numberFormat }} 원</p>-->
+                                            33,000원
+                                            <!-- <p v-if="this.totalPrice > 49999">{{ getCurrencyFormat(this.totalPrice) }} 원</p>
+                                                 <p v-else>{{ getCurrencyFormat(this.totalPrice + 3000) }} 원</p>-->
                                         </p>
                                     </div>
                                 </v-card-text>
@@ -182,7 +181,7 @@ export default {
     data () {
         return {
             imageName: "img1.jpg",
-            // 임의로 넣은 테스트용 이미지임!!!
+            // 임의로 넣은 테스트용 이미지임!!! 디비 불러오고나면 삭제할 것
 
             totalPrice: 0,
             selectList: [],
@@ -220,12 +219,22 @@ export default {
     },
     methods: {
         backHome () {
-            this.$router.push({name:'home'})
+            this.$router.push({ name:'home' })
+        },
+
+        productViewBtn(item){
+            alert("상품 상세 페이지로 이동합니다.")
+            this.$router.push({ name: 'ProductDetailPage', params: { productNo: item.product.productNo }})
         },
 
         ...mapActions([
             'reqCartItemCountChangeToSpring'
         ]),
+
+        getCurrencyFormat(value) {
+            // 가격을 n,000 원 단위 포맷으로 가공
+            return this.$currencyFormat(value);
+        },
 
         selectItem(price, count){
             console.log("가격과 수량: " + price + count)
@@ -281,7 +290,7 @@ export default {
                 this.$emit('deleteCartItem', this.selectCartItemNo)
             }
         },
-
+        /* 수정 필요!!!!!!!!
         async btnDirectPurchase(item, index){
             // 바로 구매 (낱개 구매)
             this.directTotalPrice = item.count * item.product.price
@@ -315,24 +324,13 @@ export default {
                 this.orderListCheck = false
             }
         },
-
-        productViewBtn(item){
-            alert("상품 상세 페이지로 이동합니다.")
-            this.$router.push({ name: 'ProductDetailPage', params: { productNo: item.product.productNo }})
-        },
-
-        beforeUpdate() {
-            this.totalPrice = 0
-            for (let i = 0; i < this.selectList.length; i++) {
-            this.totalPrice = this.totalPrice + this.selectList[i].product.price * this.selectList[i].count
-            }
-        },
-    },
-
-    // 가격을 n,000 원 단위 포맷으로 가공하는 필터
-    filters: {
-        numberFormat(val) {
-            return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        */
+    },    
+    
+    beforeUpdate() {
+        this.totalPrice = 0
+        for (let i = 0; i < this.selectList.length; i++) {
+        this.totalPrice = this.totalPrice + this.selectList[i].product.price * this.selectList[i].count
         }
     },
 }
