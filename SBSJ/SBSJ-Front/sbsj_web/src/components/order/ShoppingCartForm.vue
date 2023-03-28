@@ -27,13 +27,13 @@
             <div> <!-- 주석 해제할 때 v-else 넣어야 함 -->
                 <v-row>
                     <v-col class="itemCheck ms-8 mt-16">
-                        <input type="checkbox"
-                            v-model="allSelected" 
-                            value="all" 
+                        <v-checkbox
+                            class="allCheckbox"
+                            @change="allSelect" 
+                            label="전체 선택" 
                         />
-                        <label for="all">&nbsp;전체 선택</label>
                     </v-col>
-                    <v-col cols="auto" class="mt-14 me-8" justify="right">
+                    <v-col cols="auto" class="mt-16 me-8" justify="right">
                         <v-btn text @click="btnDeleteCartItem">
                             <v-icon>mdi-delete-outline</v-icon>
                             선택 삭제
@@ -186,6 +186,8 @@ export default {
             totalPrice: 0,
             selectList: [],
 
+            allChecked: false, // 전체선택 관련 메서드 allSelect에서 쓰임
+
             //async
             orderListCheck: false,
 
@@ -206,6 +208,7 @@ export default {
         ...mapState([
         'cartList'
         ]),
+        /*
         allSelected: {
             //getter
             get: function() {
@@ -216,11 +219,26 @@ export default {
                 this.selectList = e ? this.cartList : [];
             }
         },
+        전체선택 체크박스 관련해서 메서드쪽으로 바꿔보기 */
     },
     methods: {
         backHome () {
             this.$router.push({ name:'home' })
         },
+        allSelect () {
+            const { allChecked } = this
+            if(allChecked == false) {
+                this.selectList = []
+                this.selectList.push("") // push 안에 각 value 작성
+                this.allChecked = true
+            } else {
+                while(this.selectList.length > 0) {
+                    this.selectList.pop()
+                }
+                this.allChecked = false
+            }
+        }
+
         /*
         productViewBtn(item){
             alert("상품 상세 페이지로 이동합니다.")
