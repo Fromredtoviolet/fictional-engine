@@ -10,10 +10,17 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
 public class CartController {
 
+    @PostMapping("/addItem")
+    public void addCartItem() {
+        log.info("회원 카트에 새로운 상품이 추가");
+
+    }
+
+
     @PostMapping("/deleteItem")
     public void deleteCartItem(@RequestBody SelectCartItemRequest selectCartItemRequest) {
         log.info("회원 카트에서 선택된 아이템 삭제");
-        cartService.deleteCartItem(selectCartItemRequest);
+        //cartService.deleteCartItem(selectCartItemRequest);
     }
 
 }

@@ -13,7 +13,6 @@ public class CartServiceImpl implements CartService {
     public void deleteCartItem(SelectCartItemRequest selectCartItemRequest){
         List<Long> deleteCartItemNo = selectCartItemRequest.getSelectCartItemNo();
 
-
         }
     }
-}
+
