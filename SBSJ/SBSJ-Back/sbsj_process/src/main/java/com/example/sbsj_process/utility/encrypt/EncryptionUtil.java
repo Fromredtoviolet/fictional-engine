@@ -1,7 +1,5 @@
 package com.example.sbsj_process.utility.encrypt;
 
-
-
 import com.example.sbsj_process.utility.encrypt.exception.UnableToGenerateHash;
 
 import javax.crypto.SecretKeyFactory;

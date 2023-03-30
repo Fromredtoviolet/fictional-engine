@@ -1,7 +1,5 @@
 package com.example.sbsj_process.utility.password;
 
-
-
 import com.example.sbsj_process.utility.encrypt.EncryptionUtil;
 
 import javax.persistence.AttributeConverter;

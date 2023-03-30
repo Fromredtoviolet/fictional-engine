@@ -1,7 +1,7 @@
 package com.example.sbsj_process.account.entity;
 
 import com.example.sbsj_process.utility.encrypt.EncryptionUtil;
-
+import com.example.sbsj_process.utility.password.PasswordHashConverter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,7 +19,7 @@ public class BasicAuthentication extends Authentication {
 
     @Setter
     @Column(nullable = false)
-    @Convert(converter = com.example.sbsj_process.utility.password.PasswordHashConverter.class)
+    @Convert(converter = PasswordHashConverter.class)
     private String password;
 
     public BasicAuthentication (Member member, String authenticationType, String password) {

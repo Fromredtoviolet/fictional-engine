@@ -1,5 +1,7 @@
 package com.example.sbsj_process.order.cart.dto.request;
 
+import com.example.sbsj_process.order.cart.entity.Cart;
+import com.example.sbsj_process.order.cart.entity.CartItem;
 import lombok.*;
 
 import java.util.List;
@@ -9,6 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SelectCartItemRequest {
-    private List<Long> selectCartItemNo;
+
+    private List<Long> selectCartItemId;
+
 
 }
