@@ -12,11 +12,17 @@ export default {
     name: "ShoppingCartPage",
     components: { ShoppingCartForm },
     methods:{
+      ...mapActions([
+        'reqDeleteCartItemFromSpring',
+        'reqAddCartToSpring'
+      ]),
+      deleteCartItem(payload) {
+        const selectCartItemId = payload
+        this.reqDeleteCartItemFromSpring(selectCartItemId)
+      },
       
     },
-    mounted() {
-      
-    },
+    
 }
 </script>
 

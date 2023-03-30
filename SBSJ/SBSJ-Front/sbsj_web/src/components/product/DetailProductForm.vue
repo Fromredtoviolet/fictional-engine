@@ -97,7 +97,10 @@
                             </div>
                             <div style="width:100%; height:12%; display: flex;">
                                 <div style=" width:50%; display:flex; justify-content:center; align-items:center;">
-                                    <button type="button" class="btn btn-primary" style="font-weight: bold;">장바구니</button>
+                                    <button type="button" class="btn btn-primary" style="font-weight: bold;" 
+                                            @click="addCartItemBtn">
+                                            장바구니
+                                    </button>
                                 </div>
                                 <div style="width:50%; display:flex; justify-content:center; align-items:center">
                                     <button type="button" class="btn btn-dark" style="font-weight: bold;">바로구매</button>
@@ -139,7 +142,15 @@
 
 <script>
 export default {
-name: 'DetailProductForm'
+    name: 'DetailProductForm',
+    methods: {
+        addCartItem(payload) {
+            alert("장바구니 페이지로 이동합니다.")
+            const { memberNo, productId, count } = payload
+            this.reqAddCartItemToSpring(memberNo, productId, count)
+        }
+    }
+
 }
 </script>
 
