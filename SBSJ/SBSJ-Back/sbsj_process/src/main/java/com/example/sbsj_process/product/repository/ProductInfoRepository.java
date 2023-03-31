@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface ProductInfoRepository extends JpaRepository<ProductInfo, Long> {
     @Query("Select i from ProductInfo i join fetch i.product p where p.productId = :id")
-    Optional<ProductInfo> findByProductId(Long id);
+    ProductInfo findByProductId(Long id);
 }

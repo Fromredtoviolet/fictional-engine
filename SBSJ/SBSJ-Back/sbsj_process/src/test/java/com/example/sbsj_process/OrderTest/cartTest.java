@@ -1,6 +1,6 @@
 package com.example.sbsj_process.OrderTest;
 
-import com.example.sbsj_process.order.cart.dto.request.SelectCartItemRequest;
+import com.example.sbsj_process.order.cart.dto.request.AddCartRequest;
 import com.example.sbsj_process.order.cart.repository.CartItemRepository;
 import com.example.sbsj_process.order.cart.service.CartService;
 import org.junit.jupiter.api.Test;
@@ -18,8 +18,10 @@ public class cartTest {
 
     @Test
     public void 장바구니에_상품_추가_테스트 () {
-        SelectCartItemRequest selectCartItemRequest = new SelectCartItemRequest();
+        AddCartRequest addCartRequest =
+                new AddCartRequest(1L, 1L, 10000L);
 
+        cartService.addCartItem(addCartRequest);
 
         System.out.println("장바구니 아이템 추가 테스트 완료");
     }

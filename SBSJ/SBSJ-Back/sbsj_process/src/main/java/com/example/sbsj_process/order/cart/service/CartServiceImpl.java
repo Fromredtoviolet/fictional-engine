@@ -9,13 +9,11 @@ import com.example.sbsj_process.order.cart.entity.CartItem;
 import com.example.sbsj_process.order.cart.repository.CartItemRepository;
 import com.example.sbsj_process.order.cart.repository.CartRepository;
 import com.example.sbsj_process.product.entity.Product;
-import com.example.sbsj_process.product.entity.ProductInfo;
 import com.example.sbsj_process.product.repository.ProductInfoRepository;
 import com.example.sbsj_process.product.repository.ProductRepository;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,16 +21,20 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-@Setter
-@Getter
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
 
+    @Autowired
     private final CartRepository cartRepository;
+
+    @Autowired
     private final CartItemRepository cartItemRepository;
+
+    @Autowired
     private final MemberRepository memberRepository;
+
+    @Autowired
     private final ProductRepository productRepository;
-    private final ProductInfoRepository productInfoRepository;
 
 
     @Override
@@ -42,12 +44,18 @@ public class CartServiceImpl implements CartService {
         Long productId = addCartRequest.getProductId();
         Long count = addCartRequest.getCount();
 
-        Optional<Cart> maybeCart = cartRepository.findByMemberNo(memberNo);
+        Optional<Cart> maybeCart = cartRepository.findByMember_MemberNo(memberNo);
 
         // 카트가 생성되어 있지 않다면
         if(maybeCart.isEmpty()){
             Optional<Member> maybeMember = memberRepository.findByMemberNo(memberNo);
-            Member member = maybeMember.get();
+            Member member = new Member();
+
+            if(maybeMember.isPresent()) {
+                member = maybeMember.get();
+            } else {
+                // pass
+            }
 
             Cart cart = Cart.builder() // 빌더 (@Builder) 참고
                     .member(member)
@@ -58,18 +66,27 @@ public class CartServiceImpl implements CartService {
         }
 
         // 카트에 아이템 추가할 때
-        maybeCart = cartRepository.findByMemberNo(memberNo);
-        Cart cart = maybeCart.get();
+        maybeCart = cartRepository.findByMember_MemberNo(memberNo);
+        Cart cart = new Cart();
 
-            //Optional<Product> maybeProduct = productRepository.findByProductId(productId);
-        Optional<ProductInfo> maybeProductInfo = productInfoRepository.findByProductId(productId);
+        if(maybeCart.isPresent()) {
+            cart = maybeCart.get();
+        } else {
+            // pass
+        }
 
-            //Product product = maybeProduct.get();
-        ProductInfo productInfo = maybeProductInfo.get();
+        Optional<Product> maybeProduct = productRepository.findByProductId(productId);
+        Product product = new Product();
+
+        if(maybeProduct.isPresent()) {
+            product = maybeProduct.get();
+        } else {
+            // pass
+        }
 
         CartItem cartItem = CartItem.builder()
                 .cart(cart)
-                .productInfo(productInfo)
+                .product(product)
                 .count(count)
                 .build();
 

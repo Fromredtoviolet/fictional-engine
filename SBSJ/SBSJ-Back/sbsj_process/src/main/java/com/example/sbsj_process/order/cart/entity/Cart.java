@@ -34,13 +34,6 @@ public class Cart {
     private List<CartItem> cartItemList = new ArrayList<>();
 
 
-    public static Cart createCart(Member member) {
-        Cart cart = new Cart();
-        cart.member = member;
-        cart.totalCount = 0L;
-        return cart;
-    }
-
 
 
 

@@ -59,8 +59,8 @@ public class productTest {
         }
         System.out.println("multipartFiles.get(0).toString(): " + multipartFiles.get(0).toString());
         System.out.println("multipartFiles.get(1).toString(): " + multipartFiles.get(1).toString());
-        String productName = "goods";
-        Long productPrice = 10000L;
+        String productName = "좋은영양제";
+        Long productPrice = 20000L;
 
         ProductRegisterForm productRegisterForm = new ProductRegisterForm(productName, productPrice);
         productService.register(multipartFiles, productRegisterForm.toProductRegisterRequest());
@@ -71,7 +71,7 @@ public class productTest {
         Long product_id = product.getProductId();
         Image mayBeImage = imageRepository.findByProductId(product_id);
         System.out.println(mayBeImage);
-        Optional<ProductInfo> mayBeProductInfo = productInfoRepository.findByProductId(product_id);
+        ProductInfo mayBeProductInfo = productInfoRepository.findByProductId(product_id);
         System.out.println(mayBeProductInfo);
     }
 }
