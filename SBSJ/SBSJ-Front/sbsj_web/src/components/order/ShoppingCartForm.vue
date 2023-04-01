@@ -54,7 +54,7 @@
                                             /> <!-- 디비 불러올 때 value 수정을 염두에 둘 것 -->
                                         </div>
                                         <v-list-item-title class="item-name headline" @click="productView()">
-                                            <a>상품명 상품명 상품명</a> <!-- {{ cartItem.productInfo.productName }} -->
+                                            <a>상품명 상품명 상품명</a> <!-- {{ cartItem.product.productName }} -->
                                         </v-list-item-title>
                                         <v-list-item-subtitle class="item-brand" @click="productView()">
                                             <a>브랜드 브랜드 브랜드</a> <!-- {{ cartItem.productInfo.brand }} -->
@@ -186,7 +186,7 @@
                                         class="me-2" 
                                         outlined 
                                         color="teal"
-                                        @click="btnDirectPurchase(item, index)"
+                                        
                                     >
                                     구매
                                     </v-btn>
@@ -231,7 +231,7 @@
                                     <v-btn 
                                         block
                                         color="teal" 
-                                        @click="btnSelectPurchase"
+                                        
                                     >
                                         구매하기
                                     </v-btn>
@@ -247,7 +247,9 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState } from "vuex";
+
+const orderModule = 'orderModule'
 
 export default {
     name: "ShoppingCartForm",
@@ -261,26 +263,15 @@ export default {
 
             allChecked: false, // 전체선택 관련 메서드 allSelect에서 쓰임
 
-            //async
-            orderListCheck: false,
-
-            //바로 구매
-            directTotalPrice: 0,
-            directTmpOrderNo: [],
-            directCartList: [],
-
-            //주문 페이지 전달
-            selectTotalPrice: 0,
-
             //카트 아이템 삭제
             selectCartItemId: []
 
         }
     },
     computed: {
-        ...mapState([
-            'cartList'
-        ]),
+        ...mapState(
+            orderModule, ['cartList']
+        ),
     },
     methods: {
         backHome () {
