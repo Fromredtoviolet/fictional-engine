@@ -136,7 +136,7 @@
                                     <button type="button" 
                                         class="btn btn-primary btn-lg" 
                                         style="font-weight: bold;"
-                                        @click="toCart"
+                                        @click="addToCart"
                                     >
                                     장바구니</button>
                                 </div>
@@ -178,6 +178,7 @@
 
 <script >
 import { mapActions } from "vuex";
+
 const orderModule = 'orderModule'
 
 export default {
@@ -191,6 +192,16 @@ export default {
             productId: 1,
             count: 1,
         };
+    },
+    props: {
+        product: {
+            type: Object,
+            required: true,
+        },
+        productInfo: {
+            type: Object,
+            required: true,
+        },
     },
 	methods: {
         ...mapActions(orderModule, [
@@ -222,7 +233,7 @@ export default {
                 this.showIcon = true
             }
         },
-        toCart() {
+        addToCart() {
             //let userInfo = JSON.parse(localStorage.getItem("userInfo"));
             //let memberNo = await userInfo.memberNo;
             const { memberNo, productId, count } = this

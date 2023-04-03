@@ -14,7 +14,7 @@
             
             <!-- 장바구니 상품 리스트-->
             
-            <div class="item-info-no" v-if="!cartList || (Array.isArray(cartList) && cartList.length === 0)">
+            <div class="item-info-no" v-if="!cartItems || (Array.isArray(cartItems) && cartItems.length === 0)">
                 <div class="d-flex justify-center">
                     <v-icon x-large>mdi-cart-variant</v-icon>
                 </div>
@@ -24,7 +24,7 @@
                 </div>
             </div>
             
-            <div > <!-- 주석 해제할 때 v-else 넣어야 함 -->
+            <div> <!-- 주석 해제할 때 v-else 넣어야 함 -->
                 <v-row>
                     <v-col class="itemCheck ms-8 mt-14">
                         <v-checkbox
@@ -43,28 +43,29 @@
                 <div class="item-info-yes"> 
                     <v-row>
                         <v-col>
-                            <v-card class="ms-8 pa-5" max-width="720" flat outlined> <!-- 추후 수정~ v-for="(item, index) in cartList" :key="index" -->
+                            <v-card class="ms-8 pa-5" max-width="720" flat outlined
+                                v-for="(cartItem, index) in cartItems" :key="index">
                                 <v-list-item three-line>
                                     <v-list-item-content class="ms-1">
                                         <div class="itemCheck" align="left">
                                            <v-checkbox
                                                 class="itemCheckbox"
                                                 v-model="checkedValues"
-                                                value="1"
+                                                value="cartItem"
                                             /> <!-- 디비 불러올 때 value 수정을 염두에 둘 것 -->
                                         </div>
                                         <v-list-item-title class="item-name headline" @click="productView()">
-                                            <a>상품명 상품명 상품명</a> <!-- {{ cartItem.product.productName }} -->
+                                            <a>상품명</a> <!-- {{ cartItem.product.productName }}-->
                                         </v-list-item-title>
                                         <v-list-item-subtitle class="item-brand" @click="productView()">
-                                            <a>브랜드 브랜드 브랜드</a> <!-- {{ cartItem.productInfo.brand }} -->
+                                            <a>브랜드 브랜드 브랜드</a> <!-- {{ cartItem.product.brand }} -->
                                         </v-list-item-subtitle>
 
                                         <v-spacer></v-spacer>
 
                                         <v-list-item-title>
                                             <div class="mt-5 text-h6">
-                                                10,000원 <!--{{  getCurrencyFormat(cartItem.count * cartItem.productInfo.price) }} 원 -->
+                                                10,000원 <!--{{  getCurrencyFormat(cartItem.count * cartItem.product.price) }} 원 -->
                                             </div>
                                         </v-list-item-title>
 
@@ -78,7 +79,7 @@
                                             max-height="200"
                                             contain
                                         /> <!-- 현재는 테스트용 코드. 디비에 저장된 상품 썸네일 가져오는 방식으로 변경해야함 
-                                            :src="require(`@/assets/product/uploadImg/${cartItem.productInfo.thumbnail}`)" -->
+                                            :src="require(`@/assets/product/uploadImg/${cartItem.product.thumbnail}`)" -->
                                     </v-list-item-avatar>
                                 </v-list-item>
 
@@ -117,84 +118,8 @@
                                     </v-btn>
                                 </v-card-actions>
                             </v-card>
-
-                            <!-- 테스트용 두번째 카드 -->
-                            <v-card class="ms-8 pa-5" max-width="720" flat outlined> 
-                                <v-list-item three-line>
-                                    <v-list-item-content class="ms-1">
-                                        <div class="itemCheck" align="left">
-                                           <v-checkbox
-                                                class="itemCheckbox"
-                                                v-model="checkedValues"
-                                                value="2"
-                                            /> 
-                                        </div>
-                                        <v-list-item-title class="item-name headline" @click="productView()">
-                                            <a>상품명 상품명 상품명</a> 
-                                        </v-list-item-title>
-                                        <v-list-item-subtitle class="item-brand" @click="productView()">
-                                            <a>브랜드 브랜드 브랜드</a> 
-                                        </v-list-item-subtitle>
-
-                                        <v-spacer></v-spacer>
-
-                                        <v-list-item-title>
-                                            <div class="mt-5 text-h6">
-                                                10,000원 
-                                            </div>
-                                        </v-list-item-title>
-
-                                    </v-list-item-content>
-
-                                    <v-list-item-avatar tile size="150">
-                                        <v-img
-                                            :src="require(`@/assets/uploadImgs/${imageName}`)"
-                                            aspect-ratio="1"
-                                            max-width="200"
-                                            max-height="200"
-                                            contain
-                                        /> 
-                                    </v-list-item-avatar>
-                                </v-list-item>
-
-                                <v-card-actions>
-                                    <div class="qtyBtn">
-                                        <v-btn 
-                                            class="minusBtn"
-                                            x-small
-                                            elevation="0"
-                                            color="white"
-                                            @click="qtyDecrease(item)"
-                                        >
-                                            <v-icon>mdi-minus</v-icon>
-                                        </v-btn>
-                                        수량
-                                        <v-btn
-                                            class="plusBtn ms-1"
-                                            x-small
-                                            elevation="0"
-                                            color="white"
-                                            @click="qtyIncrease(item)"
-                                        >
-                                            <v-icon>mdi-plus</v-icon>
-                                        </v-btn>
-                                    </div>
-
-                                    <v-spacer></v-spacer>
-                                        
-                                    <v-btn 
-                                        class="me-2" 
-                                        outlined 
-                                        color="teal"
-                                        
-                                    >
-                                    구매
-                                    </v-btn>
-                                </v-card-actions>
-                            </v-card>
                         </v-col>
                         
-
                         <!-- 금액 합계 부분-->
 
                         <v-col cols="5">
@@ -264,14 +189,17 @@ export default {
             allChecked: false, // 전체선택 관련 메서드 allSelect에서 쓰임
 
             //카트 아이템 삭제
-            selectCartItemId: []
+            selectCartItemId: [],
+
+            cartItems: []
 
         }
     },
-    computed: {
-        ...mapState(
-            orderModule, ['cartList']
-        ),
+    props: {
+        cartItems: {
+            type: Array,
+            required: true,
+        },
     },
     methods: {
         backHome () {
@@ -401,14 +329,8 @@ export default {
         },
         
     },    
-    
-    beforeUpdate() {
-        this.totalPrice = 0
-        for (let i = 0; i < this.checkedValues.length; i++) {
-        this.totalPrice = this.totalPrice + this.checkedValues[i].product.price * this.checkedValues[i].count
-        }
-    },
     */
+   
 }
 }
 </script>

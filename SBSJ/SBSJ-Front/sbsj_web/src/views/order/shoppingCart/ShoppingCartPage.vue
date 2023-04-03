@@ -1,11 +1,11 @@
 <template>
   <div>
-    <shopping-cart-form/>
+    <shopping-cart-form :cartItem="cartItem"/>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import ShoppingCartForm from '@/components/order/ShoppingCartForm.vue'
 
 const orderModule = 'orderModule'
@@ -13,18 +13,20 @@ const orderModule = 'orderModule'
 export default {
     name: "ShoppingCartPage",
     components: { ShoppingCartForm },
+    computed: {
+        ...mapState(
+            orderModule, ['cartItem'] 
+        ),
+    },
     methods:{
-      ...mapActions(orderModule, [
-        'reqDeleteCartItemFromSpring',
-      ]),
-      deleteCartItem(payload) {
-        const selectCartItemId = payload
-        this.reqDeleteCartItemFromSpring(selectCartItemId)
-      },
+        ...mapActions(orderModule, [
+            'reqCartItemToSpring'
+        ]),
     },
-    mounted() {
-      
-    },
+    async created () { 
+        this.cartItem = {}; // cartItem 초기화
+        await this.reqCartItemToSpring(); 
+    }    
 }
 </script>
 

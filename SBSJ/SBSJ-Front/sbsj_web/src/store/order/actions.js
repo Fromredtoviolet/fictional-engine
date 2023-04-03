@@ -1,5 +1,5 @@
 import {
-    
+    REQUEST_CART_ITEM_TO_SPRING
 } from "./mutation-types";
 
 import axiosInst from "@/utility/axiosObject";
@@ -42,4 +42,14 @@ export default {
                 commit(RESPONSE_MY_REQUEST, res.data);
             });
     },
+
+    // 디비 정보 받아오기
+    reqCartItemToSpring({commit}, cartItemId) {
+        return axiosInst.get(`/cart/${cartItemId}`)
+            .then((res) => {
+                commit(REQUEST_CART_ITEM_TO_SPRING, res.data)
+            })
+    },
+
+
 }

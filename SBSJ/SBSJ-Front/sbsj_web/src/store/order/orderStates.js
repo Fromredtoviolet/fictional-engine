@@ -1,7 +1,6 @@
 export default {
-    orders: [],
-    order: {},
-
-    cartList: [],
+    
+    cartItems: [],
+    cartItem: {},
     
 }
