@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <div class="grey lighten-4">
         <v-row class="white">
             <v-col cols="auto">
@@ -43,15 +43,15 @@
                 <div class="item-info-yes"> 
                     <v-row>
                         <v-col>
-                            <v-card class="ms-8 pa-5" max-width="720" flat outlined
-                                v-for="(cartItem, index) in cartItems" :key="index">
+                            <v-card class="ms-8 pa-5" 
+                                max-width="720" flat outlined> <!-- v-for="(cartItem, index) in cartItems" :key="index"-->
                                 <v-list-item three-line>
                                     <v-list-item-content class="ms-1">
                                         <div class="itemCheck" align="left">
                                            <v-checkbox
                                                 class="itemCheckbox"
                                                 v-model="checkedValues"
-                                                value="cartItem"
+                                                value="1"
                                             /> <!-- 디비 불러올 때 value 수정을 염두에 둘 것 -->
                                         </div>
                                         <v-list-item-title class="item-name headline" @click="productView()">
@@ -90,7 +90,7 @@
                                             x-small
                                             elevation="0"
                                             color="white"
-                                            @click="qtyDecrease(item)"
+                                            @click="qtyDecrease(cartItem)"
                                         >
                                             <v-icon>mdi-minus</v-icon>
                                         </v-btn>
@@ -100,7 +100,7 @@
                                             x-small
                                             elevation="0"
                                             color="white"
-                                            @click="qtyIncrease(item)"
+                                            @click="qtyIncrease(cartItem)"
                                         >
                                             <v-icon>mdi-plus</v-icon>
                                         </v-btn>
@@ -112,7 +112,7 @@
                                         class="me-2" 
                                         outlined 
                                         color="teal"
-                                        @click="btnDirectPurchase(item, index)"
+                                        @click="btnDirectPurchase(cartItem, index)"
                                     >
                                     구매
                                     </v-btn>
@@ -172,7 +172,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+
+import { mapActions, mapState } from "vuex";
 
 const orderModule = 'orderModule'
 
@@ -190,18 +191,25 @@ export default {
 
             //카트 아이템 삭제
             selectCartItemId: [],
-
-            cartItems: []
-
         }
     },
-    props: {
-        cartItems: {
-            type: Array,
-            required: true,
-        },
+    computed: {
+        ...mapState(orderModule, [
+            'cartItems',
+        ]),
+        isEmptyCart() {
+            return this.cartItems.length === 0;
+        }
+        // 값이 true이면 없는 것이고, false이면 있는 것
+    },
+    created() {
+        console.log("isEmptyCart: ", this.isEmptyCart);
     },
     methods: {
+        ...mapActions(orderModule, [
+            'reqCartItemCountChangeToSpring'
+        ]),
+
         backHome () {
             this.$router.push({ name:'home' })
         },
@@ -247,25 +255,19 @@ export default {
             // 가격을 n,000 원 단위 포맷으로 가공
             return this.$currencyFormat(value);
         },
-        
-        /*
-        ...mapActions([
-            'reqCartItemCountChangeToSpring'
-        ]),
 
-        async qtyDecrease(item) {
-            if (item.count > 1) {
-                item.count--
+        async qtyDecrease(cartItem) {
+            if (cartItem.count > 1) {
+                cartItem.count--
             } else {
-                item.count = 1
+                cartItem.count = 1
             }
             var payload =  {
-                'itemId': item.itemId, 
-                'count': item.count, 
-                'selectedProductAmount': item.product.price * item.count
+                'cartItemId': cartItem.cartItemId, 
+                'count': cartItem.count
             }
             await this.reqCartItemCountChangeToSpring(payload);
-            this.res = this.$store.state.resMyRequest;
+            this.res = this.$store.state.orderModule.resMyRequest;
 
             if (this.res === 1) {
                 console.log("수량 변경 성공");
@@ -274,16 +276,15 @@ export default {
             }
         },
 
-        async qtyIncrease(item) {
-            item.count++
+        async qtyIncrease(cartItem) {
+            cartItem.count++
             
             var payload =  {
-                'itemId':item.itemId, 
-                'count':item.count, 
-                'selectedProductAmount': item.product.price * item.count
+                'cartItemId':cartItem.cartItemId, 
+                'count':cartItem.count
             }
             await this.reqCartItemCountChangeToSpring(payload);
-            this.res = this.$store.state.resMyRequest;
+            this.res = this.$store.state.orderModule.resMyRequest;
 
             if (this.res === 1) {
                 console.log("수량 변경 성공");
@@ -292,7 +293,7 @@ export default {
             }
         },
 
-        
+        /*
 
         async btnDirectPurchase(item, index){
             // 바로 구매 (낱개 구매)

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <shopping-cart-form :cartItem="cartItem"/>
+    <shopping-cart-form/>
   </div>
 </template>
 
@@ -9,24 +9,31 @@ import { mapActions, mapState } from "vuex";
 import ShoppingCartForm from '@/components/order/ShoppingCartForm.vue'
 
 const orderModule = 'orderModule'
+const accountModule = 'accountModule'
 
 export default {
     name: "ShoppingCartPage",
     components: { ShoppingCartForm },
     computed: {
-        ...mapState(
-            orderModule, ['cartItem'] 
-        ),
+        ...mapState(accountModule, {
+            isAuthenticated: state => state.isAuthenticated
+        }),
     },
     methods:{
         ...mapActions(orderModule, [
-            'reqCartItemToSpring'
+            'reqCartItemListToSpring'
         ]),
     },
-    async created () { 
-        this.cartItem = {}; // cartItem 초기화
-        await this.reqCartItemToSpring(); 
-    }    
+    async mounted () { 
+        if(this.isAuthenticated === true) {
+            let tokenObj = localStorage.getItem('userInfo');
+            let token = await tokenObj.token;
+
+            console.log(token);
+
+            this.reqCartItemListToSpring(token)
+        }
+    },    
 }
 </script>
 

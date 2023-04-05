@@ -11,7 +11,7 @@
                             <product-category-header></product-category-header>
                         </div>
                         <div class="clear-fix"></div>
-                        <jpa-product-list v-bind:products="products"></jpa-product-list>
+                        <jpa-product-list :products="products"></jpa-product-list>
                         <div class="clear-fix"></div>
                     </div>
                 </div>
@@ -23,26 +23,30 @@
     </section>
   </template>
   
-  <script>
+<script>
+
 import { mapActions, mapState } from 'vuex';
 import JpaProductList from '@/components/product/JpaProductList.vue';
 import ProductSearchFilter from '@/components/product/JpaSearchFilter.vue';
 import ProductCategoryHeader from '@/components/product/ProductCategoryHeader.vue';
-  
+
+const productModule = 'productModule'
   export default {
     name: "ProductPage",
     components: {JpaProductList, ProductSearchFilter, ProductCategoryHeader},
+
     computed: {
-        ...mapState([
+        ...mapState(productModule, [
             'products'
-            ]),
+            ])
     },
     mounted () {
-        this.requestProductListtoSpring()
-    },
+        this.requestProductListToSpring()
+        },
+
     methods: {
-        ...mapActions([
-            'requestProductListtoSpring'
+        ...mapActions(productModule, [
+            'requestProductListToSpring'
         ])
     }
   }
@@ -71,7 +75,7 @@ import ProductCategoryHeader from '@/components/product/ProductCategoryHeader.vu
         float: right;
         display: block;
         padding-top: 20px;
-        background-color: orange;
+        background-color: none;
     }
 
     .header {

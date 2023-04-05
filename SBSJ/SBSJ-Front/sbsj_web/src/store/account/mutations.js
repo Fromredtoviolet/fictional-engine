@@ -1,14 +1,13 @@
 import {
-    REQUEST_ACCOUNT_LIST_TO_SPRING,
-    REQUEST_ACCOUNT_TO_SPRING
+    COMMIT_IS_AUTHENTICATED,
+    REQUEST_MY_PAGE_MEMBER_INFO
 } from './mutation-types'
 
 export default {
-[REQUEST_ACCOUNT_LIST_TO_SPRING] (state, passingData) {
-    state.accounts = passingData
-},
-
-[REQUEST_ACCOUNT_TO_SPRING] (state, passingData) {
-    state.account = passingData
-},
-}
+    [COMMIT_IS_AUTHENTICATED] (state, passingData) {
+        state.isAuthenticated = passingData;
+    },
+    [REQUEST_MY_PAGE_MEMBER_INFO] (state, passingData) {
+        state.member = passingData;
+    }
+}   
