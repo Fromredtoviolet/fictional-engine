@@ -24,14 +24,13 @@ export default {
             'reqCartItemListToSpring'
         ]),
     },
-    async mounted () { 
+    mounted () { 
         if(this.isAuthenticated === true) {
-            let tokenObj = localStorage.getItem('userInfo');
-            let token = await tokenObj.token;
+            let userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
-            console.log(token);
+            console.log(userInfo);
 
-            this.reqCartItemListToSpring(token)
+            this.reqCartItemListToSpring(userInfo);
         }
     },    
 }

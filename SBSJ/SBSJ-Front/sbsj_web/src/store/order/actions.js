@@ -36,9 +36,10 @@ export default {
 
 
     // 장바구니 목록 조회
-    reqCartItemListToSpring({commit}, token) {
-        return axiosInst.post("/cart/list",{ token
-            }).then((res) => {
+    reqCartItemListToSpring({commit}, userInfo) {
+        console.log(userInfo)
+        return axiosInst.post("/cart/list",userInfo
+            ).then((res) => {
                 commit(REQUEST_CART_ITEM_LIST_TO_SPRING, res.data)
             })
     },
