@@ -1,6 +1,8 @@
 import {
     REQUEST_MY_PAGE_DELIVERY_LIST_TO_SPRING,
-    REQUEST_CART_ITEM_LIST_TO_SPRING
+    REQUEST_CART_ITEM_LIST_TO_SPRING,
+    RESPONSE_COUNT_REQUEST,
+
 } from "./mutation-types";
 
 import axiosInst from "@/utility/axiosObject";
@@ -36,19 +38,25 @@ export default {
 
 
     // 장바구니 목록 조회
-    reqCartItemListToSpring({commit}, userInfo) {
-        console.log(userInfo)
-        return axiosInst.post("/cart/list",userInfo
+    reqCartItemListToSpring({ commit }, userInfo) {
+        return axiosInst.post("/cart/list", userInfo
             ).then((res) => {
-                commit(REQUEST_CART_ITEM_LIST_TO_SPRING, res.data)
-            })
+                console.log("res.data: " + JSON.stringify(res.data));
+                // 서버에서 반환한 응답 결과를 확인
+                if (typeof res.data === "string" && res.data.trim() !== "") {
+                    const cartItems = JSON.parse(res.data);
+                    commit(REQUEST_CART_ITEM_LIST_TO_SPRING, cartItems);
+                } else {
+                    commit(REQUEST_CART_ITEM_LIST_TO_SPRING, res.data);
+                }
+            });
     },
 
     // 장바구니에 든 상품 수량 변경
     reqCartItemCountChangeToSpring({commit}, payload) {
         return axiosInst.post("/cart/changeCartItemCount", payload)
             .then((res) => {
-                commit(RESPONSE_MY_REQUEST, res.data)
+                commit(RESPONSE_COUNT_REQUEST, res.data)
             })
     },
 

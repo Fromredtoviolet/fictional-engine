@@ -25,35 +25,36 @@
   
 <script>
 
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState } from "vuex";
 import JpaProductList from '@/components/product/JpaProductList.vue';
 import ProductSearchFilter from '@/components/product/JpaSearchFilter.vue';
 import ProductCategoryHeader from '@/components/product/ProductCategoryHeader.vue';
 
 const productModule = 'productModule'
-  export default {
+
+export default {
     name: "ProductPage",
     components: {JpaProductList, ProductSearchFilter, ProductCategoryHeader},
-
     computed: {
         ...mapState(productModule, [
             'products'
-            ])
+        ]),
     },
     mounted () {
-        this.requestProductListToSpring()
+            this.requestProductListToSpring()
         },
 
     methods: {
         ...mapActions(productModule, [
             'requestProductListToSpring'
-        ])
+        ]),
+        
     }
-  }
+}
   
-  </script>
+</script>
   
-  <style>
+<style>
     .clear-fix::after {
         display: block;
         visibility: hidden;
@@ -115,4 +116,4 @@ const productModule = 'productModule'
         padding: 0;
         display: block;
     }
-  </style>
+</style>
