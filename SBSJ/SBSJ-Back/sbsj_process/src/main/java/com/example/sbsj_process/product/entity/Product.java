@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
-@ToString
+@Getter
 public class Product {
 
     @Id

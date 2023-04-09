@@ -2,27 +2,28 @@ package com.example.sbsj_process.account.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+@Getter
 @Entity
 @NoArgsConstructor
 public class Member {
 
     @Id
-    @Getter
     @Column(length = 16)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberNo;
+    private Long memberId;
 
     @Column(length = 16,unique = true, nullable = false)
-    private String id;
+    private String userId;
 
-    public Member(String id) {
-        this.id = id;
+    public Member(String userId) {
+        this.userId = userId;
     }
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

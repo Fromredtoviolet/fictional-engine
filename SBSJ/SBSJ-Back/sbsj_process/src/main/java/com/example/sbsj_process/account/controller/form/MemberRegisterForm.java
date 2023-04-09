@@ -1,5 +1,6 @@
 package com.example.sbsj_process.account.controller.form;
 
+
 import com.example.sbsj_process.account.service.request.MemberRegisterRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,14 +14,14 @@ import lombok.ToString;
 public class MemberRegisterForm {
 
     private String name;
-    private String id;
+    private String userId;
     private String password;
     private String email;
     private String birthday;
     private String phoneNumber;
 
     public MemberRegisterRequest toMemberRegisterRequest () {
-        return new MemberRegisterRequest(name, id, password, email, birthday, phoneNumber);
+        return new MemberRegisterRequest(name, userId, password, email, birthday, phoneNumber);
     }
 
 }

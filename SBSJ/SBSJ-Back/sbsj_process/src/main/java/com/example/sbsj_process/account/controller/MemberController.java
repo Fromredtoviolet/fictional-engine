@@ -2,11 +2,17 @@ package com.example.sbsj_process.account.controller;
 
 import com.example.sbsj_process.account.controller.form.MemberLoginForm;
 import com.example.sbsj_process.account.controller.form.MemberRegisterForm;
+
 import com.example.sbsj_process.account.service.MemberService;
+import com.example.sbsj_process.account.service.request.MemberCheckPasswordRequest;
+import com.example.sbsj_process.account.service.request.MyPageUpdateRequest;
+import com.example.sbsj_process.account.service.response.MemberInfoResponse;
+import com.example.sbsj_process.account.service.response.MemberLoginResponse;
 import com.example.sbsj_process.security.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
 import javax.transaction.Transactional;
 
 
@@ -26,15 +32,16 @@ public class MemberController {
         return memberService.signUp(form.toMemberRegisterRequest());
     }
 
-    @PostMapping("/sign-up/check-id/{id}")
-    public Boolean idValidation(@PathVariable("id") String id) {
-        log.info("idValidation(): " + id);
+    @PostMapping("/sign-up/check-userId/{userId}")
+    public Boolean userIdValidation(@PathVariable("userId") String userId) {
+        log.info("userIdValidation(): " + userId);
 
-        return memberService.idValidation(id);
+        return memberService.userIdValidation(userId);
     }
 
+
     @PostMapping("/sign-up/check-email/{email}")
-    public Boolean emailValidation(@PathVariable("email") String email) {
+    public Boolean emailValidation(@PathVariable String email) {
         log.info("emailValidation(): " + email);
 
         return memberService.emailValidation(email);
@@ -48,7 +55,7 @@ public class MemberController {
     }
 
     @PostMapping("/sign-in")
-    public String signIn(@RequestBody MemberLoginForm form) {
+    public MemberLoginResponse signIn(@RequestBody MemberLoginForm form) {
         log.info("signIn(): " + form);
 
         return memberService.signIn(form.toMemberLoginRequest());
@@ -56,7 +63,7 @@ public class MemberController {
 
     @PostMapping("/logout")
     public void logout(@RequestBody String token) {
-        token = token.substring(0, token.length() - 1);
+        token = token.substring(1, token.length() - 1);
         log.info("logout(): " + token);
 
         redisService.deleteByKey(token);
@@ -65,13 +72,35 @@ public class MemberController {
     @Transactional
     @PostMapping("/resign")
     public void resign(@RequestBody String token) {
-        token = token.substring(0, token.length() - 1);
+        token = token.substring(1, token.length() - 1);
         log.info("resign(): "+ token);
 
-        Long memberNo = redisService.getValueByKey(token);
+        Long memberId = redisService.getValueByKey(token);
 
-        memberService.delete(memberNo);
+        memberService.delete(memberId);
         redisService.deleteByKey(token);
+    }
+
+    @PostMapping("/mypage/check-password")
+    public Boolean passwordValidation(@RequestBody MemberCheckPasswordRequest memberRequest) {
+        log.info("passwordValidation(): "+ memberRequest);
+
+        return memberService.passwordValidation(memberRequest);
+    }
+
+    @PostMapping("/mypage/memberInfo/{memberId}")
+    public MemberInfoResponse getMemberInfo(@PathVariable("memberId") Long memberId) {
+        log.info("getMemberInfo(): "+ memberId);
+
+        return memberService.getMemberInfo(memberId);
+    }
+
+    @PostMapping("/mypage/memberInfo/update/{memberId}")
+    public Boolean updateMemberInfo(@PathVariable("memberId") Long memberId,
+                                    @RequestBody MyPageUpdateRequest myPageUpdateRequest) {
+        log.info("updateMemberInfo(): "+ memberId +", "+ myPageUpdateRequest);
+
+        return memberService.updateMemberInfo(memberId, myPageUpdateRequest);
     }
 
 }

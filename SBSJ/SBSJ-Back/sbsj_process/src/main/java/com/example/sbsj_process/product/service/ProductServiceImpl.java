@@ -1,12 +1,13 @@
 package com.example.sbsj_process.product.service;
 
+import com.example.sbsj_process.product.controller.form.ProductListResponse;
 import com.example.sbsj_process.product.entity.Image;
 import com.example.sbsj_process.product.entity.Product;
 import com.example.sbsj_process.product.entity.ProductInfo;
 import com.example.sbsj_process.product.repository.ImageRepository;
 import com.example.sbsj_process.product.repository.ProductInfoRepository;
 import com.example.sbsj_process.product.repository.ProductRepository;
-import com.example.sbsj_process.product.service.request.ProductRegisterRequest;
+import com.example.sbsj_process.product.request.ProductRegisterRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,30 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class ProductServiceImpl implements ProductService{
+
     private final ProductRepository productRepository;
     private final ProductInfoRepository productInfoRepository;
     private final ImageRepository imageRepository;
-    public void register(List<MultipartFile> imageFileList, ProductRegisterRequest productRegisterRequest) {
 
+    public List<ProductListResponse> getDefaultList() {
+        List<ProductListResponse> productListResponses = new ArrayList<>();
+        List<Product> products = productRepository.findAll();
+        String title, thumbnail;
+        Long productId, price, wish;
+
+        for(int i = 0; i < products.size(); i++) {
+            title = products.get(i).getProductName();
+            productId = products.get(i).getProductId();
+            thumbnail = imageRepository.findByProductId(productId).getThumbnail();
+            price = productInfoRepository.findByProductId(productId).getPrice();
+            wish = productInfoRepository.findByProductId(productId).getWish();
+
+            ProductListResponse productListResponse = new ProductListResponse(title, thumbnail, price, productId, wish);
+            productListResponses.add(productListResponse);
+        }
+        return productListResponses;
+    }
+    public void register(List<MultipartFile> imageFileList, ProductRegisterRequest productRegisterRequest) {
         Product product = productRegisterRequest.toProduct(); // Create Product
 
         ProductInfo productInfo = productRegisterRequest.toProductInfo(); // Create ProductInfo
@@ -37,13 +57,13 @@ public class ProductServiceImpl implements ProductService{
         Image image = new Image(thumbnail, detail); // Create Image
         image.setProduct(product);
 
-
         // Deep Copy to Frontend Server File System
         final String fixedStringPath = "../../SBSJ-Front/sbsj_web/src/assets/productImgs/";
         try {
             log.info("requestFileUploadWithText() - Filename: " + thumbnail);
             FileOutputStream writer = new FileOutputStream(fixedStringPath + thumbnail);
             writer.write(imageFileList.get(0).getBytes()); // save thumbnail image
+
             log.info("requestFileUploadWithText() - Filename: " + detail);
             writer = new FileOutputStream(fixedStringPath + detail);
             writer.write(imageFileList.get(1).getBytes()); // save detail image

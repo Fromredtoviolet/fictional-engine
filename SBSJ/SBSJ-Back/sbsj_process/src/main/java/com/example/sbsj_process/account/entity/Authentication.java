@@ -1,6 +1,8 @@
 package com.example.sbsj_process.account.entity;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -15,11 +17,13 @@ public abstract class Authentication {
     public static final String BASIC_AUTH = "BASIC";
 
     @Id
+    @Setter
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id = null;
+    private Long authenticationId = null;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_no")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @Column(name = "authentication_type", nullable = false, insertable = false, updatable = false)
