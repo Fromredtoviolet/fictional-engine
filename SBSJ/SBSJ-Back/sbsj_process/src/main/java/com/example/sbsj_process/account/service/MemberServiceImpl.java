@@ -7,13 +7,13 @@ import com.example.sbsj_process.account.entity.MemberProfile;
 import com.example.sbsj_process.account.repository.AuthenticationRepository;
 import com.example.sbsj_process.account.repository.MemberProfileRepository;
 import com.example.sbsj_process.account.repository.MemberRepository;
-
 import com.example.sbsj_process.account.service.request.MemberCheckPasswordRequest;
 import com.example.sbsj_process.account.service.request.MemberLoginRequest;
 import com.example.sbsj_process.account.service.request.MemberRegisterRequest;
-import com.example.sbsj_process.account.service.request.MyPageUpdateRequest;
+import com.example.sbsj_process.account.service.request.MyPageModifyRequest;
 import com.example.sbsj_process.account.service.response.MemberInfoResponse;
 import com.example.sbsj_process.account.service.response.MemberLoginResponse;
+import com.example.sbsj_process.order.repository.DeliveryRepository;
 import com.example.sbsj_process.security.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +28,7 @@ public class MemberServiceImpl implements MemberService {
 
     final private MemberRepository memberRepository;
     final private MemberProfileRepository memberProfileRepository;
+    final private DeliveryRepository deliveryRepository;
     final private AuthenticationRepository authenticationRepository;
     final private RedisService redisService;
 
@@ -91,11 +92,9 @@ public class MemberServiceImpl implements MemberService {
     public MemberLoginResponse signIn(MemberLoginRequest memberLoginRequest) {
         Optional<Member> maybeMember = memberRepository.findByUserId(memberLoginRequest.getUserId());
 
-        MemberLoginResponse memberLoginResponse = new MemberLoginResponse();
-
         if(maybeMember.isPresent()) {
             Member member = maybeMember.get();
-            memberLoginResponse.setMemberId(member.getMemberId());
+            MemberLoginResponse memberLoginResponse = new MemberLoginResponse(member.getMemberId());
 
             if(!member.isRightPassword(memberLoginRequest.getPassword())) {
                 memberLoginResponse.setToken("incorrect");
@@ -112,12 +111,13 @@ public class MemberServiceImpl implements MemberService {
             return memberLoginResponse;
         }
 
+        MemberLoginResponse memberLoginResponse = new MemberLoginResponse();
         memberLoginResponse.setToken("no");
         return memberLoginResponse;
     }
 
     @Override
-    public void delete(Long memberId) {
+    public void resign(Long memberId) {
         System.out.println("서비스에서 보는 delete memberNo: "+ memberId);
         Optional<Member> maybeMember = memberRepository.findByMemberId(memberId);
 
@@ -127,12 +127,10 @@ public class MemberServiceImpl implements MemberService {
             return;
         }
 
-        if(maybeMember.isPresent()) {
-            Member member = maybeMember.get();
-            memberProfileRepository.deleteByMember(member);
-            memberRepository.deleteByMemberId(memberId);
-        }
-
+        Member member = maybeMember.get();
+        deliveryRepository.deleteByMember_MemberId(memberId);
+        memberProfileRepository.deleteByMember(member);
+        memberRepository.deleteByMemberId(memberId);
     }
 
     @Override
@@ -167,7 +165,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Boolean updateMemberInfo(Long memberId, MyPageUpdateRequest myPageUpdateRequest) {
+    public Boolean updateMemberInfo(Long memberId, MyPageModifyRequest myPageModifyRequest) {
         Optional<Member> maybeMember = memberRepository.findByMemberId(memberId);
         Optional<MemberProfile> maybeMemberProfile = memberProfileRepository.findByMember_MemberId(memberId);
         Optional<Authentication> maybeAuthentication = authenticationRepository.findByMember_MemberId(memberId);
@@ -179,15 +177,15 @@ public class MemberServiceImpl implements MemberService {
         Member member = maybeMember.get();
         memberRepository.save(member);
 
-        MemberProfile memberProfile = myPageUpdateRequest.toMemberProfile(member);
+        MemberProfile memberProfile = myPageModifyRequest.toMemberProfile(member);
         memberProfile.setMemberProfileId(maybeMemberProfile.get().getMemberProfileId());
         memberProfileRepository.save(memberProfile);
 
-        if(!myPageUpdateRequest.getNewPassword().equals("")) {
+        if(!myPageModifyRequest.getNewPassword().equals("")) {
             final BasicAuthentication authentication = new BasicAuthentication(
                     member,
                     Authentication.BASIC_AUTH,
-                    myPageUpdateRequest.getNewPassword()
+                    myPageModifyRequest.getNewPassword()
             );
 
             authentication.setAuthenticationId(maybeAuthentication.get().getAuthenticationId());
@@ -196,6 +194,5 @@ public class MemberServiceImpl implements MemberService {
 
         return true;
     }
-
 
 }

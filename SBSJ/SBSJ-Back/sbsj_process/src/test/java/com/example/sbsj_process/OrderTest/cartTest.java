@@ -44,11 +44,8 @@ public class cartTest {
 
     @Test
     public void 장바구니에_상품_추가_테스트 () {
-        // 장바구니에 상품 추가가 어떻게 되는 것인가 ?
-        // 흐름 파악이 잘 안됨
-        // memberId는 세션, productId는 props
         AddCartRequest addCartRequest =
-                new AddCartRequest(2L, 2L, 1L);
+                new AddCartRequest(1L, 4L, 2L);
 
         Long memberId = addCartRequest.getMemberId();
         Long productId = addCartRequest.getProductId();
@@ -104,7 +101,7 @@ public class cartTest {
 
     @Test
     public void 장바구니에서_상품_삭제_테스트 () {
-        List<Long> selectCartItemId = Arrays.asList(11L); // 원하는 아이템 ID 넣기
+        List<Long> selectCartItemId = Arrays.asList(3L); // 원하는 아이템 ID 넣기
         SelectCartItemRequest selectCartItemRequest = new SelectCartItemRequest(selectCartItemId);
 
         cartService.deleteCartItem(selectCartItemRequest);
@@ -114,12 +111,11 @@ public class cartTest {
 
     @Test
     public void 장바구니_아이템_조회_테스트 () {
-        //UserInfoRequest userInfoRequest = new UserInfoRequest();
-        final Long memberId = 1L;
-        //List<CartItem> cartItemList = cartService.findCartItemByMemberId(memberId);
-        List<CartItem> cartItemList = cartItemRepository.findCartItemListWithMemberId(memberId);
-        System.out.println("cartItemList: " + cartItemList);
+        UserInfoRequest userInfoRequest = new UserInfoRequest();
+        userInfoRequest.setMemberId(1L);
 
-        //System.out.println("장바구니 아이템 조회 테스트: "+ cartItemList.toString());
+        List<CartItemListResponse> cartItemListResponseList = cartService.returnCartItemList(userInfoRequest);
+
+        System.out.println("카트아이템리스트 리스폰스 조회: " + cartItemListResponseList);
     }
 }

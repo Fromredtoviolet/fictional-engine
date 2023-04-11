@@ -2,11 +2,10 @@ package com.example.sbsj_process.AccountTest;
 
 import com.example.sbsj_process.account.repository.AuthenticationRepository;
 import com.example.sbsj_process.account.repository.MemberRepository;
-
-import com.example.sbsj_process.account.service.MemberService;
 import com.example.sbsj_process.account.service.request.MemberLoginRequest;
 import com.example.sbsj_process.account.service.request.MemberRegisterRequest;
 import com.example.sbsj_process.account.service.response.MemberLoginResponse;
+import com.example.sbsj_process.account.service.MemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

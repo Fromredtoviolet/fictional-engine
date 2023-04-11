@@ -5,7 +5,6 @@ import com.example.sbsj_process.account.repository.MemberProfileRepository;
 import com.example.sbsj_process.account.repository.MemberRepository;
 import com.example.sbsj_process.order.entity.Delivery;
 import com.example.sbsj_process.order.repository.DeliveryRepository;
-
 import com.example.sbsj_process.order.service.request.DeliveryRegisterRequest;
 import com.example.sbsj_process.order.service.response.DeliveryListResponse;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +54,19 @@ public class DeliveryServiceImpl implements DeliveryService{
             deliveryListResponseList.add(deliveryListResponse);
         }
         return deliveryListResponseList;
+    }
+
+    @Override
+    public Boolean delete(Long addressId) {
+        Optional<Delivery> maybeDelivery = deliveryRepository.findByAddressId(addressId);
+
+        if(maybeDelivery.isEmpty()) {
+            System.out.println("addressId 에 해당하는 배송지 정보가 없습니다.");
+            return false;
+        }
+
+        deliveryRepository.delete(maybeDelivery.get());
+        return true;
     }
 
 }

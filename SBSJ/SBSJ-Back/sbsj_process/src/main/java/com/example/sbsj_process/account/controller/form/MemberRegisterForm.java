@@ -1,6 +1,5 @@
 package com.example.sbsj_process.account.controller.form;
 
-
 import com.example.sbsj_process.account.service.request.MemberRegisterRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

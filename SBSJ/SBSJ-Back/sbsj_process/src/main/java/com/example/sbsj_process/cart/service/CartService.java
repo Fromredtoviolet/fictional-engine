@@ -16,7 +16,7 @@ public interface CartService {
 
     public void deleteCartItem(SelectCartItemRequest selectCartItemRequest);
 
-    public List<CartItem> returnCartItemList(UserInfoRequest userInfoRequest);
+    public List<CartItemListResponse> returnCartItemList(UserInfoRequest userInfoRequest);
 
     String changeCartItemCount (ChangeCartItemCountRequest changeCartItemCountRequest);
 }
