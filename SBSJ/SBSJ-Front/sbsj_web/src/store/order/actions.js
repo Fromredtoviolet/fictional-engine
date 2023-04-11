@@ -1,13 +1,25 @@
 import {
-    REQUEST_MY_PAGE_DELIVERY_LIST_TO_SPRING,
     REQUEST_CART_ITEM_LIST_TO_SPRING,
+    REQUEST_MY_PAGE_DELIVERY_LIST_TO_SPRING,
     RESPONSE_COUNT_REQUEST,
-
 } from "./mutation-types";
 
 import axiosInst from "@/utility/axiosObject";
 
 export default { 
+
+    // 장바구니에서 삭제
+    reqDeleteCartItemFromSpring({}, payload) {
+        const selectCartItemId = payload
+
+        return axiosInst.post("/cart/deleteCartItem", { selectCartItemId })
+            .then(() => {
+                alert("장바구니에서 삭제되었습니다.")
+            })
+            .catch(() => {
+                alert("문제가 발생하여 삭제되지 않았습니다.")
+            });
+    },
 
     // 장바구니에 추가
     reqAddCartToSpring({}, payload) {
@@ -23,33 +35,14 @@ export default {
             });
     },
 
-    // 장바구니에서 삭제
-    reqDeleteCartItemFromSpring({}, payload) {
-        const selectCartItemId = payload
-
-        return axiosInst.post("/cart/deleteCartItem", { selectCartItemId })
-            .then(() => {
-                alert("장바구니에서 삭제되었습니다.")
-            })
-            .catch(() => {
-                alert("문제가 발생하여 삭제되지 않았습니다.")
-            });
-    },
-
-
     // 장바구니 목록 조회
-    reqCartItemListToSpring({ commit }, userInfo) {
-        return axiosInst.post("/cart/list", userInfo
-            ).then((res) => {
-                console.log("res.data: " + JSON.stringify(res.data));
-                // 서버에서 반환한 응답 결과를 확인
-                if (typeof res.data === "string" && res.data.trim() !== "") {
-                    const cartItems = JSON.parse(res.data);
-                    commit(REQUEST_CART_ITEM_LIST_TO_SPRING, cartItems);
-                } else {
-                    commit(REQUEST_CART_ITEM_LIST_TO_SPRING, res.data);
-                }
-            });
+    async reqCartItemListToSpring({commit}, userInfo) {
+        console.log("reqCartItemListToSpring userInfo: " + userInfo.token);
+        return await axiosInst.post("/cart/list", userInfo)
+            .then((res) => {
+                console.log("res.data: " + res.data.cartItemId)
+                commit(REQUEST_CART_ITEM_LIST_TO_SPRING, res.data)
+            })
     },
 
     // 장바구니에 든 상품 수량 변경
@@ -73,9 +66,7 @@ export default {
     reqMyPageRegisterDeliveryToSpring({}, payload) {
         const { memberId, addressName, addressType, recipientName, phoneNumber, 
                 city, street, addressDetail, zipcode, defaultAddress } = payload
-        console.log(memberId, addressName, addressType, recipientName, phoneNumber, 
-                    city, street, addressDetail, zipcode, defaultAddress);
-        return axiosInst.post("/delivery/register/", 
+        return axiosInst.post("/delivery/register", 
                { memberId, addressName, addressType, recipientName, phoneNumber, 
                  city, street, addressDetail, zipcode, defaultAddress })
             .then(() => {
@@ -85,5 +76,36 @@ export default {
                 alert('문제 발생!')
             })
     },
-
+    reqMyPageDeleteDeliveryToSpring({}, addressId) {
+        return axiosInst.get(`/delivery/delete/${addressId}`)
+            .then((res) => {
+                alert(addressId +", 배송지 삭제 완료! "+ res.data);
+            })
+            .catch((res) => {
+                alert("문제 발생! "+ res.data);
+            })
+    },
+    reqMyPageCheckDefaultAddressToSpring({}, defaultAddress) {
+        return axiosInst.get(`/delivery/register/check-defaultAddress/${defaultAddress}`)
+            .then((res) => {
+                return res.data
+            })
+            .catch(() => {
+                alert("문제 발생!")
+            })
+    },
+    reqMyPageModifyDeliveryToSpring({}, payload) {
+        const { addressId, memberId, addressName, addressType, recipientName, phoneNumber, 
+                city, street, addressDetail, zipcode, defaultAddress } = payload
+        return axiosInst.post("/delivery/modify", 
+                { addressId, memberId, addressName, addressType, recipientName, phoneNumber, 
+                  city, street, addressDetail, zipcode, defaultAddress })
+            .then(() => {
+                alert("배송지 수정 완료!")
+            })
+            .catch(() => {
+                alert('문제 발생!')
+            })
+    }
+    
 }

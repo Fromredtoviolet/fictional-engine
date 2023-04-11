@@ -224,17 +224,22 @@ export default {
                 this.showIcon = true
             }
         },
-        addToCart() {
-            let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            const memberId = userInfo.memberId;
-            const { productId, count } = this
-            console.log(memberId + ', ' + productId +', '+ count)
+        async addToCart() {
+            if(this.isAuthenticated === true) {
+                let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+                const memberId = userInfo.memberId;
+                const productId = this
+                const count = 1
 
-            this.reqAddCartToSpring({memberId, productId, count})
-            
-            let goToCartMessage = confirm("장바구니로 이동하시겠습니까?")
-            if(goToCartMessage) {
-                this.$router.push({ name:'ShoppingCartPage' })
+                await this.reqAddCartToSpring( { memberId, productId, count } )
+
+                let goToCartMessage = confirm("장바구니로 이동하시겠습니까?")
+                if(goToCartMessage) {
+                    await this.$router.push({ name:'ShoppingCartPage' })
+                }
+            } else {
+                alert("로그인 후 사용가능합니다.")
+                this.$router.push({ name: 'SignInPage' })
             }
             
         },

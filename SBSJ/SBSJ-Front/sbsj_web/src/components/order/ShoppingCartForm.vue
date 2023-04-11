@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+    <v-container fluid>
     <div class="grey lighten-4">
         <v-row class="white">
             <v-col cols="auto">
@@ -13,7 +13,7 @@
         <div class="mt-0 pt-0 pb-10">
             
             <!-- 장바구니 상품 리스트-->
-            
+
             <div class="item-info-no" v-if="!cartItems || (Array.isArray(cartItems) && cartItems.length === 0)">
                 <div class="d-flex justify-center">
                     <v-icon x-large>mdi-cart-variant</v-icon>
@@ -29,12 +29,12 @@
                     <v-col class="itemCheck ms-8 mt-14">
                         <v-checkbox
                             class="allCheckbox"
-                            @change="allSelect"
+                            v-model="allChecked"
                             label="전체 선택" 
                         />
                     </v-col>
                     <v-col cols="auto" class="mt-16 me-8" justify="right">
-                        <v-btn text @click="deleteCartItemBtn">
+                        <v-btn text @click="deleteCartItem">
                             <v-icon>mdi-delete-outline</v-icon>
                             선택 삭제
                         </v-btn>
@@ -51,18 +51,18 @@
                                            <v-checkbox
                                                 class="itemCheckbox"
                                                 v-model="checkedValues"
-                                                value="1"
+                                                :value="cartItem.cartItemId"
                                             />
                                         </div>
                                         <v-list-item-title class="item-name headline" @click="productView()">
-                                            <a>상품명</a><!-- {{ cartItem.product.productName }} -->
+                                            <a>{{ cartItem.product.productName }}</a>
                                         </v-list-item-title>
 
                                         <v-spacer></v-spacer>
 
                                         <v-list-item-title>
                                             <div class="mt-5 text-h6">
-                                                10,000원 <!--{{  cartItem.count * cartItem.product.price }} 원 -->
+                                                {{  cartItem.count * cartItem.price }}원
                                             </div>
                                         </v-list-item-title>
 
@@ -70,13 +70,12 @@
 
                                     <v-list-item-avatar tile size="150">
                                         <v-img
-                                            :src="require(`@/assets/uploadImgs/${imageName}`)"
+                                            :src="require(`@/assets/productImgs/${cartItem.thumbnail}`)"
                                             aspect-ratio="1"
                                             max-width="200"
                                             max-height="200"
                                             contain
-                                        /> <!-- 현재는 테스트용 코드. 디비에 저장된 상품 썸네일 가져오는 방식으로 변경해야함 
-                                            :src="require(`@/assets/uploadImg/${cartItem.product.thumbnail}`)" -->
+                                        />
                                     </v-list-item-avatar>
                                 </v-list-item>
 
@@ -87,17 +86,17 @@
                                             x-small
                                             elevation="0"
                                             color="white"
-                                            @click="qtyDecrease(cartItem)"
+                                            @click="countDecrease(cartItem)"
                                         >
                                             <v-icon>mdi-minus</v-icon>
                                         </v-btn>
-                                        {{  cartItem.count }} <!--{{  cartItem.count }}-->
+                                        {{  cartItem.count }}
                                         <v-btn
                                             class="plusBtn ms-1"
                                             x-small
                                             elevation="0"
                                             color="white"
-                                            @click="qtyIncrease(cartItem)"
+                                            @click="countIncrease(cartItem)"
                                         >
                                             <v-icon>mdi-plus</v-icon>
                                         </v-btn>
@@ -162,7 +161,7 @@
             </div>
         </div>
     </div>
-  </v-container>
+    </v-container>
 </template>
 
 <script>
@@ -175,16 +174,8 @@ export default {
     name: "ShoppingCartForm",
     data () {
         return {
-            imageName: "img1.jpg",
-            // 임의로 넣은 테스트용 이미지임!!! 디비 불러오고나면 삭제할 것
-
-            totalPrice: 0,
-            
             checkedValues: [], 
             // 체크박스 v-model에 작성되어 있음
-
-            allChecked: false, 
-            // 전체선택 관련 메서드 allSelect에서 쓰임
 
             selectCartItemId: [],
             //카트 아이템 삭제
@@ -195,71 +186,73 @@ export default {
             'cartItems',
             'resCountRequest'
         ]),
+        totalPrice() {
+            let totalPrice = 0;
+            for (let i = 0; i < this.cartItems.length; i++) {
+                if (this.checkedValues.includes(this.cartItems[i].cartItemId)) {
+                    totalPrice += this.cartItems[i].price * this.cartItems[i].count;
+                }
+            }
+            return totalPrice;
+        },
+        allChecked: {
+            get() {
+                return this.checkedValues.length === this.cartItems.length;
+            },
+            set(value) {
+                this.toggleAll(value);
+            }
+        }
     },
-    mounted() {
+    created() {
         console.log("cartItems: " + JSON.stringify(this.cartItems));
-        console.log("첫번째 카트아이템: " + this.cartItems[0]);
-        console.log("배열 길이를 알려줘: " + this.cartItems.length);
-        
     },
     methods: {
         ...mapActions(orderModule, [
             'reqCartItemCountChangeToSpring',
+            'reqDeleteCartItemFromSpring'
         ]),
 
         backHome () {
             this.$router.push({ name:'home' })
         },
 
-        allSelect () {
-            const { allChecked } = this
-            if(allChecked == false) {
-                this.checkedValues = []
-                this.checkedValues.push("1")
-                this.allChecked = true
-            } else {
-                while(this.checkedValues.length > 0) {
-                    this.checkedValues.pop()
-                }
-                this.allChecked = false
-            }
+        toggleAll(value) {
+            this.checkedValues = value ? this.cartItems.map(cartItem => cartItem.cartItemId) : [];
         },
         
         productView(){
             alert("상품 상세 페이지로 이동합니다.")
             this.$router.push({ name: 'DetailProductPage'})
             // 상품 상세 페이지가 구체화되면 name 뒤에 , params: { productNo: cartItem.product.productId } 추가하여 수정
-            // 그렇게 되면 메서드 () 안에 item이나 product 넣어야 할 지도 생각해야 함
         },
 
-        deleteCartItemBtn(){
-            let deleteCartMessage = confirm("선택한 상품을 삭제하시겠습니까?")
-            if(deleteCartMessage){
-                for (let i = 0; i < this.checkedValues.length; i++) {
-                    this.selectCartItemId[i] //= this.checkedValues[i].cartItemId
-                }
-                this.$emit('deleteCartItem', this.selectCartItemId)
+        async deleteCartItem(payload) {
+            let deleteCartMessage = confirm("선택한 상품을 삭제하시겠습니까?");
+            if (deleteCartMessage) {
+                const selectCartItemId = this.checkedValues.map((cartItemId) => {
+                    const cartItem = this.cartItems.find((cartItem) => cartItem.cartItemId === cartItemId);
+                    return cartItem.cartItemId;
+                });
+                selectCartItemId = payload
+                await this.reqDeleteCartItemFromSpring(selectCartItemId);
+                this.$router.push({ name: 'ShoppingCartPage' }); // 삭제 후 카트 페이지로 재이동
             }
         },
 
-        selectItem(price, count){
-            console.log("가격과 수량: " + price + count)
-            console.log("선택한 상품 목록: " + this.checkedValues)
-            this.totalPrice = this.totalPrice + (price * count)
-        },
-
-        async qtyDecrease(cartItem) {
+        async countDecrease(cartItem) {
             if (cartItem.count > 1) {
                 cartItem.count--
             } else {
                 cartItem.count = 1
             }
+            
             var payload =  {
                 'cartItemId': cartItem.cartItemId, 
                 'count': cartItem.count
             }
             await this.reqCartItemCountChangeToSpring(payload);
-            this.res = this.$store.state.orderModule.resCountRequest;
+            this.res = this.resCountRequest;
 
             if (this.res === 1) {
                 console.log("수량 변경 성공");
@@ -268,7 +261,7 @@ export default {
             }
         },
 
-        async qtyIncrease(cartItem) {
+        async countIncrease(cartItem) {
             cartItem.count++
             
             var payload =  {
@@ -276,7 +269,7 @@ export default {
                 'count':cartItem.count
             }
             await this.reqCartItemCountChangeToSpring(payload);
-            this.res = this.$store.state.orderModule.resCountRequest;
+            this.res = this.resCountRequest;
 
             if (this.res === 1) {
                 console.log("수량 변경 성공");
