@@ -34,7 +34,7 @@
                         />
                     </v-col>
                     <v-col cols="auto" class="mt-16 me-8" justify="right">
-                        <v-btn text @click="deleteCartItem">
+                        <v-btn text @click="deleteSelectItem()">
                             <v-icon>mdi-delete-outline</v-icon>
                             선택 삭제
                         </v-btn>
@@ -176,9 +176,6 @@ export default {
         return {
             checkedValues: [], 
             // 체크박스 v-model에 작성되어 있음
-
-            selectCartItemId: [],
-            //카트 아이템 삭제
         }
     },
     computed: {
@@ -224,19 +221,22 @@ export default {
         productView(){
             alert("상품 상세 페이지로 이동합니다.")
             this.$router.push({ name: 'DetailProductPage'})
-            // 상품 상세 페이지가 구체화되면 name 뒤에 , params: { productNo: cartItem.product.productId } 추가하여 수정
+            // 상품 상세 페이지가 구체화되면 name 뒤에 , params: { productId: cartItem.product.productId } 추가하여 수정
         },
 
-        async deleteCartItem(payload) {
-            let deleteCartMessage = confirm("선택한 상품을 삭제하시겠습니까?");
+        async deleteSelectItem() {
+            let deleteCartMessage = confirm("선택한 상품을 삭제하시겠습니까?")
             if (deleteCartMessage) {
-                const selectCartItemId = this.checkedValues.map((cartItemId) => {
-                    const cartItem = this.cartItems.find((cartItem) => cartItem.cartItemId === cartItemId);
-                    return cartItem.cartItemId;
-                });
-                selectCartItemId = payload
-                await this.reqDeleteCartItemFromSpring(selectCartItemId);
-                this.$router.push({ name: 'ShoppingCartPage' }); // 삭제 후 카트 페이지로 재이동
+                let selectCartItemId = []
+                for (let i = 0; i < this.cartItems.length; i++) {
+                    if (this.checkedValues.includes(this.cartItems[i].cartItemId)) {
+                        selectCartItemId.push(this.cartItems[i].cartItemId)
+                    }
+                }
+                console.log("selectCartItemId: " + selectCartItemId)
+
+                await this.reqDeleteCartItemFromSpring({ selectCartItemId })
+                this.$router.go(this.$router.currentRoute)
             }
         },
 
@@ -255,7 +255,7 @@ export default {
             this.res = this.resCountRequest;
 
             if (this.res === 1) {
-                console.log("수량 변경 성공");
+                console.log("수량 변경 성공")
             } else {
                 console.log("실패")
             }
@@ -272,7 +272,7 @@ export default {
             this.res = this.resCountRequest;
 
             if (this.res === 1) {
-                console.log("수량 변경 성공");
+                console.log("수량 변경 성공")
             } else {
                 console.log("실패")
             }
@@ -324,8 +324,8 @@ export default {
 <style scoped>
 
     .item-info-no {
-        height: 100%;
-        margin-top: 200px;
+        height: 50vh;
+        margin-top: 300px;
         margin-bottom: 0;
     }
     .item-info-yes {
