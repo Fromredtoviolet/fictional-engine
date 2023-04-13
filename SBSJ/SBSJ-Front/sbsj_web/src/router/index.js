@@ -36,6 +36,8 @@ import FirstEyePage from '@/views/survey/detailCheckList/eyeList/FirstEyePage'
 import FirstIntestinePage from '@/views/survey/detailCheckList/intestineList/FirstIntestinePage'
 import FirstLiverPage from '@/views/survey/detailCheckList/liverList/FirstLiverPage'
 
+import OrderInfoPage from "@/views/order/OrderInfoPage.vue"
+
 
 Vue.use(VueRouter)
 
@@ -191,6 +193,11 @@ const routes = [
     path: '/First-liver-page',
     name: 'FirstLiver',
     component: FirstLiverPage
+  },
+  {    
+    path: '/order-info',
+    name: 'OrderInfoPage',
+    component: OrderInfoPage
   },
   
 ]

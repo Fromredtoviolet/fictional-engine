@@ -43,7 +43,7 @@
                 <div class="item-info-yes"> 
                     <v-row>
                         <v-col>
-                            <v-card class="ms-8 pa-5" v-for="(cartItem, index) in cartItems" :key="index"
+                            <v-card class="ms-8 mb-3 pa-5" v-for="(cartItem, index) in cartItems" :key="index"
                                 max-width="720" flat outlined>
                                 <v-list-item three-line>
                                     <v-list-item-content class="ms-1">
@@ -62,7 +62,7 @@
 
                                         <v-list-item-title>
                                             <div class="mt-5 text-h6">
-                                                {{  cartItem.count * cartItem.price }}원
+                                                {{  new Intl.NumberFormat().format(cartItem.count * cartItem.price) }}원
                                             </div>
                                         </v-list-item-title>
 
@@ -126,7 +126,7 @@
                                     <div class="product-price">
                                         <span class="text--primary">상품 금액</span>
                                         <p class="text-h6 text--primary">
-                                            {{ this.totalPrice }} 원
+                                            {{ new Intl.NumberFormat().format(this.totalPrice) }} 원
                                         </p>
                                     </div>
                                     <div class="delivery-fee">
@@ -140,8 +140,8 @@
                                     <div>
                                         <span class="text--primary">총 결제 금액</span>
                                         <div class="display-1 text--primary">
-                                            <p v-if="this.totalPrice > 49999"> {{ this.totalPrice }} 원</p>
-                                            <p v-else> {{ this.totalPrice + 3000 }} 원</p>
+                                            <p v-if="this.totalPrice > 49999"> {{ new Intl.NumberFormat().format(this.totalPrice) }} 원</p>
+                                            <p v-else> {{ new Intl.NumberFormat().format(this.totalPrice + 3000) }} 원</p>
                                         </div>
                                     </div>
                                 </v-card-text>
@@ -149,7 +149,7 @@
                                     <v-btn 
                                         block
                                         color="teal" 
-                                        
+                                        @click="selectPurchaseBtn"
                                     >
                                         구매하기
                                     </v-btn>
@@ -236,7 +236,8 @@ export default {
                 console.log("selectCartItemId: " + selectCartItemId)
 
                 await this.reqDeleteCartItemFromSpring({ selectCartItemId })
-                this.$router.go(this.$router.currentRoute)
+                window.location.reload(true);
+                //this.$router.go(this.$router.currentRoute)
             }
         },
 
@@ -278,45 +279,40 @@ export default {
             }
         },
 
-        /*
+        // async directPurchaseBtn(cartItem, index){
+        //     // 바로 구매 (낱개 구매)
+        //     this.directTotalPrice = cartItem.count * cartItem.product.price
+        //     this.directTmpOrderNo = index
+        //     this.directCartList = this.cartList[index]
+        //     this.quantity = this.cartList[index].count
+        //     this.cartNo = this.cartList[index].cart.cartNo
+        //     this.cartitemId =  this.cartList[index].cartItemId
+        //     this.$store.commit('REQUEST_ORDER_LIST_FROM_SPRING',
+        //         { orderSave: { directOrderCheck:true ,cartInfoCheck:true, tmpCartItemOrderNo: this.cartitemId, cartNo: this.cartNo,
+        //                             product:this.directCartList.product , quantity: this.quantity, totalPrice: this.directTotalPrice }})
+        //     alert ("주문 페이지로 이동합니다.")
+        //     this.orderListCheck = true
+        //     if(this.orderListCheck) {
+        //         await this.$router.push({ name: 'OrderInfoPage' })
+        //         this.orderListCheck = false
+        //     }
+        // },
 
-        async btnDirectPurchase(item, index){
-            // 바로 구매 (낱개 구매)
-            this.directTotalPrice = item.count * item.product.price
-            this.directTmpOrderNo = index
-            this.directCartList = this.cartList[index]
-            this.quantity = this.cartList[index].count
-            this.cartNo = this.cartList[index].cart.cartNo
-            this.cartitemId =  this.cartList[index].itemId
-            this.$store.commit('REQUEST_ORDER_LIST_FROM_SPRING',
-                { orderSave: { directOrderCheck:true ,cartInfoCheck:true, tmpCartItemOrderNo: this.cartitemId, cartNo: this.cartNo,
-                                    product:this.directCartList.product , quantity: this.quantity, totalPrice: this.directTotalPrice }})
-            alert ("주문 페이지로 이동합니다.")
-            this.orderListCheck = true
-            if(this.orderListCheck) {
-                await this.$router.push({ name: 'OrderInfoPage' })
-                this.orderListCheck = false
-            }
-        },
-
-        async btnSelectPurchase() {
+        async selectPurchaseBtn() {
             // 선택 상품 구매 (여러개 구매 or 전체 구매 가능)
-            for (let i = 0; i < this.checkedValues.length; i++) {
-                this.selectTotalPrice = this.selectTotalPrice + (this.checkedValues[i].product.price * this.checkedValues[i].count)
-            }
-            this.$store.commit('REQUEST_ORDER_LIST_FROM_SPRING',
-                { orderSave: { directOrderCheck:false, cartOrderCheck:true, checkedValues: this.checkedValues, totalPrice: this.selectTotalPrice }})
+            // for (let i = 0; i < this.checkedValues.length; i++) {
+            //     this.selectTotalPrice = this.selectTotalPrice + (this.checkedValues[i].product.price * this.checkedValues[i].count)
+            // }
+            // this.$store.commit('REQUEST_ORDER_LIST_FROM_SPRING',
+            //     { orderSave: { directOrderCheck:false, cartOrderCheck:true, checkedValues: this.checkedValues, totalPrice: this.selectTotalPrice }})
             alert ("주문 페이지로 이동합니다.")
-            this.orderListCheck = true
-            if(this.orderListCheck) {
+            // this.orderListCheck = true
+            // if(this.orderListCheck) {
                 await this.$router.push({ name: 'OrderInfoPage' })
-                this.orderListCheck = false
-            }
+            //     this.orderListCheck = false
+            // }
         },
-        
     },    
-    */
-    }
 }
 
 </script>
