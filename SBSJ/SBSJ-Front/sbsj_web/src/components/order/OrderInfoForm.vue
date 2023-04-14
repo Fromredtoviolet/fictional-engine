@@ -15,7 +15,7 @@
             <v-row>
 
                 <!-- 주문자 이름 번호 배송지 정보 -->
-                <v-col cols="6">
+                <v-col cols="7">
                     <v-card class="ms-8 mb-5 pa-5" max-width="800" flat outlined>
                         <v-list-item three-line>
                             <v-list-item-content>
@@ -173,8 +173,8 @@
                                         <v-divider class="mt-3" color="black"></v-divider>    
                                     </div>
                                 </v-list-item-title>
-                                <v-row> <!-- v-for 들어가야 하는 자리 -->
-                                    <v-col cols="2">
+                                <v-row v-for="(orderItem, index) in orderList" :key="index"> <!-- v-for 들어가야 하는 자리 -->
+                                    <v-col cols="3">
                                         <v-list-item-avatar class="d-flex justify-start" tile size="100">
                                             <v-img
                                                 :src="require(`@/assets/productImgs/${thumbnailName}`)"
@@ -187,11 +187,11 @@
                                     </v-col>
                                     <v-col>
                                         <v-card-text>
-                                            <div><h6><strong>일단먹어봐암튼먹으면좋은효과최고영양제</strong></h6></div>
+                                            <div><h6><strong>{{ orderItem.product.productName }}</strong></h6></div>
                                             <p></p>
-                                            <div><h6><strong>10,000</strong>원</h6></div>
+                                            <div><h6><strong>{{ orderItem.count }}</strong>개</h6></div>
                                             <p></p>
-                                            <div><h6><strong>3</strong>개</h6></div>
+                                            <div><h6><strong>{{ new Intl.NumberFormat().format(orderItem.totalPrice) }}</strong>원</h6></div>
                                         </v-card-text>
                                     </v-col>
                                 </v-row>
@@ -244,9 +244,9 @@ export default {
       }
     },
     computed: {
-        ...mapState(orderModule, {
-            
-        }),
+        ...mapState(orderModule, [
+            'orderList',
+        ]),
     },
     methods: {
         ...mapActions(orderModule, [

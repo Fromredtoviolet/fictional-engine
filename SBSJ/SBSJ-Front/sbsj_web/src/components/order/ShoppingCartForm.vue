@@ -108,7 +108,7 @@
                                         class="me-2" 
                                         outlined 
                                         color="teal"
-                                        @click="btnDirectPurchase(cartItem, index)"
+                                        @click="directPurchase(cartItem, index)"
                                     >
                                     구매
                                     </v-btn>
@@ -149,7 +149,7 @@
                                     <v-btn 
                                         block
                                         color="teal" 
-                                        @click="selectPurchaseBtn"
+                                        @click="selectPurchase"
                                     >
                                         구매하기
                                     </v-btn>
@@ -176,6 +176,8 @@ export default {
         return {
             checkedValues: [], 
             // 체크박스 v-model에 작성되어 있음
+
+            selectTotalPrice: 0,
         }
     },
     computed: {
@@ -237,7 +239,6 @@ export default {
 
                 await this.reqDeleteCartItemFromSpring({ selectCartItemId })
                 window.location.reload(true);
-                //this.$router.go(this.$router.currentRoute)
             }
         },
 
@@ -279,38 +280,31 @@ export default {
             }
         },
 
-        // async directPurchaseBtn(cartItem, index){
-        //     // 바로 구매 (낱개 구매)
-        //     this.directTotalPrice = cartItem.count * cartItem.product.price
-        //     this.directTmpOrderNo = index
-        //     this.directCartList = this.cartList[index]
-        //     this.quantity = this.cartList[index].count
-        //     this.cartNo = this.cartList[index].cart.cartNo
-        //     this.cartitemId =  this.cartList[index].cartItemId
-        //     this.$store.commit('REQUEST_ORDER_LIST_FROM_SPRING',
-        //         { orderSave: { directOrderCheck:true ,cartInfoCheck:true, tmpCartItemOrderNo: this.cartitemId, cartNo: this.cartNo,
-        //                             product:this.directCartList.product , quantity: this.quantity, totalPrice: this.directTotalPrice }})
-        //     alert ("주문 페이지로 이동합니다.")
-        //     this.orderListCheck = true
-        //     if(this.orderListCheck) {
-        //         await this.$router.push({ name: 'OrderInfoPage' })
-        //         this.orderListCheck = false
-        //     }
-        // },
-
-        async selectPurchaseBtn() {
-            // 선택 상품 구매 (여러개 구매 or 전체 구매 가능)
-            // for (let i = 0; i < this.checkedValues.length; i++) {
-            //     this.selectTotalPrice = this.selectTotalPrice + (this.checkedValues[i].product.price * this.checkedValues[i].count)
-            // }
-            // this.$store.commit('REQUEST_ORDER_LIST_FROM_SPRING',
-            //     { orderSave: { directOrderCheck:false, cartOrderCheck:true, checkedValues: this.checkedValues, totalPrice: this.selectTotalPrice }})
+        async directPurchase(cartItem, index){
+            // 바로 구매 (낱개 구매)
+            this.directTotalPrice = cartItem.count * cartItem.price
+            this.directCartItem = this.cartItems[index]
+            this.count = this.cartItems[index].count
+            this.cartItemId =  this.cartItems[index].cartItemId
+            this.$store.commit('orderModule/REQUEST_ORDER_INFO_FROM_SPRING',
+                { orderSave: { cartItemId: this.cartItemId, product:this.cartItems[index].product,
+                                count: this.count, totalPrice: this.directTotalPrice }})
+            console.log(this.$store.state.orderModule.orderList)
             alert ("주문 페이지로 이동합니다.")
-            // this.orderListCheck = true
-            // if(this.orderListCheck) {
-                await this.$router.push({ name: 'OrderInfoPage' })
-            //     this.orderListCheck = false
-            // }
+            await this.$router.push({ name: 'OrderInfoPage' })
+        },
+
+        async selectPurchase() {
+            // 선택 상품 구매 (여러개 구매 or 전체 구매 가능)
+            for (let i = 0; i < this.checkedValues.length; i++) {
+                this.selectTotalPrice = this.selectTotalPrice + (this.checkedValues[i].price * this.checkedValues[i].count)
+            }
+            this.$store.commit('orderModule/REQUEST_ORDER_INFO_FROM_SPRING',
+                { orderSave: { checkedValues: this.checkedValues, totalPrice: this.selectTotalPrice }})
+            console.log(this.$store.state.orderModule.orderList)
+            // alert ("주문 페이지로 이동합니다.")
+            // await this.$router.push({ name: 'OrderInfoPage' })
+
         },
     },    
 }
