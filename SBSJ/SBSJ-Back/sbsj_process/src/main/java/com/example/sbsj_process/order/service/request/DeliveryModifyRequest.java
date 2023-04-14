@@ -11,8 +11,9 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeliveryRegisterRequest {
+public class DeliveryModifyRequest {
 
+    private Long addressId;
     private Long memberId;
     private String addressName;
     private String defaultAddress;
@@ -25,8 +26,8 @@ public class DeliveryRegisterRequest {
     private String phoneNumber;
 
     public Delivery toDelivery(Member member) {
-        return new Delivery(addressName, defaultAddress, addressType,
-                city, street, addressDetail, zipcode, recipientName, phoneNumber, member);
+        return new Delivery(addressId, addressName, defaultAddress, addressType,
+                            city, street, addressDetail, zipcode, recipientName, phoneNumber, member);
     }
 
 }
