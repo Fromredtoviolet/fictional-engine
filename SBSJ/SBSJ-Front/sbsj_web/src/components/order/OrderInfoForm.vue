@@ -23,12 +23,12 @@
                                     <p>주문자 정보</p>
                                     <v-divider class="mt-3" color="black"></v-divider>
                                 </v-list-item-title>
-                                <v-list-item-title class="name-phone">
+                                <v-list-item-title class="name-phone mb-2">
                                     <p>
                                         <v-icon>mdi-map-marker</v-icon>
                                         학원
                                     </p>
-                                    <p>서예인 010-1234-5678</p>
+                                    <span><strong>{{ member.name }}</strong></span> &nbsp;|&nbsp; <span>{{ member.phoneNumber }}</span>
                                 </v-list-item-title>
                                 <v-list-item-title class="address">
                                     <p>서울시 강남구 테헤란로 남도빌딩 3층 H강의실</p>
@@ -269,6 +269,7 @@
 import { mapActions, mapState } from "vuex";
 
 const orderModule = 'orderModule'
+const accountModule = 'accountModule'
 
 export default {
     name: "OrderInfoForm",
@@ -282,10 +283,20 @@ export default {
         ...mapState(orderModule, [
             'orderList',
         ]),
+        ...mapState(accountModule, [
+            'member',
+        ]),
+    },
+    async mounted() {
+        let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        let memberId = userInfo.memberId;
+
+        console.log("멤버아이디: "+ memberId);
+        await this.reqMyPageMemberInfoToSpring(memberId)
     },
     methods: {
-        ...mapActions(orderModule, [
-            
+        ...mapActions(accountModule, [
+            "reqMyPageMemberInfoToSpring"
         ]),
     }
 }

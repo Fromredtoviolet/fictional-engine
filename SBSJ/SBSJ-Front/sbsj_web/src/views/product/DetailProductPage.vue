@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <detail-product-form :productId="productId"/>
+  <div class="container">
+    <detail-product-form :product="product"/>
   </div>
 </template>
 
@@ -9,24 +9,32 @@
 import DetailProductForm from '@/components/product/DetailProductForm.vue'
 import { mapActions, mapState } from 'vuex';
 
-const productModule = 'productModule'
+const productModule = 'productModule';
 
 export default {
   components: { DetailProductForm },
   name: "DetailProductPage",
   props: {
-      productId: {
-        type: Number,
-        required: true,
-      }
+    productId: {
+      type: String,
+      required: true,
+    }
   },
   methods: {
-    ...mapActions(productModule, [
-      'requestProductToSpring'
-    ])
+    ...mapActions(productModule, ['requestProductToSpring']),
+  },
+  computed: {
+    ...mapState(productModule, ['product'])
   },
   async created() {
-    await console.log('DetailProductPage productId: ' + this.productId )
+    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    let memberId = 0;
+    if(userInfo != null) {
+      memberId = userInfo.memberId; 
+    }
+    let productId = this.productId;
+
+    await this.requestProductToSpring({ memberId, productId });
   }
 }
 
