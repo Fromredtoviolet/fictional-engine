@@ -5,6 +5,7 @@ import HomeView from '../views/HomeView.vue'
 import ShoppingCartPage from "@/views/order/shoppingCart/ShoppingCartPage.vue"
 import ProductPage from "@/views/product/ProductPage.vue"
 import DetailProductPage from '@/views/product/DetailProductPage'
+import ProductRegisterPage from '@/views/product/ProductRegisterPage'
 
 import SignUpPage from "@/views/account/member/SignUpPage";
 import SignInPage from "@/views/account/member/SignInPage";
@@ -193,6 +194,11 @@ const routes = [
     path: '/first-liver-page',
     name: 'FirstLiver',
     component: FirstLiverPage
+  },
+  {    
+    path: '/product-register-page',
+    name: 'ProductRegisterPage',
+    component: ProductRegisterPage
   },
   {    
     path: '/order-info',
