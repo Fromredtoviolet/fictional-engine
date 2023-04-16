@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@ToString(exclude = "order")
 @NoArgsConstructor
 public class OrderItem {
 
@@ -20,7 +19,7 @@ public class OrderItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
-    private Order order;
+    private OrderInfo orderInfo;
     // 오더 연결
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,9 +31,9 @@ public class OrderItem {
     private Long orderItemCount;
     // 주문상품 수량
 
-//    @Column(length = 16)
-//    private Long orderItemPrice;
-//    // 주문상품 금액
+    @Column(length = 16)
+    private Long orderItemPrice;
+    // 주문상품 금액
 
 
 

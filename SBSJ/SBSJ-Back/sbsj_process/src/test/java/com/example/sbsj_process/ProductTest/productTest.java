@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,11 +62,19 @@ public class productTest {
         System.out.println("multipartFiles.get(0).toString(): " + multipartFiles.get(0).toString());
         System.out.println("multipartFiles.get(1).toString(): " + multipartFiles.get(1).toString());
 
-        String productName = "좋은약";
-        Long productPrice = 10000L;
-        List<String> categorys = Arrays.asList("간");
 
-        ProductRegisterForm productRegisterForm = new ProductRegisterForm(productName, productPrice, categorys);
+
+//        String productName = "좋은약";
+        String productName = "좋은약";
+        String productSubName = "아무튼좋은약";
+        Long productPrice = 10000L;
+        List<String> categorys = new ArrayList<>();
+        categorys.add("EYE");
+//        categorys.add("BONE");
+//        categorys.add("VITAMIN-C");
+        categorys.add("VITAMIN-D");
+        categorys.add("STRESS");
+        ProductRegisterForm productRegisterForm = new ProductRegisterForm(productName, productSubName, productPrice, categorys);
         productService.register(multipartFiles, productRegisterForm.toProductRegisterRequest());
 
         Optional<Product> mayBeProduct = productRepository.findByProductName(productName);

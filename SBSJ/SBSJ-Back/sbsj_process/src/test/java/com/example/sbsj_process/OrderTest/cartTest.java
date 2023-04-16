@@ -44,7 +44,7 @@ public class cartTest {
     @Test
     public void 장바구니에_상품_추가_테스트 () {
         AddCartRequest addCartRequest =
-                new AddCartRequest(1L, 1L, 1L);
+                new AddCartRequest(1L, 5L, 1L);
 
         Long memberId = addCartRequest.getMemberId();
         Long productId = addCartRequest.getProductId();
