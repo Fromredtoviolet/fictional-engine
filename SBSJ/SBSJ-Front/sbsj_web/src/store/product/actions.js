@@ -4,7 +4,8 @@ import {
     REQUEST_PRODUCT_LIST_TO_SPRING_WITH_OPTION,
     REQUEST_PRODUCT_OPTION_LIST_TO_SPRING,
 
-    REQUEST_WISH_LIST_TO_SPRING
+    REQUEST_WISH_LIST_TO_SPRING,
+    REQUEST_READ_REVIEW_FROM_SPRING,
 } from './mutation-types'
 
 import axiosInst from '@/utility/axiosObject'
@@ -71,37 +72,47 @@ export default {
                 alert("리뷰 리스트 가져오기 실패");
             })
     },
-    reqAddWishToSpring({}, payload) {
+    reqSetWishToSpring({}, payload) {
         const { memberId, productId } = payload;
         console.log(productId, memberId);
-        return axiosInst.get(`/wish/add/${productId}/${memberId}`)
+        return axiosInst.get(`/wish/set/${productId}/${memberId}`)
             .then((res) => {
-                if(res.data != -1) {
-                    alert("찜 추가함");
-                } else {
-                    alert("이미 찜 되어있습니다.");
-                }
+                alert("res.data: " + res.data);
                 return res.data;
             })
             .catch(() => {
-                console.log("찜 추가 실패...");
+                console.log("찜 실패...");
             })
     },
-    reqDeleteWishToSpring({}, payload) {
-        const { memberId, productId } = payload;
-        console.log(productId, memberId);
-        return axiosInst.get(`/wish/delete/${productId}/${memberId}`)
+    
+    async reqRegisterReviewToSpring(_, payload) {
+        return axiosInst.post('/review/register', payload)
+            .then(() => {
+            })
+            .catch((error) => {
+                console.log(error.message);
+                alert('에러가 발생했습니다: ' + error.message);
+            })
+    },
+    async reqRegisterReviewWithImageToSpring(_, payload) {
+        return axiosInst.post('/review/register', payload, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
             .then((res) => {
-                if(res.data != -1) {
-                    alert("찜 삭제함.");
-                } else {
-                    alert("찜 삭제 실패함...");
-                }
-                return res.data;
+                console.log(res.data);
             })
-            .catch(() => {
-                console.log("찜 삭제 실패...");
+            .catch((error) => {
+                console.log(error.message);
+                alert('에러가 발생했습니다: ' + error.message);
             })
-    }
+    },
+    async reqReadReviewFromSpring({commit}, productId) {
+        return axiosInst.post(`/review/read/${productId}`)
+            .then((res) => {
+                commit(REQUEST_READ_REVIEW_FROM_SPRING, res.data)
+            })
+    },
 
 }

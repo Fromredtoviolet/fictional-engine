@@ -2,6 +2,8 @@ import {
     REQUEST_CART_ITEM_LIST_TO_SPRING,
     REQUEST_MY_PAGE_DELIVERY_LIST_TO_SPRING,
     RESPONSE_COUNT_REQUEST,
+    REQUEST_ORDER_PAGE_DELIVERY_LIST_TO_SPRING,
+    REQUEST_ORDER_PAYMENT_KAKAOPAY_TO_SPRING
 } from "./mutation-types";
 
 import axiosInst from "@/utility/axiosObject";
@@ -108,6 +110,33 @@ export default {
                   city, street, addressDetail, zipcode, defaultAddress })
             .then(() => {
                 alert("배송지 수정 완료!")
+            })
+            .catch(() => {
+                alert('문제 발생!')
+            })
+    },
+
+    // 주문 페이지에서 보는 배송지 목록
+    reqOrderPageDeliveryListToSpring({ commit }, memberId) {
+        return axiosInst.get(`/delivery/list/${memberId}`)
+            .then((res) => {
+                let returnData = JSON.stringify(res.data);
+                console.log("리턴 데이터: "+ returnData);
+                
+                localStorage.setItem("lsDeliveryList", JSON.stringify(res.data));
+                commit(REQUEST_ORDER_PAGE_DELIVERY_LIST_TO_SPRING, res.data);
+            })
+            .catch(() => {
+                alert('문제 발생!')
+            })
+    },
+
+    // 주문 페이지에서 카카오페이 결제
+    reqOrderPaymentKakaoPayToSpring({ commit }) {
+        return axiosInst.post("/order/kakaoPay")
+            .then((res) => {
+                console.log(res.data.tid)
+                commit(REQUEST_ORDER_PAYMENT_KAKAOPAY_TO_SPRING, res.data);
             })
             .catch(() => {
                 alert('문제 발생!')

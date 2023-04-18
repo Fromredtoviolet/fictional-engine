@@ -5,7 +5,6 @@
             <div style="display:flex;">
                 <div style=" width:80%; hegiht:100%; display:flex; justify-content:center; align-items:center; ">
                     <div>
-                        {{ product }}
                         <div>
                             <v-img :src="require(`@/assets/productImgs/${product.thumbnail}`)" aspect-ratio="1" class="grey lighten-2" />
                         </div>
@@ -171,7 +170,7 @@ const orderModule = 'orderModule';
 const productModule = 'productModule';
 
 export default {
-    name: "DetailProductForm",
+    name: "ProductReadForm",
     data() {
         return {            
             checkedWish: false,
@@ -186,11 +185,9 @@ export default {
         },
     },
 	methods: {
-        ...mapActions(orderModule, [
-            'reqAddCartToSpring',
-        ]),
+        ...mapActions(orderModule, ['reqAddCartToSpring']),
         ...mapActions(productModule, [
-            'reqAddWishToSpring', 'reqDeleteWishToSpring', 'requestProductToSpring'
+            'reqSetWishToSpring', 'requestProductToSpring'
         ]),
 
 		pass() {
@@ -214,21 +211,27 @@ export default {
 		},
         async changeIcon() {
             let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            if(userInfo == null) {
+                let loginCheck = confirm("찜은 로그인 한 회원만 가능한 기능입니다.\n로그인 하시겠습니까?");
+                if(loginCheck) {
+                    this.$router.push({ name: 'SignInPage' });
+                }
+                return;
+            }
+            
             let memberId = userInfo.memberId;
             let productId = this.product.productId;
 
-            let wishCount = document.getElementsByClassName("wishCountDiv")[0];
-            let getWishCount;
             if(this.checkedWish === true) {
                 this.checkedWish = false
-                getWishCount = await this.reqDeleteWishToSpring({ memberId, productId });
-                await this.requestProductToSpring({ memberId, productId });
             } else {
                 this.checkedWish = true
-                getWishCount = await this.reqAddWishToSpring({ memberId, productId });
-                await this.requestProductToSpring({ memberId, productId });
             }
 
+            let getWishCount = await this.reqSetWishToSpring({ memberId, productId });
+            await this.requestProductToSpring({ memberId, productId });
+            
+            let wishCount = document.getElementsByClassName("wishCountDiv")[0];
             if(getWishCount != -1) {
                 wishCount.innerText = getWishCount;
             }
@@ -237,7 +240,7 @@ export default {
             let userInfo = JSON.parse(localStorage.getItem("userInfo"));
             const memberId = userInfo.memberId;
             const productId = this.product.productId;
-            const count = 1; // select에서 선택된 값으로 수정해야 함
+            const count = 1
             console.log(memberId + ', ' + productId +', '+ count)
 
             this.reqAddCartToSpring({memberId, productId, count})

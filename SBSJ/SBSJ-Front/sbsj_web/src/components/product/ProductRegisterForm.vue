@@ -24,8 +24,8 @@
         <td>
             <div>
                 <select v-model="selectedOption">
-                <option value="">Select an option</option>
-                <option v-for="productOption in productOptions" :value="productOption">{{ productOption }}</option>
+                  <option value="">Select an option</option>
+                  <option v-for="(productOption, index) in productOptions" :key="index" :value="productOption">{{ productOption }}</option>
                 </select>
                 <v-btn @click="addItem">Add Selection</v-btn>
                 <ul>
@@ -53,7 +53,7 @@
 
     <div>
       <button type="submit">등록</button>
-      <router-link :to="{ name: 'productPage' }">
+      <router-link :to="{ name: 'ProductListPage' }">
         취소
       </router-link>
     </div>
@@ -68,7 +68,7 @@ const productModule = 'productModule'
   
   
   export default {
-    name: 'productRegisterForm',
+    name: 'ProductRegisterForm',
     data() {
         return {
             productName: '상품네임을 입력하세요.',

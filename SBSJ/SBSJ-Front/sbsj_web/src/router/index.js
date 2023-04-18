@@ -3,8 +3,8 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 import ShoppingCartPage from "@/views/order/shoppingCart/ShoppingCartPage.vue"
-import ProductPage from "@/views/product/ProductPage.vue"
-import DetailProductPage from '@/views/product/DetailProductPage'
+import ProductListPage from "@/views/product/ProductListPage.vue"
+import ProductReadPage from '@/views/product/ProductReadPage'
 import ProductRegisterPage from '@/views/product/ProductRegisterPage'
 
 import SignUpPage from "@/views/account/member/SignUpPage";
@@ -38,7 +38,13 @@ import FirstIntestinePage from '@/views/survey/detailCheckList/intestineList/Fir
 import FirstLiverPage from '@/views/survey/detailCheckList/liverList/FirstLiverPage'
 
 import OrderInfoPage from "@/views/order/OrderInfoPage.vue"
+import ReviewRegisterPage from '@/views/review/ReviewRegisterPage';
+import ReviewListPage from '@/views/review/ReviewListPage';
 
+import QnaBoardRegisterPage from "@/views/board/qna/QnaBoardRegisterPage";
+import QnaBoardListPage from "@/views/board/qna/QnaBoardListPage";
+import QnaBoardReadPage from "@/views/board/qna/QnaBoardReadPage";
+import QnaBoardModifyPage from "@/views/board/qna/QnaBoardModifyPage";
 
 Vue.use(VueRouter)
 
@@ -55,13 +61,13 @@ const routes = [
   },
   {
     path: '/product',
-    name: 'ProductPage',
-    component: ProductPage
+    name: 'ProductListPage',
+    component: ProductListPage
   },
   {
-    path: '/detail-product-page/:productId',
-    name: 'DetailProductPage',
-    component: DetailProductPage,
+    path: '/product/read/:productId',
+    name: 'ProductReadPage',
+    component: ProductReadPage,
     props: true
   },
   {
@@ -205,6 +211,46 @@ const routes = [
     name: 'OrderInfoPage',
     component: OrderInfoPage
   },
+  {
+    path: '/review',
+    name: 'ReviewRegisterPage',
+    component: ReviewRegisterPage
+  },
+  {
+    path: '/review-list',
+    name: 'ReviewListPage',
+    component: ReviewListPage
+  },
+  {
+    path: '/qna/register',
+    name: 'QnaBoardRegisterPage',
+    component: QnaBoardRegisterPage
+  },
+  {
+    path: '/qna/list',
+    name: 'QnaBoardListPage',
+    component: QnaBoardListPage
+  },
+  {
+    path: '/qna/read/:qnaBoardId',
+    name: 'QnaBoardReadPage',
+    components: { 
+      default: QnaBoardReadPage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/qna/modify/:qnaBoardId',
+    name: 'QnaBoardModifyPage',
+    components: { 
+      default: QnaBoardModifyPage
+    },
+    props: {
+      default: true
+    }
+  }
   
 ]
 

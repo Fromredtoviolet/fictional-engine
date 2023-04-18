@@ -6,4 +6,7 @@ export default {
     deliveryList: [],
 
     orderList: [],
+    orderDeliveryList: [],
+
+    kakaopay: {},
 }

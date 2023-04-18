@@ -17,37 +17,42 @@
                 <!-- 주문자 이름 번호 배송지 정보 -->
                 <v-col cols="7">
                     <v-card class="ms-8 mb-5 pa-5" max-width="800" flat outlined>
-                        <v-list-item three-line>
+                        <v-list-item>
                             <v-list-item-content>
                                 <v-list-item-title class="headline">
                                     <p>주문자 정보</p>
                                     <v-divider class="mt-3" color="black"></v-divider>
                                 </v-list-item-title>
-                                <v-list-item-title class="name-phone mb-2">
-                                    <p>
+
+                                <v-list-item-title class="name-phone mt-1 mb-2">
+                                    <div class="mb-2"><strong>주문자</strong> &nbsp;|&nbsp; {{ member.name }}</div>
+                                    <div><strong>연락처</strong> &nbsp;|&nbsp; {{ member.phoneNumber }}</div>
+                                    <v-divider class="mt-5 mb-5" color="black"></v-divider>
+
+                                    <div class="mb-2">
                                         <v-icon>mdi-map-marker</v-icon>
-                                        학원
-                                    </p>
-                                    <span><strong>{{ member.name }}</strong></span> &nbsp;|&nbsp; <span>{{ member.phoneNumber }}</span>
+                                        {{ defaultDelivery.addressName }}
+                                    </div>
+                                    <div class="mb-2"><strong>수령인</strong> &nbsp;|&nbsp; {{ defaultDelivery.recipientName }}</div>
+                                    <div><strong>연락처</strong> &nbsp;|&nbsp; {{ defaultDelivery.phoneNumber }}</div>
                                 </v-list-item-title>
+                                
                                 <v-list-item-title class="address">
-                                    <p>서울시 강남구 테헤란로 남도빌딩 3층 H강의실</p>
+                                    <p><strong>배송지</strong> &nbsp;|&nbsp; {{ defaultDelivery.street }} {{ defaultDelivery.addressDetail }}</p>
                                     <div class="address-message">
-                                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                            <option selected>배송시 요청사항을 선택해주세요.</option>
-                                            <option value="1">도착하기 전에 연락 바랍니다.</option>
-                                            <option value="2">문 앞에 놔주세요.</option>
-                                            <option value="3">직접 입력</option>
-                                            <!-- 직접 입력 선택시 밑에 텍스트 에어리어 생기도록 해보자 -->
-                                        </select>
+                                        <v-select label="배송시 요청사항을 선택해주세요." 
+                                                :items="['도착하기 전에 연락 바랍니다.', '문 앞에 놔주세요.', '직접 입력']" 
+                                                v-model="selectedOption">
+                                        </v-select>
+                                        <v-textarea outlined v-if="selectedOption === '직접 입력'" v-model="deliveryMessage"></v-textarea>
                                     </div>
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
-                        <v-card-actions>
+                        <v-card-actions class="d-flex justify-end">
                             <v-dialog v-model="dialog" persistent width="1024">
                                 <template v-slot:activator="{ on }">
-                                    <v-btn class="ms-2" v-on="on" outlined color="teal">
+                                    <v-btn class="me-2" v-on="on" outlined color="teal">
                                         배송지 변경
                                     </v-btn>
                                 </template>
@@ -251,7 +256,7 @@
                                         </div>
                                     </v-col>
                                 </v-row>
-                                <v-btn block color="teal">
+                                <v-btn block color="teal" @click="KakaoPay">
                                     <v-icon>mdi-credit-card-check-outline</v-icon>
                                     <strong>결제하기</strong>
                                 </v-btn>
@@ -277,34 +282,81 @@ export default {
       return {
         dialog: false,
         imageName: "카카오페이_CI_combination_with_BG.png",
+        selectedOption: "",
+        deliveryMessage: "",
+        defaultDelivery: {
+            addressName: '',
+            addressType: '',
+            city: '',
+            street: '',
+            addressDetail: '',
+            zipcode: '',
+            phoneNumber: '',
+            recipientName: ''
+        },
       }
     },
     computed: {
         ...mapState(orderModule, [
             'orderList',
+            'orderDeliveryList',
+            'kakaopay'
         ]),
         ...mapState(accountModule, [
             'member',
         ]),
     },
-    async mounted() {
+    async created() {
         let userInfo = JSON.parse(localStorage.getItem("userInfo"));
         let memberId = userInfo.memberId;
+        let lsDeliveryList = JSON.parse(localStorage.getItem("lsDeliveryList"));
 
         console.log("멤버아이디: "+ memberId);
         await this.reqMyPageMemberInfoToSpring(memberId)
+
+        if(lsDeliveryList === null) {
+            await this.reqOrderPageDeliveryListToSpring(memberId);
+            this.defaultDelivery = lsDeliveryList[0] // 0번 인덱스가 기본배송지
+            console.log("로컬스토리지에 저장된 기본 배송지: "+ this.defaultDelivery.addressName);
+        } else {
+            this.defaultDelivery = lsDeliveryList[0]
+            console.log("로컬스토리지에 저장된 기본 배송지: "+ this.defaultDelivery.addressName);
+        }
     },
     methods: {
         ...mapActions(accountModule, [
             "reqMyPageMemberInfoToSpring"
         ]),
+        ...mapActions(orderModule, [
+            "reqOrderPageDeliveryListToSpring",
+            "reqOrderPaymentKakaoPayToSpring"
+        ]),
+        async KakaoPay() {
+            try {
+                await this.reqOrderPaymentKakaoPayToSpring()
+                const response = this.kakaopay
+                console.log(response);
+                const box = response.next_redirect_pc_url;
+                const paymentWindow = window.open(box);
+                // window.addEventListener('message', async (event) => {
+                //     if (event.data === 'payment_success') {
+                //         paymentWindow.close();
+                //         await axios.post("http://localhost:7777/order/kakaoPaySuccess", {
+                //         productId: this.product.id,
+                //         });
+                //         this.$router.push({ name: 'PurchaseComplete' });
+                //     }
+                // });
+            } catch (error) {
+                console.error("Error initiating Kakao Pay payment:", error);
+            }
+        },
     }
 }
 </script>
 
 <style scoped>
     .order-info-title {
-        
         margin-bottom: 0;
     }
 </style>
