@@ -1,7 +1,7 @@
 package com.example.sbsj_process.product.controller;
 
 
-import com.example.sbsj_process.product.controller.form.ProductReadResponse;
+import com.example.sbsj_process.product.service.response.ProductReadResponse;
 import com.example.sbsj_process.product.controller.form.ProductRegisterForm;
 import com.example.sbsj_process.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +25,13 @@ public class ProductController {
         log.info("productRegister()");
         productService.register(imageFileList, productRegisterForm.toProductRegisterRequest());
     }
-    @GetMapping("/detail-product-page/{productId}")
-    public ProductReadResponse productRead(@PathVariable("productId") Long productId) {
-        log.info("productRead()");
 
-        return productService.read(productId);
+    @GetMapping("/detail-product-page/{productId}/{memberId}")
+    public ProductReadResponse productRead(@PathVariable("memberId") Long memberId,
+                                           @PathVariable("productId") Long productId) {
+        log.info("productRead(): " + memberId + ", " + productId);
+
+        return productService.read(memberId, productId);
     }
 
     @GetMapping(value = "/productOptions")
