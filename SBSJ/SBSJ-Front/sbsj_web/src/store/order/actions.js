@@ -3,7 +3,7 @@ import {
     REQUEST_MY_PAGE_DELIVERY_LIST_TO_SPRING,
     RESPONSE_COUNT_REQUEST,
     REQUEST_ORDER_PAGE_DELIVERY_LIST_TO_SPRING,
-    REQUEST_ORDER_PAYMENT_KAKAOPAY_TO_SPRING
+
 } from "./mutation-types";
 
 import axiosInst from "@/utility/axiosObject";
@@ -72,10 +72,10 @@ export default {
 
     reqMyPageRegisterDeliveryToSpring({}, payload) {
         const { memberId, addressName, addressType, recipientName, phoneNumber, 
-                city, street, addressDetail, zipcode, defaultAddress } = payload
+                road, addressDetail, zipcode, defaultAddress } = payload
         return axiosInst.post("/delivery/register", 
                { memberId, addressName, addressType, recipientName, phoneNumber, 
-                 city, street, addressDetail, zipcode, defaultAddress })
+                road, addressDetail, zipcode, defaultAddress })
             .then(() => {
                 alert("배송지 등록 완료!")
             })
@@ -104,10 +104,10 @@ export default {
     },
     reqMyPageModifyDeliveryToSpring({}, payload) {
         const { addressId, memberId, addressName, addressType, recipientName, phoneNumber, 
-                city, street, addressDetail, zipcode, defaultAddress } = payload
+                road, addressDetail, zipcode, defaultAddress } = payload
         return axiosInst.post("/delivery/modify", 
                 { addressId, memberId, addressName, addressType, recipientName, phoneNumber, 
-                  city, street, addressDetail, zipcode, defaultAddress })
+                    road, addressDetail, zipcode, defaultAddress })
             .then(() => {
                 alert("배송지 수정 완료!")
             })
@@ -131,16 +131,17 @@ export default {
             })
     },
 
-    // 주문 페이지에서 카카오페이 결제
-    reqOrderPaymentKakaoPayToSpring({ commit }) {
-        return axiosInst.post("/order/kakaoPay")
+    // 결제 성공하면 주문 정보 저장
+    reqRegisterOrderToSpring({}, payload) {
+        const { amount, merchant_uid, sendInfo, imp_uid, phoneNumber, recipientName, road, addressDetail, zipcode, selectedDeliveryReq } = payload
+        return axiosInst.post("/order/register",
+            { amount, merchant_uid, sendInfo, imp_uid, phoneNumber, recipientName, road, addressDetail, zipcode, selectedDeliveryReq })
             .then((res) => {
-                console.log(res.data.tid)
-                commit(REQUEST_ORDER_PAYMENT_KAKAOPAY_TO_SPRING, res.data);
+                console.log(res)
             })
             .catch(() => {
                 alert('문제 발생!')
             })
-    }
+    },
     
 }

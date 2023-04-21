@@ -6,7 +6,7 @@ import {
 
     REQUEST_ORDER_INFO_FROM_SPRING,
     REQUEST_ORDER_PAGE_DELIVERY_LIST_TO_SPRING,
-    REQUEST_ORDER_PAYMENT_KAKAOPAY_TO_SPRING
+
 } from "./mutation-types"
 
 export default { 
@@ -24,8 +24,5 @@ export default {
     },
     [REQUEST_ORDER_PAGE_DELIVERY_LIST_TO_SPRING](state, passingData) {
         state.orderDeliveryList = passingData
-    },
-    [REQUEST_ORDER_PAYMENT_KAKAOPAY_TO_SPRING](state, passingData) {
-        state.kakaopay = passingData
     },
 }
