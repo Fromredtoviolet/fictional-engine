@@ -10,6 +10,7 @@ import com.example.sbsj_process.order.repository.OrderItemRepository;
 import com.example.sbsj_process.order.repository.OrderRepository;
 import com.example.sbsj_process.order.repository.PaymentRepository;
 import com.example.sbsj_process.order.service.request.PaymentRegisterRequest;
+import com.example.sbsj_process.order.service.response.OrderListResponse;
 import com.example.sbsj_process.product.entity.Product;
 import com.example.sbsj_process.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -133,11 +134,25 @@ public class OrderServiceImpl implements OrderService {
         // 결제 정보 저장
         Payment savedPayment = paymentRepository.save(payment);
 
-        if (savedPayment == null) {
-            System.out.println("결제 정보 저장에 실패했습니다.");
+        return savedPayment;
+    }
+
+    @Override
+    public List<OrderListResponse> readOrderList(Long memberId) {
+
+        List<OrderInfo> orderList = orderRepository.findAllByMember_MemberId(memberId);
+        List<OrderListResponse> orderListResponseList = new ArrayList<>();
+
+        for(OrderInfo orderInfo: orderList) {
+            Long paymentId = orderInfo.getPayment().getPaymentId();
+            Payment payment = paymentRepository.findByPaymentId(paymentId);
+            Long amount = payment.getAmount();
+
+            OrderListResponse orderListResponse = new OrderListResponse(orderInfo, amount);
+            orderListResponseList.add(orderListResponse);
         }
 
-        return savedPayment;
+        return orderListResponseList;
     }
 
 

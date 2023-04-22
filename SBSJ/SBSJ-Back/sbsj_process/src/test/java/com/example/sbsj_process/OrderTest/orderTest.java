@@ -7,7 +7,9 @@ import com.example.sbsj_process.order.entity.*;
 import com.example.sbsj_process.order.repository.DeliveryRepository;
 import com.example.sbsj_process.order.repository.OrderRepository;
 import com.example.sbsj_process.order.repository.PaymentRepository;
+import com.example.sbsj_process.order.service.OrderService;
 import com.example.sbsj_process.order.service.request.PaymentRegisterRequest;
+import com.example.sbsj_process.order.service.response.OrderListResponse;
 import com.example.sbsj_process.product.entity.Product;
 import com.example.sbsj_process.product.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
@@ -35,13 +37,18 @@ public class orderTest {
     @Autowired
     PaymentRepository paymentRepository;
 
+    @Autowired
+    private OrderService orderService;
+
     @Test
     public void 주문_등록_테스트 () {
         List<Long> test1 = new ArrayList<>();
         test1.add(1L);
         OrderItemRegisterForm sendInfo = new OrderItemRegisterForm(test1, test1, test1, test1);
 
-        PaymentRegisterRequest paymentRegisterRequest = new PaymentRegisterRequest(10000L,"pay_id", sendInfo, "impid0000", "010-1111-1111", "홍길동", "서울시 강남구 테헤란로 남도빌딩", "3층", "10202", "빨리 와주세요");
+        PaymentRegisterRequest paymentRegisterRequest = new PaymentRegisterRequest(
+                10000L,"pay_id", sendInfo, "impid0000", "010-1111-1111", "홍길동",
+                "서울시 강남구 테헤란로 남도빌딩", "3층", "10202", "빨리 와주세요");
 
         try {
             //결제 정보 저장
@@ -135,5 +142,14 @@ public class orderTest {
         }
 
         return savedPayment;
+    }
+
+    @Test
+    public void 주문_목록_조회_테스트 () {
+        Long memberId = 1L;
+
+        List<OrderListResponse> orderListResponseList = orderService.readOrderList(memberId);
+
+        System.out.println("오더리스트 리스폰스 조회: " + orderListResponseList);
     }
 }

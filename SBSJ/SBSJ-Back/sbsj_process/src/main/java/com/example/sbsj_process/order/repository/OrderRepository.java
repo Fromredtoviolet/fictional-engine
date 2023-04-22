@@ -10,6 +10,8 @@ public interface OrderRepository extends JpaRepository<OrderInfo, Long> {
 
     OrderInfo findByMember_MemberId(Long memberId);
 
+    List<OrderInfo> findAllByMember_MemberId(Long memberId);
+
     @Query("select oi.orderNo from OrderInfo oi")
     List<String> findFullOrderNumberByOrderNumber();
 }

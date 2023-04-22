@@ -2,17 +2,17 @@ package com.example.sbsj_process.order.controller;
 
 import com.example.sbsj_process.order.controller.form.PaymentRegisterForm;
 import com.example.sbsj_process.order.service.OrderService;
+import com.example.sbsj_process.order.service.response.DeliveryListResponse;
+import com.example.sbsj_process.order.service.response.OrderListResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -27,6 +27,13 @@ public class OrderController {
         System.out.println("프론트에서 잘 받았나: " + paymentRegisterForm);
 
         return service.registerOrderInfo(paymentRegisterForm.toOrderRegisterRequest());
+    }
+
+    @GetMapping("/list/{memberId}")
+    public List<OrderListResponse> readAllOrder(@PathVariable("memberId") Long memberId) {
+        log.info("컨트롤러에서 멤버아이디: "+ memberId);
+
+        return service.readOrderList(memberId);
     }
 
 

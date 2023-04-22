@@ -2,7 +2,6 @@ package com.example.sbsj_process.order.entity;
 
 import com.example.sbsj_process.product.entity.Product;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
