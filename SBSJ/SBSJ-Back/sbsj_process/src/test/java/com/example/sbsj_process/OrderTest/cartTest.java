@@ -44,7 +44,7 @@ public class cartTest {
     @Test
     public void 장바구니에_상품_추가_테스트 () {
         AddCartRequest addCartRequest =
-                new AddCartRequest(1L, 5L, 1L);
+                new AddCartRequest(1L, 6L, 1L);
 
         Long memberId = addCartRequest.getMemberId();
         Long productId = addCartRequest.getProductId();
@@ -99,7 +99,7 @@ public class cartTest {
             }
 
             System.out.println(member);
-            cart = new Cart(3L, member);
+            cart = new Cart(member);
             cartRepository.save(cart);
         }
 
@@ -113,7 +113,7 @@ public class cartTest {
 
     @Test
     public void 장바구니에서_상품_삭제_테스트 () {
-        List<Long> selectCartItemId = Arrays.asList(3L); // 원하는 아이템 ID 넣기
+        List<Long> selectCartItemId = Arrays.asList(2L); // 원하는 아이템 ID 넣기
         SelectCartItemRequest selectCartItemRequest = new SelectCartItemRequest(selectCartItemId);
 
         cartService.deleteCartItem(selectCartItemRequest);

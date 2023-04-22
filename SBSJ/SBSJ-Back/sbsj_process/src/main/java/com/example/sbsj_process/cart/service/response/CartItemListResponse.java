@@ -28,11 +28,10 @@ public class CartItemListResponse {
 
     private String thumbnail; // <- Image에서 가져옴
 
-    public CartItemListResponse(CartItem cartItem, Long totalCount, Long price, String thumbnail) {
+    public CartItemListResponse(CartItem cartItem, Long price, String thumbnail) {
         this.cartItemId = cartItem.getCartItemId();
         this.product = cartItem.getProduct();
         this.count = cartItem.getCount();
-        this.totalCount = totalCount;
         this.price = price;
         this.thumbnail = thumbnail;
     }
