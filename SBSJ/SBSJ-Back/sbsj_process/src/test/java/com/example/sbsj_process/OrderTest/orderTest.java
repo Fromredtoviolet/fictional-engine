@@ -149,7 +149,7 @@ public class orderTest {
     @Test
     public void 주문_목록_조회_테스트 () {
         TokenRequest tokenRequest = new TokenRequest();
-        tokenRequest.setToken("ff23202e-e7cc-4fb9-b7ea-e85fade1f5ac");
+        tokenRequest.setToken("02f0fb4b-9702-4026-a9d4-0840e4fa33bb");
         String token = tokenRequest.getToken();
 
         Long memberId = redisService.getValueByKey(token);

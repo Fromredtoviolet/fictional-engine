@@ -33,11 +33,11 @@ public class OrderController {
         return service.readOrderList(tokenRequest);
     }
 
-    @PostMapping("/read")
-    public OrderDetailResponse readDetailOrder(@RequestBody Long orderId) {
-        System.out.println("컨트롤러에서 오더아이디: " + orderId);
-
-        return service.readDetailOrder(orderId);
-    }
+//    @PostMapping("/read")
+//    public OrderDetailResponse readDetailOrder(@RequestBody Long orderId) {
+//        System.out.println("컨트롤러에서 오더아이디: " + orderId);
+//
+//        return service.readDetailOrder(orderId);
+//    }
 
 }

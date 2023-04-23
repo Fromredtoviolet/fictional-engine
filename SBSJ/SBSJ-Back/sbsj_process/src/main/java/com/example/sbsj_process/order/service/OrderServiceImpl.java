@@ -150,17 +150,13 @@ public class OrderServiceImpl implements OrderService {
 
         List<OrderInfo> orderList = orderRepository.findAllByMember_MemberId(memberId);
         List<OrderListResponse> orderListResponseList = new ArrayList<>();
+        Set<Long> orderIdSet = new HashSet<>(); // 중복 체크를 위한 Set
 
         for(OrderInfo orderInfo: orderList) {
-            Long paymentId = orderInfo.getPayment().getPaymentId();
-            Payment payment = paymentRepository.findByPaymentId(paymentId);
-            Long amount = payment.getAmount();
-
-            Product product = orderInfo.getOrderItemList().get(0).getProduct();
-            String productName = product.getProductName();
-
-            OrderListResponse orderListResponse = new OrderListResponse(orderInfo, amount, productName);
-            orderListResponseList.add(orderListResponse);
+            OrderListResponse orderListResponse = new OrderListResponse(orderInfo, imageRepository);
+            if (orderIdSet.add(orderListResponse.getOrderId())) { // Set에 이미 존재하는 경우는 추가하지 않음
+                orderListResponseList.add(orderListResponse);
+            }
         }
 
         System.out.println("리스폰스리스트 잘나오나: " + orderListResponseList);
