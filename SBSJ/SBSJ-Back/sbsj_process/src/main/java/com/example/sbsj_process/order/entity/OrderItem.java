@@ -1,13 +1,17 @@
 package com.example.sbsj_process.order.entity;
 
 import com.example.sbsj_process.product.entity.Product;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@ToString(exclude = "orderInfo")
+@Getter
+@Setter
 @NoArgsConstructor
 public class OrderItem {
 

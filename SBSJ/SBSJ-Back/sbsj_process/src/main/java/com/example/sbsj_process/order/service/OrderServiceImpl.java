@@ -6,18 +6,22 @@ import com.example.sbsj_process.account.repository.MemberRepository;
 import com.example.sbsj_process.order.controller.form.OrderItemRegisterForm;
 import com.example.sbsj_process.order.entity.*;
 import com.example.sbsj_process.order.repository.DeliveryRepository;
-import com.example.sbsj_process.order.repository.OrderItemRepository;
 import com.example.sbsj_process.order.repository.OrderRepository;
 import com.example.sbsj_process.order.repository.PaymentRepository;
 import com.example.sbsj_process.order.service.request.PaymentRegisterRequest;
+import com.example.sbsj_process.order.service.response.OrderDetailResponse;
 import com.example.sbsj_process.order.service.response.OrderListResponse;
+import com.example.sbsj_process.product.entity.Image;
 import com.example.sbsj_process.product.entity.Product;
+import com.example.sbsj_process.product.repository.ImageRepository;
 import com.example.sbsj_process.product.repository.ProductRepository;
+import com.example.sbsj_process.security.service.RedisService;
+import com.example.sbsj_process.utility.request.TokenRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -40,7 +44,10 @@ public class OrderServiceImpl implements OrderService {
     PaymentRepository paymentRepository;
 
     @Autowired
-    OrderItemRepository orderItemRepository;
+    ImageRepository imageRepository;
+
+    @Autowired
+    RedisService redisService;
 
 
     @Override
@@ -53,17 +60,15 @@ public class OrderServiceImpl implements OrderService {
             OrderItemRegisterForm orderItemRegisterForm = paymentRegisterRequest.getSendInfo();
 
             // 주문번호 생성
-            LocalDate localDate = LocalDate.now();
-            int year = localDate.getYear();
             Random random = new Random();
-            int orderNumber = random.nextInt(100000);
-            String fullOrderNumber = "SBSJ" + year + orderNumber;
+            int orderNumber = random.nextInt(1000000000);
+            String fullOrderNumber = "SBSJ" + orderNumber;
             List<String> existOrderNumberList = orderRepository.findFullOrderNumberByOrderNumber();
 
             // 주문번호 중복 확인
             while(existOrderNumberList.contains(fullOrderNumber)) {
-                orderNumber = random.nextInt(100000);
-                fullOrderNumber = "SBSJ" + year + orderNumber;
+                orderNumber = random.nextInt(1000000000);
+                fullOrderNumber = "SBSJ" + orderNumber;
             }
 
             // 주문 정보 저장
@@ -106,8 +111,6 @@ public class OrderServiceImpl implements OrderService {
                 orderItem.setOrderInfo(orderInfo);
 
                 orderItemList.add(orderItem);
-
-                //orderItemRepository.save(orderItem);
             }
 
             orderInfo.setOrderItemList(orderItemList);
@@ -138,7 +141,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderListResponse> readOrderList(Long memberId) {
+    @Transactional
+    public List<OrderListResponse> readOrderList(TokenRequest tokenRequest) {
+        String token = tokenRequest.getToken();
+        System.out.println("토큰 잘나오나: " + token);
+        Long memberId = redisService.getValueByKey(token);
+        System.out.println("멤버아이디 잘나오나: " + memberId);
 
         List<OrderInfo> orderList = orderRepository.findAllByMember_MemberId(memberId);
         List<OrderListResponse> orderListResponseList = new ArrayList<>();
@@ -148,13 +156,35 @@ public class OrderServiceImpl implements OrderService {
             Payment payment = paymentRepository.findByPaymentId(paymentId);
             Long amount = payment.getAmount();
 
-            OrderListResponse orderListResponse = new OrderListResponse(orderInfo, amount);
+            Product product = orderInfo.getOrderItemList().get(0).getProduct();
+            String productName = product.getProductName();
+
+            OrderListResponse orderListResponse = new OrderListResponse(orderInfo, amount, productName);
             orderListResponseList.add(orderListResponse);
         }
+
+        System.out.println("리스폰스리스트 잘나오나: " + orderListResponseList);
 
         return orderListResponseList;
     }
 
+    @Override
+    @Transactional
+    public OrderDetailResponse readDetailOrder(Long orderId) {
+
+        // 주문 정보 조회
+        OrderInfo orderInfo = orderRepository.findOrderInfoWithOrderItemListAndProductByOrderId(orderId);
+
+        // 썸네일 이미지 조회
+        Long productId = orderInfo.getOrderItemList().get(0).getProduct().getProductId();
+        Image image = imageRepository.findByProductId(productId);
+        String thumbnail = image.getThumbnail();
+
+        // OrderDetailResponse 객체 생성
+        OrderDetailResponse orderDetailResponse = new OrderDetailResponse(orderInfo, thumbnail);
+
+        return orderDetailResponse;
+    }
 
 }
 

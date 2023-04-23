@@ -9,9 +9,12 @@ import com.example.sbsj_process.order.repository.OrderRepository;
 import com.example.sbsj_process.order.repository.PaymentRepository;
 import com.example.sbsj_process.order.service.OrderService;
 import com.example.sbsj_process.order.service.request.PaymentRegisterRequest;
+import com.example.sbsj_process.order.service.response.OrderDetailResponse;
 import com.example.sbsj_process.order.service.response.OrderListResponse;
 import com.example.sbsj_process.product.entity.Product;
 import com.example.sbsj_process.product.repository.ProductRepository;
+import com.example.sbsj_process.security.service.RedisService;
+import com.example.sbsj_process.utility.request.TokenRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,7 +41,10 @@ public class orderTest {
     PaymentRepository paymentRepository;
 
     @Autowired
-    private OrderService orderService;
+    OrderService orderService;
+
+    @Autowired
+    RedisService redisService;
 
     @Test
     public void 주문_등록_테스트 () {
@@ -137,19 +143,29 @@ public class orderTest {
         // 결제 정보 저장
         Payment savedPayment = paymentRepository.save(payment);
 
-        if (savedPayment == null) {
-            System.out.println("결제 정보 저장에 실패했습니다.");
-        }
-
         return savedPayment;
     }
 
     @Test
     public void 주문_목록_조회_테스트 () {
-        Long memberId = 1L;
+        TokenRequest tokenRequest = new TokenRequest();
+        tokenRequest.setToken("ff23202e-e7cc-4fb9-b7ea-e85fade1f5ac");
+        String token = tokenRequest.getToken();
 
-        List<OrderListResponse> orderListResponseList = orderService.readOrderList(memberId);
+        Long memberId = redisService.getValueByKey(token);
+        System.out.println("테스트에서도 멤버아이디 잘나오나: " + memberId);
+
+        List<OrderListResponse> orderListResponseList = orderService.readOrderList(tokenRequest);
 
         System.out.println("오더리스트 리스폰스 조회: " + orderListResponseList);
+    }
+
+    @Test
+    public void 주문_상세_조회_테스트 () {
+        Long orderId = 3L;
+
+        OrderDetailResponse orderDetailResponse = orderService.readDetailOrder(orderId);
+
+        System.out.println("오더디테일 리스폰스 조회: " + orderDetailResponse);
     }
 }

@@ -21,7 +21,7 @@ public class CartItemListResponse {
     private Long count;
     // 상품 개수 (ex. A상품 2개)
 
-    private Long totalCount; // <- cart에서 가져옴
+//    private Long totalCount; // <- cart에서 가져옴
     // 카트에 등록된 총량
 
     private Long price; // <- productInfo에서 가져옴

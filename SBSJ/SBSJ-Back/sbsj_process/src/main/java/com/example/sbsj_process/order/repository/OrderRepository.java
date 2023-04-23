@@ -8,10 +8,12 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<OrderInfo, Long> {
 
-    OrderInfo findByMember_MemberId(Long memberId);
-
     List<OrderInfo> findAllByMember_MemberId(Long memberId);
 
     @Query("select oi.orderNo from OrderInfo oi")
     List<String> findFullOrderNumberByOrderNumber();
+
+    @Query("select oi from OrderInfo oi join fetch oi.orderItemList oiList join fetch oiList.product p where oi.orderId = :orderId")
+    OrderInfo findOrderInfoWithOrderItemListAndProductByOrderId(Long orderId);
+
 }
