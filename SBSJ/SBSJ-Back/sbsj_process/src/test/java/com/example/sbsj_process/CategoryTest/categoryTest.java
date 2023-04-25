@@ -1,15 +1,16 @@
 package com.example.sbsj_process.CategoryTest;
 
-import com.example.sbsj_process.category.entity.Category;
-import com.example.sbsj_process.category.repository.CategoryRepository;
-import com.example.sbsj_process.category.service.CategoryService;
+import com.example.sbsj_process.Category.entity.Category;
+import com.example.sbsj_process.Category.repository.CategoryRepository;
+import com.example.sbsj_process.Category.service.CategoryService;
+import com.example.sbsj_process.Category.service.response.ProductListResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.util.AssertionErrors;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -63,4 +64,16 @@ public class categoryTest {
         });
 
     }
+
+    @Test
+    public void search_Test() {
+        List<String> query = new ArrayList<>();
+        query.add("VITAMIN-CBONEVI");
+        query.add("VITAMIN");
+        List<ProductListResponse> responses = categoryService.getProductWithSearchQuery(query);
+        System.out.println(responses.toString());
+
+    }
+
+
 }

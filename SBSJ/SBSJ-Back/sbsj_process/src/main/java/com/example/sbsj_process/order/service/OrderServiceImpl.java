@@ -84,10 +84,10 @@ public class OrderServiceImpl implements OrderService {
                 orderInfo.setMember(maybeMember.get());
             }
 
-            String defaultAddress = "기본 배송지";
-            Optional<Delivery> defaultDilivery = deliveryRepository.findByMember_MemberIdAndDefaultAddress(memberId, defaultAddress);
-            if (defaultDilivery.isPresent()) {
-                orderInfo.setDelivery(defaultDilivery.get());
+            Long addressId = paymentRegisterRequest.getAddressId();
+            Optional<Delivery> selectDelivery = deliveryRepository.findByAddressId(addressId);
+            if (selectDelivery.isPresent()) {
+                orderInfo.setDelivery(selectDelivery.get());
             }
 
             // 주문 상품 정보 저장
@@ -148,7 +148,7 @@ public class OrderServiceImpl implements OrderService {
         Long memberId = redisService.getValueByKey(token);
         System.out.println("멤버아이디 잘나오나: " + memberId);
 
-        List<OrderInfo> orderList = orderRepository.findAllByMember_MemberId(memberId);
+        List<OrderInfo> orderList = orderRepository.findAllByMember_MemberIdOrderByOrderDateDesc(memberId);
         List<OrderListResponse> orderListResponseList = new ArrayList<>();
         Set<Long> orderIdSet = new HashSet<>(); // 중복 체크를 위한 Set
 

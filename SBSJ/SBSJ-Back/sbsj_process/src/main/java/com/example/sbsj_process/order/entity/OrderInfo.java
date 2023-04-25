@@ -51,7 +51,7 @@ public class OrderInfo {
     private Delivery delivery;
     // 배송 연결
 
-    @Column(nullable = false)
+    @Column(length = 200)
     private String selectedDeliveryReq;
     // 배송요청사항
 

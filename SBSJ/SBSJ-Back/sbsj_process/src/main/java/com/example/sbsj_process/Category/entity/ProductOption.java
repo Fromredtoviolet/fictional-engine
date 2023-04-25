@@ -1,4 +1,4 @@
-package com.example.sbsj_process.category.entity;
+package com.example.sbsj_process.Category.entity;
 
 import com.example.sbsj_process.product.entity.Product;
 import lombok.Data;

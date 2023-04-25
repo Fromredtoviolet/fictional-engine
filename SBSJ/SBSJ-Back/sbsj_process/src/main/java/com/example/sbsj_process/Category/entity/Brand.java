@@ -9,15 +9,15 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-public class Category {
+public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long categoryId;
+    private Long brandId;
 
     @Column(unique = true)
-    private String categoryName;
+    private String brandName;
 
-    public Category(String option) {
-        this.categoryName = option;
+    public Brand(String brand) {
+        this.brandName = brand;
     }
 }
