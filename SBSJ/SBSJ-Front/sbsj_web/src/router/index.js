@@ -41,11 +41,17 @@ import OrderInfoPage from "@/views/order/OrderInfoPage.vue"
 import PurchaseCompletePage from "@/views/order/PurchaseCompletePage.vue"
 import ReviewRegisterPage from '@/views/review/ReviewRegisterPage';
 import ReviewListPage from '@/views/review/ReviewListPage';
+import ReviewModifyPage from '@/views/review/ReviewModifyPage'
 
 import QnaBoardRegisterPage from "@/views/board/qna/QnaBoardRegisterPage";
 import QnaBoardListPage from "@/views/board/qna/QnaBoardListPage";
 import QnaBoardReadPage from "@/views/board/qna/QnaBoardReadPage";
 import QnaBoardModifyPage from "@/views/board/qna/QnaBoardModifyPage";
+
+import FreeBoardRegisterPage from "@/views/board/free/FreeBoardRegisterPage";
+import FreeBoardListPage from "@/views/board/free/FreeBoardListPage";
+import FreeBoardReadPage from "@/views/board/free/FreeBoardReadPage";
+import FreeBoardModifyPage from "@/views/board/free/FreeBoardModifyPage";
 
 Vue.use(VueRouter)
 
@@ -223,6 +229,11 @@ const routes = [
     component: ReviewListPage
   },
   {
+    path: '/review/modify',
+    name: 'ReviewModifyPage',
+    component: ReviewModifyPage
+  },
+  {
     path: '/qna/register',
     name: 'QnaBoardRegisterPage',
     component: QnaBoardRegisterPage
@@ -247,6 +258,36 @@ const routes = [
     name: 'QnaBoardModifyPage',
     components: { 
       default: QnaBoardModifyPage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/free/register',
+    name: 'FreeBoardRegisterPage',
+    component: FreeBoardRegisterPage
+  },
+  {
+    path: '/free/list',
+    name: 'FreeBoardListPage',
+    component: FreeBoardListPage
+  },
+  {
+    path: '/free/read/:freeBoardId',
+    name: 'FreeBoardReadPage',
+    components: { 
+      default: FreeBoardReadPage
+    },
+    props: {
+      default: true
+    }
+  },
+  {
+    path: '/free/modify/:freeBoardId',
+    name: 'FreeBoardModifyPage',
+    components: { 
+      default: FreeBoardModifyPage
     },
     props: {
       default: true

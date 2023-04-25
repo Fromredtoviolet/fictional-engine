@@ -1,5 +1,5 @@
 <template>
-  <div><h1>구매해주셔서 감사합니다!</h1></div>
+  <div>구매해주셔서 감사합니다!</div>
 </template>
 
 <script>

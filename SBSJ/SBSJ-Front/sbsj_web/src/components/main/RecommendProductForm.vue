@@ -43,7 +43,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
     .blur {
         background-image: url("@/assets/uploadImgs/blur.jpg");
         background-repeat: no-repeat;

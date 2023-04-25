@@ -1,12 +1,12 @@
 <template>
     <v-layout>
-        <v-dialog v-model="dialog" persistent max-width="800" max-height="800">
+        <v-dialog v-model="dialog" persistent max-width="800">
             <template v-slot:activator="{on}">
                 <v-btn class="w-10 me-2" v-on="on">상세 보기</v-btn>
             </template>
 
             <v-form @submit.prevent="onSubmit" ref="form">
-                <v-card height="850" class="rounded-xl">
+                <v-card class="rounded-xl p-3">
                     <div class="d-flex justify-end">
                         <v-icon class="mt-6 me-6 mb-0" @click="btnCancel()">mdi-close</v-icon>
                     </div>
@@ -14,7 +14,7 @@
                         주문 상세 내역
                     </v-card-title>
                     <br>
-                    <v-card-text style="padding: 0 100px 0 100px">
+                    <v-card-text class="order-read-main mb-5">
                         <div class="mb-1">주문번호: {{ completeOrder.orderNo }}</div>
                         <div class="mb-1">주문일시: {{ completeOrder.orderDate | formatDate }}</div>
                         <v-divider color="black"></v-divider>
@@ -50,7 +50,7 @@
 
 <script>
 
-import {mapActions, mapState} from "vuex";
+import {mapState} from "vuex";
 
 const mypageModule = 'mypageModule';
 
@@ -71,14 +71,9 @@ export default {
         
     },
     computed: {
-        ...mapState(mypageModule, [
-
-        ])
+        ...mapState(mypageModule, [])
     },
     methods: {
-        ...mapActions(mypageModule, [
-            
-        ]),
         btnCancel() {
             this.dialog = false;
         },
@@ -88,5 +83,7 @@ export default {
 </script>
 
 <style scoped>
-
+.order-read-main {
+    padding: 0 100px 0 100px;
+}
 </style>

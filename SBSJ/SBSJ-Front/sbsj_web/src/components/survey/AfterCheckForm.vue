@@ -102,7 +102,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .wrapper {
   padding-inline: 10%;
   margin-top: 3%;
