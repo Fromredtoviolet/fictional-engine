@@ -1,18 +1,16 @@
 <template>
-	<div id="mainTopCarousel" class="carousel slide" align="center" data-bs-ride="carousel">
+	<div id="mainTopCarousel" class="carousel slide" align="center" data-bs-ride="carousel" data-bs-interval="5000">
 		<div class="carousel-inner">
 			<div class="carousel-item active carousel">
 				<div class="main-top-promotion">
-					<video class="main-top-promotion-video" autoplay="autoplay" loop="loop" muted="muted">
-            			<source src="@/assets/carousel/video1.mp4" type="video/mp4">
-					</video>
+					<router-link :to="{ name: 'SurveyPage' }" style="text-decoration: none;">
+						<img class="main-top-promotion-image" src="@/assets/carousel/carouselImg01.png" alt="Image 1">
+					</router-link>
 				</div>
 			</div>
 			<div class="carousel-item carousel">
 				<div class="main-top-promotion">
-					<video class="main-top-promotion-video" autoplay="autoplay" loop="loop" muted="muted">
-            			<source src="@/assets/carousel/video2.mp4" type="video/mp4">
-					</video>
+					<img class="main-top-promotion-image" src="@/assets/carousel/carouselImg02.png" alt="Image 2">
 				</div>
 			</div>
 		</div>
@@ -64,9 +62,9 @@ export default {
 	.main-top-promotion {
 		position: relative;
 		width: 99%;
-		height: 600px;
+		height: 500px;
 	}
-	.main-top-promotion-video {
+	.main-top-promotion-image {
 		height: 100%;
 		width: 100%;
 		margin: 0px;
