@@ -1,6 +1,6 @@
-package com.example.sbsj_process.Category.service;
+package com.example.sbsj_process.category.service;
 
-import com.example.sbsj_process.Category.service.response.ProductListResponse;
+import com.example.sbsj_process.category.service.response.ProductListResponse;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface CategoryService {
 
     public List<ProductListResponse> getProductWithOption(String optionName);
 
-    public List<ProductListResponse> getProductWithSearchQuery(List<String> query);
+    public List<ProductListResponse> getProductWithSearchQuery(List<String> query, int startIndex, int endIndex);
 
     public List<ProductListResponse> getProductSpecificList(String optionName, int startIndex, int endIndex);
 

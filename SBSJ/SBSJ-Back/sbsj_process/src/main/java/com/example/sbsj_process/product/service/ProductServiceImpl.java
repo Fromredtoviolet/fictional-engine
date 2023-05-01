@@ -1,11 +1,11 @@
 package com.example.sbsj_process.product.service;
 
-import com.example.sbsj_process.Category.entity.Brand;
-import com.example.sbsj_process.Category.entity.Category;
-import com.example.sbsj_process.Category.entity.ProductOption;
-import com.example.sbsj_process.Category.repository.BrandRepository;
-import com.example.sbsj_process.Category.repository.CategoryRepository;
-import com.example.sbsj_process.Category.repository.ProductOptionRepository;
+import com.example.sbsj_process.category.entity.Brand;
+import com.example.sbsj_process.category.entity.Category;
+import com.example.sbsj_process.category.entity.ProductOption;
+import com.example.sbsj_process.category.repository.BrandRepository;
+import com.example.sbsj_process.category.repository.CategoryRepository;
+import com.example.sbsj_process.category.repository.ProductOptionRepository;
 import com.example.sbsj_process.product.service.response.ProductReadResponse;
 import com.example.sbsj_process.product.entity.*;
 import com.example.sbsj_process.product.repository.*;

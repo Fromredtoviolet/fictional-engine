@@ -4,12 +4,17 @@ package com.example.sbsj_process.product.review.service;
 import com.example.sbsj_process.account.entity.Member;
 import com.example.sbsj_process.account.repository.MemberRepository;
 import com.example.sbsj_process.product.entity.Product;
+import com.example.sbsj_process.product.entity.ProductInfo;
+import com.example.sbsj_process.product.entity.Image;
+import com.example.sbsj_process.product.repository.ImageRepository;
+import com.example.sbsj_process.product.repository.ProductInfoRepository;
 import com.example.sbsj_process.product.repository.ProductRepository;
 import com.example.sbsj_process.product.review.entity.ProductReview;
 import com.example.sbsj_process.product.review.entity.ReviewImage;
 import com.example.sbsj_process.product.review.repository.ProductReviewRepository;
 import com.example.sbsj_process.product.review.service.request.ReviewModifyRequest;
 import com.example.sbsj_process.product.review.service.request.ReviewRegisterRequest;
+import com.example.sbsj_process.product.review.service.response.MemberReviewListResponse;
 import com.example.sbsj_process.product.review.service.response.ReviewListResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 import com.example.sbsj_process.product.review.repository.ReviewImageRepository;
@@ -37,6 +43,11 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private final ProductRepository productRepository;
+    @Autowired
+    private final ProductInfoRepository productInfoRepository;
+
+    @Autowired
+    private final ImageRepository imageRepository;
 
     @Autowired
     final private ProductReviewRepository reviewRepository;
@@ -86,9 +97,9 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         ProductReview productReview = new ProductReview();
-        //하드코딩해제부분
-        Long memberId = 3L; // 임시로 memberId에 3을 할당
-        Long productId = 1L; // 임시로 productId에 1을 할당
+
+        Long memberId = reviewRegisterRequest.getMemberId();
+        Long productId = reviewRegisterRequest.getProductId();
 
         Optional<Member> maybeMember = memberRepository.findByMemberId(memberId);
         Optional<Product> maybeProduct = productRepository.findByProductId(productId);
@@ -120,7 +131,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
     }
-
+    @Transactional
     public void reviewWithImgRegister(List<MultipartFile> imageFileList, ReviewRegisterRequest reviewRegisterRequest) {
         if (reviewRegisterRequest == null || reviewRegisterRequest.getContext() == null
                 || reviewRegisterRequest.getContext().isEmpty() || reviewRegisterRequest.getStarRate() == null) {
@@ -157,9 +168,9 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         ProductReview productReview = new ProductReview();
-        //하드코딩해제부분
-        Long memberId = 3L; // 임시로 memberId에 3을 할당
-        Long productId = 1L; // 임시로 productId에 1을 할당
+
+        Long memberId = reviewRegisterRequest.getMemberId();
+        Long productId = reviewRegisterRequest.getProductId();
 
         Optional<Member> maybeMember = memberRepository.findByMemberId(memberId);
         Optional<Product> maybeProduct = productRepository.findByProductId(productId);
@@ -202,7 +213,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     }
     @Transactional
-    public void reviewModifyWithImage(List<MultipartFile> imageFileList ,ReviewModifyRequest reviewModifyRequest) {
+    public void reviewModifyWithImage(List<MultipartFile> imageFileList, ReviewModifyRequest reviewModifyRequest) {
         if (reviewModifyRequest == null || reviewModifyRequest.getProductReviewId() == null) {
             throw new IllegalArgumentException("리뷰 수정 요청이 잘못되었습니다.");
         }
@@ -255,9 +266,12 @@ public class ReviewServiceImpl implements ReviewService {
             }
 
             if (productReview.getReviewImageList() != null && !productReview.getReviewImageList().isEmpty()) {
-                reviewImageRepository.deleteAll(productReview.getReviewImageList());
+                productReview.getReviewImageList().clear();
+                productReview.getReviewImageList().addAll(reviewImageList);
+            } else {
+                productReview.setReviewImageList(reviewImageList);
             }
-            productReview.setReviewImageList(reviewImageList);
+
             reviewImageRepository.saveAll(reviewImageList);
         }
 
@@ -269,6 +283,8 @@ public class ReviewServiceImpl implements ReviewService {
         }
     }
 
+
+
     //리뷰삭제 메서드
     @Override
     @Transactional
@@ -276,15 +292,15 @@ public class ReviewServiceImpl implements ReviewService {
         Optional<ProductReview> maybeProductReview = reviewRepository.findByProductReviewId(productReviewId);
 
         if (maybeProductReview.isPresent()) {
-            ProductReview review = maybeProductReview.get();
+            ProductReview productReview = maybeProductReview.get();
 
             // ReviewImage를 먼저 삭제
-            if (review.getReviewImageList() != null && !review.getReviewImageList().isEmpty()) {
-                reviewImageRepository.deleteAll(review.getReviewImageList());
+            if (productReview.getReviewImageList() != null && !productReview.getReviewImageList().isEmpty()) {
+                reviewImageRepository.deleteAll(productReview.getReviewImageList());
             }
 
             // 이후 ProductReview를 삭제
-            reviewRepository.delete(review);
+            reviewRepository.delete(productReview);
         } else {
             throw new RuntimeException("존재하지 않는 리뷰입니다.");
         }
@@ -292,19 +308,21 @@ public class ReviewServiceImpl implements ReviewService {
     // 리뷰 리스트 반환
 
     @Transactional
-    public List<ReviewListResponse> list(Long productId) {
-        // 임시 상품 ID 값 설정
-        productId = 1L;
+    public List<ReviewListResponse> list(Long productId, int startIndex, int endIndex) {
 
-        List<ProductReview> productReviews = reviewRepository.findByProduct_ProductId(productId);
-        List<ReviewListResponse> reviewListResponses = new ArrayList<>();
-
-        for (ProductReview productReview : productReviews) {
-            ReviewListResponse reviewListResponse = new ReviewListResponse(productReview);
-            reviewListResponses.add(reviewListResponse);
-            System.out.println("리뷰 정보: " + reviewListResponse);
+        List<ReviewListResponse> reviewListResponses = reviewRepository.findByProduct_ProductId(productId)
+                .stream()
+                .map(ReviewListResponse::new)
+                .collect(Collectors.toList());
+        int size = reviewListResponses.size();
+        if (size >= endIndex) {
+            return reviewListResponses.subList(startIndex, endIndex);
+        } else if (size >= startIndex) {
+            return reviewListResponses.subList(startIndex, size);
+        } else {
+            log.info("index out of bound");
+            throw new IndexOutOfBoundsException("Index out of bounds");
         }
-        return reviewListResponses;
     }
 
 
@@ -312,17 +330,14 @@ public class ReviewServiceImpl implements ReviewService {
     public List<Map<String, Object>> starRateAverage(Long productId) {
         List<Map<String, Object>> reviewAverages = new ArrayList<>();
 
-        // 임시 상품 ID 값 설정
-        productId = 1L;
-
         // 상품 ID에 해당하는 리뷰 목록 조회
-        List<ProductReview> productreviews = reviewRepository.findByProduct_ProductId(productId);
+        List<ProductReview> productReviews = reviewRepository.findByProduct_ProductId(productId);
 
-        if (!productreviews.isEmpty()) {
+        if (!productReviews.isEmpty()) {
             // 전체 리뷰 수와 전체 평점 합계 구하기
-            Integer totalReviews = productreviews.size();
+            Integer totalReviews = productReviews.size();
             int totalStarRates = 0;
-            for (ProductReview productReview : productreviews) {
+            for (ProductReview productReview : productReviews) {
                 totalStarRates += productReview.getStarRate();
             }
 
@@ -341,6 +356,22 @@ public class ReviewServiceImpl implements ReviewService {
         System.out.println("reviewAverages: " + reviewAverages);
 
         return reviewAverages;
+    }
+
+    public List<MemberReviewListResponse> getMemberReviewList(Long memberId) {
+
+        log.info("getMemberReviewList()");
+        return reviewRepository.findByMember_MemberId(memberId)
+                .stream()
+                .map(productReview -> {
+                    Long productId = productReview.getProduct().getProductId();
+                    return new MemberReviewListResponse(imageRepository.findByProductId(productId),
+                                                        productReview.getProduct(),
+                                                        productInfoRepository.findByProductId(productId),
+                                                        productReview);
+                })
+                .collect(Collectors.toList());
+
     }
 
 }

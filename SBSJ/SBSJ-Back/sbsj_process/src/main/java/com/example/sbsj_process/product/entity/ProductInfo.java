@@ -1,6 +1,7 @@
 package com.example.sbsj_process.product.entity;
 
-import com.example.sbsj_process.Category.entity.Brand;
+
+import com.example.sbsj_process.category.entity.Brand;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

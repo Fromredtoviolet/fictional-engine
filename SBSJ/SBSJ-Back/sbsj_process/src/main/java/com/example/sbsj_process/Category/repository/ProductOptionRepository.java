@@ -1,6 +1,6 @@
-package com.example.sbsj_process.Category.repository;
+package com.example.sbsj_process.category.repository;
 
-import com.example.sbsj_process.Category.entity.ProductOption;
+import com.example.sbsj_process.category.entity.ProductOption;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

@@ -54,7 +54,7 @@ public class orderTest {
 
         PaymentRegisterRequest paymentRegisterRequest = new PaymentRegisterRequest(
                 10000L,"pay_id", sendInfo, "impid0000", "010-1111-1111", "홍길동",
-                "서울시 강남구 테헤란로 남도빌딩", "3층", "10202", "빨리 와주세요");
+                1L, "서울시 강남구 테헤란로 남도빌딩", "3층", "10202", "빨리 와주세요");
 
         try {
             //결제 정보 저장
@@ -149,7 +149,7 @@ public class orderTest {
     @Test
     public void 주문_목록_조회_테스트 () {
         TokenRequest tokenRequest = new TokenRequest();
-        tokenRequest.setToken("02f0fb4b-9702-4026-a9d4-0840e4fa33bb");
+        tokenRequest.setToken("ff23202e-e7cc-4fb9-b7ea-e85fade1f5ac");
         String token = tokenRequest.getToken();
 
         Long memberId = redisService.getValueByKey(token);

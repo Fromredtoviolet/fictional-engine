@@ -4,6 +4,7 @@ import com.example.sbsj_process.product.review.entity.ProductReview;
 import com.example.sbsj_process.product.review.service.ReviewService;
 import com.example.sbsj_process.product.review.service.request.ReviewModifyRequest;
 import com.example.sbsj_process.product.review.service.request.ReviewRegisterRequest;
+import com.example.sbsj_process.product.review.service.response.MemberReviewListResponse;
 import com.example.sbsj_process.product.review.service.response.ReviewListResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -90,10 +91,12 @@ public class ReviewController {
     }
 
 
-    @GetMapping(value = "/list/{productId}")
+    @GetMapping(value = "/list/{productId}/{startIndex}/{endIndex}")
     @Transactional
-    public List<ReviewListResponse> reviewList(@RequestParam(value = "productId") Long productId) {
-        return reviewService.list(productId);
+    public List<ReviewListResponse> reviewList(@RequestParam(value = "productId") Long productId,
+                                               @PathVariable("startIndex") int startIndex,
+                                               @PathVariable("endIndex") int endIndex) {
+        return reviewService.list(productId, startIndex, endIndex);
     }
 
     @GetMapping(value = "/starRateAverage/{productId}")
@@ -105,5 +108,10 @@ public class ReviewController {
     public void reviewDelete (@PathVariable("productReviewId") Long productReviewId) {
         log.info("받은 리뷰 Id: " + productReviewId);
         reviewService.reviewDelete(productReviewId);
+    }
+    @GetMapping(value = "list/{memberId}")
+    public List<MemberReviewListResponse> getMemberReviewList(@PathVariable("memberId") Long memberId) {
+        log.info("getMemberReviewList(): " + memberId);
+        return reviewService.getMemberReviewList(memberId);
     }
 }

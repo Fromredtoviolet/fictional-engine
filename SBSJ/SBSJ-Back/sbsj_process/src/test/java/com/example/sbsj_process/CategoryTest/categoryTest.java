@@ -1,9 +1,9 @@
 package com.example.sbsj_process.CategoryTest;
 
-import com.example.sbsj_process.Category.entity.Category;
-import com.example.sbsj_process.Category.repository.CategoryRepository;
-import com.example.sbsj_process.Category.service.CategoryService;
-import com.example.sbsj_process.Category.service.response.ProductListResponse;
+import com.example.sbsj_process.category.entity.Category;
+import com.example.sbsj_process.category.repository.CategoryRepository;
+import com.example.sbsj_process.category.service.CategoryService;
+import com.example.sbsj_process.category.service.response.ProductListResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +70,11 @@ public class categoryTest {
         List<String> query = new ArrayList<>();
         query.add("VITAMIN-CBONEVI");
         query.add("VITAMIN");
-        List<ProductListResponse> responses = categoryService.getProductWithSearchQuery(query);
+
+        int startIndex = 0;
+        int endIndex = 20;
+
+        List<ProductListResponse> responses = categoryService.getProductWithSearchQuery(query, startIndex, endIndex);
         System.out.println(responses.toString());
 
     }

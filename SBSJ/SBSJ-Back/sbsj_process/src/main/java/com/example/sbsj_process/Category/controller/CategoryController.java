@@ -1,7 +1,7 @@
-package com.example.sbsj_process.Category.controller;
+package com.example.sbsj_process.category.controller;
 
-import com.example.sbsj_process.Category.service.response.ProductListResponse;
-import com.example.sbsj_process.Category.service.CategoryService;
+import com.example.sbsj_process.category.service.response.ProductListResponse;
+import com.example.sbsj_process.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +35,10 @@ public class CategoryController {
                                                             @PathVariable("startIndex") int startIndex,
                                                             @PathVariable("endIndex") int endIndex) {
         log.info("getProductSpecificList()");
+        if (optionName.equals("TOTAL")) {
+            log.info("productDefaultPartialList()");
+            return categoryService.getDefaultPartialList(startIndex, endIndex);
+        }
         return categoryService.getProductSpecificList(optionName, startIndex, endIndex);
     }
 
@@ -53,9 +57,11 @@ public class CategoryController {
         return categoryService.getDefaultPartialList(startIndex, endIndex);
     }
 
-    @GetMapping("/search/{query}")
-    public List<ProductListResponse> getProductWithSearchQuery(@PathVariable("query") List<String> query ) {
+    @GetMapping("/search/{query}/{startIndex}/{endIndex}")
+    public List<ProductListResponse> getProductWithSearchQuery(@PathVariable("query") List<String> query,
+                                                               @PathVariable("startIndex") int startIndex,
+                                                               @PathVariable("endIndex") int endIndex) {
         log.info("getProductWithSearchQuery(): " + query);
-        return categoryService.getProductWithSearchQuery(query);
+        return categoryService.getProductWithSearchQuery(query, startIndex, endIndex);
     }
 }
