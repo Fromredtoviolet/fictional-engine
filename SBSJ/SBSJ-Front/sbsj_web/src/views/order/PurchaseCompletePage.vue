@@ -7,7 +7,7 @@
       구매해주셔서 감사합니다!
     </div>
     <div class="d-flex justify-center mt-5">
-      <v-btn color="light-grey" elevation="1" @click="backHome">메인으로 가기</v-btn>
+      <v-btn color="#692498" dark elevation="1" @click="backHome">메인으로 가기</v-btn>
     </div>
   </div>
 </template>
